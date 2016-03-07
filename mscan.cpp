@@ -134,7 +134,7 @@ Token Scanner::GetNextToken()
 				BufferChar(currentChar);
 				c = sourceFile.peek();
 			}
-			return INT_LITERAL;
+			return INT_LIT;
 		}else if (currentChar == '"')
 		{
 			// string literal
@@ -148,18 +148,18 @@ Token Scanner::GetNextToken()
 //					cout << "________________________" <<endl;
 //					cout << stringBuffer <<endl;
 //					cout << "________________________" <<endl;
-					return STR_LITERAL;
+					return CHEESE_LIT;
 				}else if(currentChar == '"' & sourceFile.peek()=='"'){
 					currentChar = NextChar();
 				}
 				BufferString(currentChar);
 			} while (sourceFile.peek()!='\n');
-			return STR_LITERAL;
+			return CHEESE_LIT;
 		}
 		else if (currentChar == '(')
-			return LPAREN;
+			return LBANANA;
 		else if (currentChar == ')')
-			return RPAREN;
+			return RBANANA;
 		else if (currentChar == ';')
 			return SEMICOLON;
 		else if (currentChar == ',')
@@ -169,14 +169,55 @@ Token Scanner::GetNextToken()
 			BufferChar(currentChar);
 			return PLUS_OP;
 		}
-		else if (currentChar == ':')
+		else if (currentChar == '*')
+		{
+			BufferChar(currentChar);
+			return MULT_OP;
+		}
+		else if (currentChar == '/')
+		{
+			BufferChar(currentChar);
+			return DIV_OP;
+		}
+		else if (currentChar == '=')
 			if (sourceFile.peek() == '=')
-			{                             // := operator
+			{                            
 				currentChar = NextChar();
-				return ASSIGN_OP;
+				return EQ_OP1;
 			}
-			else
-				LexicalError(currentChar);
+			currentChar = NextChar();
+			return ASSIGN_OP;
+		}
+		else if (currentChar == '!')
+			if (sourceFile.peek() == '!')
+			{                            
+				currentChar = NextChar();
+				return EQ_OP2;
+			}
+			else if(sourceFile.peek() == '='){
+			currentChar = NextChar();
+			return NE_OP;
+			}
+		}	
+		else if (currentChar == '<')
+			if (sourceFile.peek() == '=')
+			{                            
+				currentChar = NextChar();
+				return LE_OP;
+			}
+			currentChar = NextChar();
+			return LT_OP;
+		}	
+		else if (currentChar == '>')
+			if (sourceFile.peek() == '=')
+			{                            
+				currentChar = NextChar();
+				return GE_OP;
+			}
+			currentChar = NextChar();
+			return GT_OP;
+		}	
+
 		else if (currentChar == '-')  
 			if (sourceFile.peek() == '-') // comment
 				do  // skip comment
