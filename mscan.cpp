@@ -160,8 +160,18 @@ Token Scanner::GetNextToken()
 			return LBANANA;
 		else if (currentChar == ')')
 			return RBANANA;
+		else if (currentChar == '[')
+			return LSTAPLE;
+		else if (currentChar == ']')
+			return RSTAPLE;
+		else if (currentChar == '{')
+			return LMUSTACHE;
+		else if (currentChar == '}')
+			return RMUSTACHE;
 		else if (currentChar == ';')
 			return SEMICOLON;
+		else if (currentChar == ':')
+			return COLON;
 		else if (currentChar == ',')
 			return COMMA;
 		else if (currentChar == '+')
