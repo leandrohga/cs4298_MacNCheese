@@ -46,8 +46,9 @@ Scanner::Scanner()
 
 void Scanner::BufferChar(char c)
 {
-	if (tokenBuffer.length() < ID_STRING_LEN)
+	if (tokenBuffer.length() < ID_STRING_LEN){
 		tokenBuffer += toupper(c);
+	}
 	//cerr << tokenBuffer << endl;
 }
 void Scanner::BufferString(char c)
@@ -208,46 +209,42 @@ Token Scanner::GetNextToken()
 				BufferString(currentChar);
 			} while (sourceFile.peek()!='\n');
 			return CHEESE_LIT;
-		}
-		else if (currentChar == '('){
+		} else if (currentChar == '('){
 			return LBANANA;
-		}
-		else if (currentChar == ')'){
+		} else if (currentChar == ')'){
 			return RBANANA;
-		}
-		else if (currentChar == '['){
+		} else if (currentChar == '['){
 			return LSTAPLE;
-		}
-		else if (currentChar == ']'){
+		} else if (currentChar == ']'){
 			return RSTAPLE;
-		}
-		else if (currentChar == '{'){
+		} else if (currentChar == '{'){
 			return LMUSTACHE;
-		}
-		else if (currentChar == '}'){
+		} else if (currentChar == '}'){
 			return RMUSTACHE;
-		}
-		else if (currentChar == ';'){
+		} else if (currentChar == ';'){
 			return SEMICOLON;
-		}
-		else if (currentChar == ':'){
+		} else if (currentChar == ':'){
 			return COLON;
-		}
-		else if (currentChar == ','){
+		} else if (currentChar == ','){
 			return COMMA;
-		}
-		else if (currentChar == '+')
-		{
+		} else if (currentChar == '+'){
 			BufferChar(currentChar);
 			return PLUS_OP;
-		}
-		else if (currentChar == '*')
-		{
+		} else if (currentChar == '*'){
 			BufferChar(currentChar);
 			return MULT_OP;
-		}
-		else if (currentChar == '/')
-		{
+		} else if (currentChar == '/'){
+			if (sourceFile.peek() == ':') {// comment
+				do{  // skip comment
+					currentChar = NextChar();
+					if(currentChar == ':'){
+						currentChar = NextChar();
+						if(currentChar == '/'){
+							break;
+						}
+					}
+				} while (!sourceFile.eof());
+			}
 			BufferChar(currentChar);
 			return DIV_OP;
 		} else if (currentChar == '=')
