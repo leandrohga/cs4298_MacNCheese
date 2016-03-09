@@ -58,7 +58,8 @@ void Scanner::BufferString(char c)
 
 Token Scanner::CheckReserved()
 {
-	//if (tokenBuffer == "BEGIN") return BEGIN_SYM;
+	/* TODO: Check if $eof$ is correct */
+	if (tokenBuffer == "$eof$") return EOF_SYM;
 	if (tokenBuffer == "bool") return BOOL_SYM;
 	if (tokenBuffer == "break") return BREAK_SYM;
 	if (tokenBuffer == "case") return CASE_SYM;
@@ -80,18 +81,7 @@ Token Scanner::CheckReserved()
 	if (tokenBuffer == "then") return THEN_SYM;
 	if (tokenBuffer == "true") return TRUE_SYM;
 	if (tokenBuffer == "while") return WHILE_SYM;
-	/////////////////////////////////////////////
-	/////////////////////////////////////////////
-	/////////////////////////////////////////////
-	/////////////////////////////////////////////
-	if (tokenBuffer == "$eof$") return EOF_SYM;
-	/////////////////////////////////////////////
-	/////////////////////////////////////////////
-	/////////////////////////////////////////////
-	/////////////////////////////////////////////
-	// if (tokenBuffer == "END") return END_SYM;
-	// if (tokenBuffer == "READ") return READ_SYM;
-	// if (tokenBuffer == "WRITE") return WRITE_SYM;
+
 	return ID;
 }
 
@@ -165,26 +155,15 @@ Token Scanner::GetNextToken()
 				c = sourceFile.peek();
 			}
 			return INT_LIT;
-			///////////////////////////////
-			///////////////////////////////
-			///////////////////////////////
-			// we have to check if it is a float
-			///////////////////////////////
-			///////////////////////////////
-			///////////////////////////////
-		}else if (currentChar == '"')
+			/* TODO: we have to check if it is a float */
+		}
+		else if (currentChar == '"')
 		{
 			// string literal
 //			BufferString(currentChar);
 			do
 			{
-			///////////////////////////////
-			///////////////////////////////
-			///////////////////////////////
-			// we have to check if it is a boolean
-			///////////////////////////////
-			///////////////////////////////
-			///////////////////////////////
+			/* TODO: we have to check if it is a boolean */
 				currentChar = NextChar();
 //				cout << currentChar <<endl;
 				if(currentChar == '"' & sourceFile.peek()!='"'){
