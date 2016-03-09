@@ -145,7 +145,7 @@ Token Scanner::GetNextToken()
 			return CheckReserved();
 		}
 		else if (isdigit(currentChar))
-		{                                // integer literal
+		{                                // integer or float literals
 			BufferChar(currentChar);
 			c = sourceFile.peek();
 			while (isdigit(c))
@@ -154,8 +154,26 @@ Token Scanner::GetNextToken()
 				BufferChar(currentChar);
 				c = sourceFile.peek();
 			}
+			/* Check if it is a float */
+			if (c == '.')
+			{
+				currentChar = NextChar();
+				c = sourceFile.peek();
+				if (!isdigit(c)) /* FIXME: should it really be a lexical error??? */
+					LexicalError(currentChar);
+				BufferChar(currentChar);
+				while (isdigit(c))
+				{
+					currentChar = NextChar();
+					BufferChar(currentChar);
+					c = sourceFile.peek();
+				}
+				/* TODO: check for numbers in the D*.D*ESD*
+				 format. By now we are only checking for
+				 D*.D* */
+				return FLOAT_LIT;
+			}
 			return INT_LIT;
-			/* TODO: we have to check if it is a float */
 		}
 		else if (currentChar == '"')
 		{
