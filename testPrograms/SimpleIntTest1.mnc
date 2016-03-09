@@ -1,0 +1,11 @@
+/:
+Simple Int Test 1 purpose is to test the scanner for the compiler
+Testing INT_LITERAL
+:/
+
+decs{
+	int : x;
+}
+
+x = 20;
+shout(x);

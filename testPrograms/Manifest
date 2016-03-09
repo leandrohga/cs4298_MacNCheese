@@ -1,0 +1,10 @@
+Note: Any file name starting with "Simple" is for scanner testing
+
+SimpleIntTest1.mnc -> Test for scanner for INT_LITERAL token 
+
+SimpleIntAddTest2.mnc -> Tests the ability to add 2 Integers, result should be 25
+
+SimpleCheeseTest1.mnc -> Tests for the ability to print a cheese to the console
+
+SimpleBoolTest.mnc -> Tests the abilty to set/shout a bool type
+

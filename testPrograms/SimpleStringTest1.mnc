@@ -1,0 +1,12 @@
+/:
+Simple String Test 1 tests for the ability to print a cheese to the console
+:/
+
+
+decs{
+	cheese : testCheese;
+}
+
+testCheese = "Hello World!";
+
+shout(testCheese); 
