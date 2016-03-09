@@ -214,7 +214,7 @@ Token Scanner::GetNextToken()
 		}
 		else if (currentChar == '=')
 			if (sourceFile.peek() == '=')
-			{                            
+			{
 				currentChar = NextChar();
 				return EQ_OP1;
 			}
@@ -223,7 +223,7 @@ Token Scanner::GetNextToken()
 		}
 		else if (currentChar == '!')
 			if (sourceFile.peek() == '!')
-			{                            
+			{
 				currentChar = NextChar();
 				return EQ_OP2;
 			}
@@ -231,27 +231,26 @@ Token Scanner::GetNextToken()
 			currentChar = NextChar();
 			return NE_OP;
 			}
-		}	
+		}
 		else if (currentChar == '<')
 			if (sourceFile.peek() == '=')
-			{                            
+			{
 				currentChar = NextChar();
 				return LE_OP;
 			}
 			currentChar = NextChar();
 			return LT_OP;
-		}	
+		}
 		else if (currentChar == '>')
 			if (sourceFile.peek() == '=')
-			{                            
+			{
 				currentChar = NextChar();
 				return GE_OP;
 			}
 			currentChar = NextChar();
 			return GT_OP;
-		}	
-
-		else if (currentChar == '-')  
+		}
+		else if (currentChar == '-')
 			if (sourceFile.peek() == '-') // comment
 				do  // skip comment
 					currentChar = NextChar();
@@ -261,9 +260,9 @@ Token Scanner::GetNextToken()
 				BufferChar(currentChar);      // minus operator
 				return MINUS_OP;
 			}
-
 		else
 			LexicalError(currentChar);
 	} // end while
+
 	return EOF_SYM;
 }
