@@ -33,125 +33,143 @@ int main(int argc, char* argv[]) {
             case BOOL_SYM:
                 cout << "BOOL_SYM";
                 break;
-			case BREAK_SYM:
+            case BREAK_SYM:
                 cout << "BREAK_SYM";
                 break;
-			case CASE_SYM:
+            case CASE_SYM:
                 cout << "CASE_SYM";
                 break;
-			case CHEESE_SYM:
+            case CHEESE_SYM:
                 cout << "CHEESE_SYM";
                 break;
             case DECS_SYM:
                 cout << "DECS_SYM";
                 break;
-			case DO_SYM:
+            case DO_SYM:
                 cout << "DO_SYM";
                 break;
-			case ELSE_SYM:
+            case ELSE_SYM:
                 cout << "ELSE_SYM";
                 break;
-			case END_SYM:
+            case END_SYM:
                 cout << "END_SYM";
                 break;
-			case FALSE_SYM:
+            case FALSE_SYM:
                 cout << "FALSE_SYM";
                 break;
             case FLOAT_SYM:
                 cout << "FLOAT_SYM";
                 break;
-			case FOR_SYM:
+            case FOR_SYM:
                 cout << "FOR_SYM";
                 break;
-			case HIPHIP_SYM:
+            case HIPHIP_SYM:
                 cout << "HIPHIP_SYM";
                 break;
-			case IF_SYM:
+            case IF_SYM:
                 cout << "IF_SYM";
                 break;
-			case INT_SYM:
+            case INT_SYM:
                 cout << "INT_SYM";
                 break;
             case LISTEN_SYM:
                 cout << "LISTEN_SYM";
                 break;
-			case OTHERWISE_SYM:
+            case OTHERWISE_SYM:
                 cout << "OTHERWISE_SYM";
                 break;
-			case SELECT_SYM:
+            case SELECT_SYM:
                 cout << "SELECT_SYM";
                 break;
-			case SHOUT_SYM:
+            case SHOUT_SYM:
                 cout << "SHOUT_SYM";
                 break;
             case THEN_SYM:
                 cout << "THEN_SYM";
                 break;
-			case TRUE_SYM:
+            case TRUE_SYM:
                 cout << "TRUE_SYM";
                 break;
-			case WHILE_SYM:
+            case WHILE_SYM:
                 cout << "WHILE_SYM";
                 break;
-			case LSTAPLE:
+            case LSTAPLE:
                 cout << "LSTAPLE";
                 break;
-			case RSTAPLE:
+            case RSTAPLE:
                 cout << "RSTAPLE";
                 break;
             case LBANANA:
                 cout << "LBANANA";
                 break;
-			case RBANANA:
+            case RBANANA:
                 cout << "RBANANA";
                 break;
-			case LMUSTACHE:
+            case LMUSTACHE:
                 cout << "LMUSTACHE";
                 break;
-			case RMUSTACHE:
+            case RMUSTACHE:
                 cout << "RMUSTACHE";
                 break;
-			case COLON:
+            case COLON:
                 cout << "COLON";
                 break;
             case SEMICOLON:
                 cout << "SEMICOLON";
                 break;
-			case COMMA:
+            case COMMA:
+                cout << "COMMA";
                 break;
-			case ASSIGN_OP:
+            case ASSIGN_OP:
+                cout << "ASSIGN_OP";
                 break;
-			case PLUS_OP:
+            case PLUS_OP:
+                cout << "PLUS_OP";
                 break;
-			case MINUS_OP:
+            case MINUS_OP:
+                cout << "MINUS_OP";
                 break;
             case MULT_OP:
+                cout << "MULT_OP";
                 break;
-			case DIV_OP:
+            case DIV_OP:
+                cout << "DIV_OP";
                 break;
-			case LT_OP:
+            case LT_OP:
+                cout << "LT_OP";
                 break;
-			case LE_OP:
+            case LE_OP:
+                cout << "LE_OP";
                 break;
-			case GT_OP:
+            case GT_OP:
+                cout << "GT_OP";
                 break;
-			case GE_OP:
+            case GE_OP:
+                cout << "GE_OP";
                 break;
             case EQ_OP1:
+                cout << "EQ_OP1";
                 break;
-			case EQ_OP2:
+            case EQ_OP2:
+                cout << "EQ_OP2";
                 break;
-			case NE_OP:
+            case NE_OP:
+                cout << "NE_OP";
                 break;
-			case ID:
+            case ID:
+                cout << "ID";
                 break;
-			case BOOL_LIT:
+            case BOOL_LIT:
+                cout << "BOOL_LIT";
                 break;
-			case INT_LIT:
+            case INT_LIT:
+                cout << "INT_LIT";
                 break;
             case FLOAT_LIT:
+                cout << "FLOAT_LIT";
                 break;
-			case CHEESE_LIT:
+            case CHEESE_LIT:
+                cout << "CHEESE_LIT";
                 break;
             default:
                 break;
