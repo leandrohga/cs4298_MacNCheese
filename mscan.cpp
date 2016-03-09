@@ -59,7 +59,7 @@ void Scanner::BufferString(char c)
 Token Scanner::CheckReserved()
 {
 	/* TODO: Check if $eof$ is correct */
-	if (tokenBuffer == "$eof$") return EOF_SYM;
+	// if (tokenBuffer == "$eof$") return EOF_SYM;
 	if (tokenBuffer == "bool") return BOOL_SYM;
 	if (tokenBuffer == "break") return BREAK_SYM;
 	if (tokenBuffer == "case") return CASE_SYM;
@@ -112,9 +112,9 @@ char Scanner::NextChar()
 		listFile.width(6);
 		listFile << ++lineNumber << "  " << lineBuffer << endl;
 		lineBuffer = "";
-	}
-	else
+	} else{
 		lineBuffer += c;
+	}
 	return c;
 }
 
@@ -130,9 +130,9 @@ Token Scanner::GetNextToken()
 	currentChar = NextChar();
 	while (!sourceFile.eof())
 	{
-		if (isspace(currentChar))
+		if (isspace(currentChar)){
 			currentChar = NextChar();     // do nothing
-		else if (isalpha(currentChar))
+		} else if (isalpha(currentChar))
 		{                                // identifier
 			BufferChar(currentChar);
 			c = sourceFile.peek();
@@ -143,9 +143,7 @@ Token Scanner::GetNextToken()
 				c = sourceFile.peek();
 			}
 			return CheckReserved();
-		}
-		else if (isdigit(currentChar))
-		{                                // integer or float literals
+		} else if (isdigit(currentChar)){                                // integer or float literals
 			BufferChar(currentChar);
 			c = sourceFile.peek();
 			while (isdigit(c))
@@ -159,7 +157,7 @@ Token Scanner::GetNextToken()
 			{
 				currentChar = NextChar();
 				c = sourceFile.peek();
-				if (!isdigit(c)) /* FIXME: should it really be a lexical error??? */
+				if (!isdigit(c)) 
 					LexicalError(currentChar);
 				BufferChar(currentChar);
 				while (isdigit(c))
@@ -168,20 +166,34 @@ Token Scanner::GetNextToken()
 					BufferChar(currentChar);
 					c = sourceFile.peek();
 				}
-				/* TODO: check for numbers in the D*.D*ESD*
-				 format. By now we are only checking for
-				 D*.D* */
+				 if (c == 'e' || c == 'E')
+				{
+					currentChar = NextChar();
+					c = sourceFile.peek();
+					if(c != '+' && c!= '-'){
+						LexicalError(currentChar);
+					}
+					BufferChar(currentChar);
+					currentChar = NextChar();
+					c = sourceFile.peek();
+					if (!isdigit(c)) 
+						LexicalError(currentChar);
+					BufferChar(currentChar);
+					while (isdigit(c))
+					{
+						currentChar = NextChar();
+						BufferChar(currentChar);
+						c = sourceFile.peek();
+					}
+				}
 				return FLOAT_LIT;
 			}
 			return INT_LIT;
-		}
-		else if (currentChar == '"')
-		{
+		} else if (currentChar == '"'){
 			// string literal
 //			BufferString(currentChar);
 			do
 			{
-			/* TODO: we have to check if it is a boolean */
 				currentChar = NextChar();
 //				cout << currentChar <<endl;
 				if(currentChar == '"' & sourceFile.peek()!='"'){
@@ -197,24 +209,33 @@ Token Scanner::GetNextToken()
 			} while (sourceFile.peek()!='\n');
 			return CHEESE_LIT;
 		}
-		else if (currentChar == '(')
+		else if (currentChar == '('){
 			return LBANANA;
-		else if (currentChar == ')')
+		}
+		else if (currentChar == ')'){
 			return RBANANA;
-		else if (currentChar == '[')
+		}
+		else if (currentChar == '['){
 			return LSTAPLE;
-		else if (currentChar == ']')
+		}
+		else if (currentChar == ']'){
 			return RSTAPLE;
-		else if (currentChar == '{')
+		}
+		else if (currentChar == '{'){
 			return LMUSTACHE;
-		else if (currentChar == '}')
+		}
+		else if (currentChar == '}'){
 			return RMUSTACHE;
-		else if (currentChar == ';')
+		}
+		else if (currentChar == ';'){
 			return SEMICOLON;
-		else if (currentChar == ':')
+		}
+		else if (currentChar == ':'){
 			return COLON;
-		else if (currentChar == ',')
+		}
+		else if (currentChar == ','){
 			return COMMA;
+		}
 		else if (currentChar == '+')
 		{
 			BufferChar(currentChar);
@@ -229,8 +250,7 @@ Token Scanner::GetNextToken()
 		{
 			BufferChar(currentChar);
 			return DIV_OP;
-		}
-		else if (currentChar == '=')
+		} else if (currentChar == '=')
 			if (sourceFile.peek() == '=')
 			{
 				currentChar = NextChar();
@@ -238,8 +258,7 @@ Token Scanner::GetNextToken()
 			}
 			currentChar = NextChar();
 			return ASSIGN_OP;
-		}
-		else if (currentChar == '!')
+		} else if (currentChar == '!')
 			if (sourceFile.peek() == '!')
 			{
 				currentChar = NextChar();
@@ -249,8 +268,7 @@ Token Scanner::GetNextToken()
 			currentChar = NextChar();
 			return NE_OP;
 			}
-		}
-		else if (currentChar == '<')
+		} else if (currentChar == '<')
 			if (sourceFile.peek() == '=')
 			{
 				currentChar = NextChar();
@@ -258,8 +276,7 @@ Token Scanner::GetNextToken()
 			}
 			currentChar = NextChar();
 			return LT_OP;
-		}
-		else if (currentChar == '>')
+		} else if (currentChar == '>')
 			if (sourceFile.peek() == '=')
 			{
 				currentChar = NextChar();
@@ -267,19 +284,18 @@ Token Scanner::GetNextToken()
 			}
 			currentChar = NextChar();
 			return GT_OP;
-		}
-		else if (currentChar == '-')
-			if (sourceFile.peek() == '-') // comment
-				do  // skip comment
+		} else if (currentChar == '-'){
+			if (sourceFile.peek() == '-') {// comment
+				do{  // skip comment
 					currentChar = NextChar();
-				while (currentChar != '\n');
-			else
-			{
+				} while (currentChar != '\n');
+			} else{
 				BufferChar(currentChar);      // minus operator
 				return MINUS_OP;
 			}
-		else
+		} else{
 			LexicalError(currentChar);
+		}
 	} // end while
 
 	return EOF_SYM;
