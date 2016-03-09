@@ -47,7 +47,7 @@ Scanner::Scanner()
 void Scanner::BufferChar(char c)
 {
 	if (tokenBuffer.length() < ID_STRING_LEN){
-		tokenBuffer += toupper(c);
+		tokenBuffer += c;
 	}
 	//cerr << tokenBuffer << endl;
 }
@@ -61,27 +61,27 @@ Token Scanner::CheckReserved()
 {
 	/* TODO: Check if $eof$ is correct */
 	// if (tokenBuffer == "$eof$") return EOF_SYM;
-	if (tokenBuffer == "bool") return BOOL_SYM;
-	if (tokenBuffer == "break") return BREAK_SYM;
-	if (tokenBuffer == "case") return CASE_SYM;
-	if (tokenBuffer == "cheese") return CHEESE_SYM;
-	if (tokenBuffer == "decs") return DECS_SYM;
-	if (tokenBuffer == "do") return DO_SYM;
-	if (tokenBuffer == "else") return ELSE_SYM;
-	if (tokenBuffer == "end") return END_SYM;
-	if (tokenBuffer == "false") return FALSE_SYM;
-	if (tokenBuffer == "float") return FLOAT_SYM;
-	if (tokenBuffer == "for") return FOR_SYM;
-	if (tokenBuffer == "hiphip") return HIPHIP_SYM;
-	if (tokenBuffer == "if") return IF_SYM;
-	if (tokenBuffer == "int") return INT_SYM;
-	if (tokenBuffer == "listen") return LISTEN_SYM;
-	if (tokenBuffer == "otherwise") return OTHERWISE_SYM;
-	if (tokenBuffer == "select") return SELECT_SYM;
-	if (tokenBuffer == "shout") return SHOUT_SYM;
-	if (tokenBuffer == "then") return THEN_SYM;
-	if (tokenBuffer == "true") return TRUE_SYM;
-	if (tokenBuffer == "while") return WHILE_SYM;
+	if (tolower(tokenBuffer) == "bool") return BOOL_SYM;
+	if (tolower(tokenBuffer) == "break") return BREAK_SYM;
+	if (tolower(tokenBuffer) == "case") return CASE_SYM;
+	if (tolower(tokenBuffer) == "cheese") return CHEESE_SYM;
+	if (tolower(tokenBuffer) == "decs") return DECS_SYM;
+	if (tolower(tokenBuffer) == "do") return DO_SYM;
+	if (tolower(tokenBuffer) == "else") return ELSE_SYM;
+	if (tolower(tokenBuffer) == "end") return END_SYM;
+	if (tolower(tokenBuffer) == "false") return FALSE_SYM;
+	if (tolower(tokenBuffer) == "float") return FLOAT_SYM;
+	if (tolower(tokenBuffer) == "for") return FOR_SYM;
+	if (tolower(tokenBuffer) == "hiphip") return HIPHIP_SYM;
+	if (tolower(tokenBuffer) == "if") return IF_SYM;
+	if (tolower(tokenBuffer) == "int") return INT_SYM;
+	if (tolower(tokenBuffer) == "listen") return LISTEN_SYM;
+	if (tolower(tokenBuffer) == "otherwise") return OTHERWISE_SYM;
+	if (tolower(tokenBuffer) == "select") return SELECT_SYM;
+	if (tolower(tokenBuffer) == "shout") return SHOUT_SYM;
+	if (tolower(tokenBuffer) == "then") return THEN_SYM;
+	if (tolower(tokenBuffer) == "true") return TRUE_SYM;
+	if (tolower(tokenBuffer) == "while") return WHILE_SYM;
 
 	return ID;
 }
@@ -92,14 +92,18 @@ void Scanner::ClearBuffer()
 	stringBuffer = "";
 }
 
-void Scanner::LexicalError(char& c)
-{
+void Scanner::LexicalError(char& c, string& errorExp="")
+{	
 	cout << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
 		<< " on line #" << lineNumber+1 << '.' << endl;
 	listFile << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
 		<< " on line #" << lineNumber+1 << '.' << endl;
+	if(errorExp!=""){
+		//TODO :: I was starting with the comment but 
+		//I need to ampliate the code 
+	}
 	c = NextChar();
 }
 
