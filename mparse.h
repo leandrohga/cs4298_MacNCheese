@@ -11,10 +11,6 @@
 
 	The routines in this unit are based on those provided in the book 
 	"Crafting A Compiler" by Charles N. Fischer and Richard J. LeBlanc, Jr., 
-
-
-
-	
 	Benjamin Cummings Publishing Co. (1991).
 
 	See Section 2.3-2.4, pp. 31-40.
