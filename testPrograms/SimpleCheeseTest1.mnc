@@ -2,3 +2,12 @@
 Simple String Test
 :/
 
+decs {
+	cheese : c;
+}
+
+c = "foo";
+
+shout(c);
+
+shout("bar");
