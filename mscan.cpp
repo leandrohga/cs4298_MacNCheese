@@ -53,7 +53,7 @@ void Scanner::BufferChar(char c)
 }
 void Scanner::BufferString(char c)
 {
-		stringBuffer += c;
+	stringBuffer += c;
 	//cerr << tokenBuffer << endl;
 }
 
@@ -134,9 +134,9 @@ Token Scanner::GetNextToken()
 	while (!sourceFile.eof())
 	{
 		if (isspace(currentChar)){
-			currentChar = NextChar();     // do nothing
+			currentChar = NextChar(); // do nothing
 		} else if (isalpha(currentChar))
-		{                                // identifier
+		{ // identifier
 			BufferChar(currentChar);
 			c = sourceFile.peek();
 			while (isalnum(c) || c == '_')
@@ -146,7 +146,7 @@ Token Scanner::GetNextToken()
 				c = sourceFile.peek();
 			}
 			return CheckReserved();
-		} else if (isdigit(currentChar)){                                // integer or float literals
+		} else if (isdigit(currentChar)){ // integer or float literals
 			BufferChar(currentChar);
 			c = sourceFile.peek();
 			while (isdigit(c))
@@ -169,7 +169,7 @@ Token Scanner::GetNextToken()
 					BufferChar(currentChar);
 					c = sourceFile.peek();
 				}
-				 if (c == 'e' || c == 'E')
+				if (c == 'e' || c == 'E')
 				{
 					currentChar = NextChar();
 					c = sourceFile.peek();
@@ -194,16 +194,16 @@ Token Scanner::GetNextToken()
 			return INT_LIT;
 		} else if (currentChar == '"'){
 			// string literal
-//			BufferString(currentChar);
+			// BufferString(currentChar);
 			do
 			{
 				currentChar = NextChar();
-//				cout << currentChar <<endl;
+				// cout << currentChar <<endl;
 				if(currentChar == '"' & sourceFile.peek()!='"'){
-//					BufferString(currentChar);
-//					cout << "________________________" <<endl;
-//					cout << stringBuffer <<endl;
-//					cout << "________________________" <<endl;
+					// BufferString(currentChar);
+					// cout << "________________________" <<endl;
+					// cout << stringBuffer <<endl;
+					// cout << "________________________" <<endl;
 					return CHEESE_LIT;
 				}else if(currentChar == '"' & sourceFile.peek()=='"'){
 					currentChar = NextChar();
@@ -264,8 +264,8 @@ Token Scanner::GetNextToken()
 				return EQ_OP2;
 			}
 			else if(sourceFile.peek() == '='){
-			currentChar = NextChar();
-			return NE_OP;
+				currentChar = NextChar();
+				return NE_OP;
 			}
 		} else if (currentChar == '<') {
 			if (sourceFile.peek() == '=')
@@ -285,11 +285,11 @@ Token Scanner::GetNextToken()
 			return GT_OP;
 		} else if (currentChar == '-'){
 			if (sourceFile.peek() == '-') {// comment
-				do{  // skip comment
+				do{ // skip comment
 					currentChar = NextChar();
 				} while (currentChar != '\n');
 			} else{
-				BufferChar(currentChar);      // minus operator
+				BufferChar(currentChar); // minus operator
 				return MINUS_OP;
 			}
 		} else{
