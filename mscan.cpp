@@ -95,25 +95,28 @@ void Scanner::ClearBuffer()
 	stringBuffer = "";
 }
 
-void Scanner::LexicalError(char& c, string& errorExp="")/* TODO: , string& errorExp = "") */
+void Scanner::LexicalError(char& c)/* TODO: , string& errorExp = "") */
 {	
-	if (errorExp != "") {
-	cout << " *** Lexical Error: '" << c
-		<< "' ignored at position " << int(lineBuffer.size())
-		<< " on line #" << lineNumber + 1 << '.' << '\n' 
-		<< errorExp << endl;
-	listFile << " *** Lexical Error: '" << c
-		<< "' ignored at position " << int(lineBuffer.size())
-		<< " on line #" << lineNumber + 1 << '.' << '\n' 
-		<< errorExp << endl;
-	} else {
 	cout << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
 		<< " on line #" << lineNumber + 1 << '.' << endl;
 	listFile << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
 		<< " on line #" << lineNumber + 1 << '.' << endl;
-	}
+
+	c = NextChar();
+}
+void Scanner::LexicalError(char& c, const string& errorExp)/* TODO: , string& errorExp = "") */
+{
+	cout << " *** Lexical Error: '" << c
+		<< "' ignored at position " << int(lineBuffer.size())
+		<< " on line #" << lineNumber + 1 << '.' << '\n'
+		<< errorExp << endl;
+	listFile << " *** Lexical Error: '" << c
+		<< "' ignored at position " << int(lineBuffer.size())
+		<< " on line #" << lineNumber + 1 << '.' << '\n'
+		<< errorExp << endl;
+
 	c = NextChar();
 }
 

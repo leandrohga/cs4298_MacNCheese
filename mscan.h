@@ -66,6 +66,7 @@ private:
    // Erases the contents of the tokenBuffer.
 
    void LexicalError(char& c);
+   void LexicalError(char& c, const string& errorExp);
    // Processes a lexical error at character c by ignoring that character and 
    // getting the next character.
 
