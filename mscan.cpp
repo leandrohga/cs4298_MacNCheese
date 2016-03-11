@@ -249,7 +249,7 @@ Token Scanner::GetNextToken()
 			}
 			BufferChar(currentChar);
 			return DIV_OP;
-		} else if (currentChar == '=')
+		} else if (currentChar == '=') {
 			if (sourceFile.peek() == '=')
 			{
 				currentChar = NextChar();
@@ -257,7 +257,7 @@ Token Scanner::GetNextToken()
 			}
 			currentChar = NextChar();
 			return ASSIGN_OP;
-		} else if (currentChar == '!')
+		} else if (currentChar == '!') {
 			if (sourceFile.peek() == '!')
 			{
 				currentChar = NextChar();
@@ -267,7 +267,7 @@ Token Scanner::GetNextToken()
 			currentChar = NextChar();
 			return NE_OP;
 			}
-		} else if (currentChar == '<')
+		} else if (currentChar == '<') {
 			if (sourceFile.peek() == '=')
 			{
 				currentChar = NextChar();
@@ -275,7 +275,7 @@ Token Scanner::GetNextToken()
 			}
 			currentChar = NextChar();
 			return LT_OP;
-		} else if (currentChar == '>')
+		} else if (currentChar == '>') {
 			if (sourceFile.peek() == '=')
 			{
 				currentChar = NextChar();
