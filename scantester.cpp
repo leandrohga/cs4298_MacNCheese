@@ -32,53 +32,55 @@ int main(int argc, char* argv[]) {
 		return 2;
 	}
 
-	cout.width(20);
+//	cout.width(20);
+	cout << "---------- Scanner Tester ----------\n";
+	cout << "TOKEN     \t\tTEXT\n";
 	while (!sourceFile.eof()) {
 		switch(scan.GetNextToken()) {
 		case EOF_SYM:
-			cout << "EOF_SYM";
+			cout << "EOF_SYM   ";
 			break;
 		case BOOL_SYM:
-			cout << "BOOL_SYM";
+			cout << "BOOL_SYM  ";
 			break;
 		case BREAK_SYM:
-			cout << "BREAK_SYM";
+			cout << "BREAK_SYM ";
 			break;
 		case CASE_SYM:
-			cout << "CASE_SYM";
+			cout << "CASE_SYM  ";
 			break;
 		case CHEESE_SYM:
 			cout << "CHEESE_SYM";
 			break;
 		case DECS_SYM:
-			cout << "DECS_SYM";
+			cout << "DECS_SYM  ";
 			break;
 		case DO_SYM:
-			cout << "DO_SYM";
+			cout << "DO_SYM    ";
 			break;
 		case ELSE_SYM:
-			cout << "ELSE_SYM";
+			cout << "ELSE_SYM  ";
 			break;
 		case END_SYM:
-			cout << "END_SYM";
+			cout << "END_SYM   ";
 			break;
 		case FALSE_SYM:
-			cout << "FALSE_SYM";
+			cout << "FALSE_SYM ";
 			break;
 		case FLOAT_SYM:
-			cout << "FLOAT_SYM";
+			cout << "FLOAT_SYM ";
 			break;
 		case FOR_SYM:
-			cout << "FOR_SYM";
+			cout << "FOR_SYM   ";
 			break;
 		case HIPHIP_SYM:
 			cout << "HIPHIP_SYM";
 			break;
 		case IF_SYM:
-			cout << "IF_SYM";
+			cout << "IF_SYM    ";
 			break;
 		case INT_SYM:
-			cout << "INT_SYM";
+			cout << "INT_SYM   ";
 			break;
 		case LISTEN_SYM:
 			cout << "LISTEN_SYM";
@@ -90,91 +92,91 @@ int main(int argc, char* argv[]) {
 			cout << "SELECT_SYM";
 			break;
 		case SHOUT_SYM:
-			cout << "SHOUT_SYM";
+			cout << "SHOUT_SYM ";
 			break;
 		case THEN_SYM:
-			cout << "THEN_SYM";
+			cout << "THEN_SYM  ";
 			break;
 		case TRUE_SYM:
-			cout << "TRUE_SYM";
+			cout << "TRUE_SYM  ";
 			break;
 		case WHILE_SYM:
-			cout << "WHILE_SYM";
+			cout << "WHILE_SYM ";
 			break;
 		case LSTAPLE:
-			cout << "LSTAPLE";
+			cout << "LSTAPLE   ";
 			break;
 		case RSTAPLE:
-			cout << "RSTAPLE";
+			cout << "RSTAPLE   ";
 			break;
 		case LBANANA:
-			cout << "LBANANA";
+			cout << "LBANANA   ";
 			break;
 		case RBANANA:
-			cout << "RBANANA";
+			cout << "RBANANA   ";
 			break;
 		case LMUSTACHE:
-			cout << "LMUSTACHE";
+			cout << "LMUSTACHE ";
 			break;
 		case RMUSTACHE:
-			cout << "RMUSTACHE";
+			cout << "RMUSTACHE ";
 			break;
 		case COLON:
-			cout << "COLON";
+			cout << "COLON     ";
 			break;
 		case SEMICOLON:
-			cout << "SEMICOLON";
+			cout << "SEMICOLON ";
 			break;
 		case COMMA:
-			cout << "COMMA";
+			cout << "COMMA     ";
 			break;
 		case ASSIGN_OP:
-			cout << "ASSIGN_OP";
+			cout << "ASSIGN_OP ";
 			break;
 		case PLUS_OP:
-			cout << "PLUS_OP";
+			cout << "PLUS_OP   ";
 			break;
 		case MINUS_OP:
-			cout << "MINUS_OP";
+			cout << "MINUS_OP  ";
 			break;
 		case MULT_OP:
-			cout << "MULT_OP";
+			cout << "MULT_OP   ";
 			break;
 		case DIV_OP:
-			cout << "DIV_OP";
+			cout << "DIV_OP    ";
 			break;
 		case LT_OP:
-			cout << "LT_OP";
+			cout << "LT_OP     ";
 			break;
 		case LE_OP:
-			cout << "LE_OP";
+			cout << "LE_OP     ";
 			break;
 		case GT_OP:
-			cout << "GT_OP";
+			cout << "GT_OP     ";
 			break;
 		case GE_OP:
-			cout << "GE_OP";
+			cout << "GE_OP     ";
 			break;
 		case EQ_OP1:
-			cout << "EQ_OP1";
+			cout << "EQ_OP1    ";
 			break;
 		case EQ_OP2:
-			cout << "EQ_OP2";
+			cout << "EQ_OP2    ";
 			break;
 		case NE_OP:
-			cout << "NE_OP";
+			cout << "NE_OP     ";
 			break;
 		case ID:
-			cout << "ID";
+			cout << "ID        ";
 			break;
 		case BOOL_LIT:
-			cout << "BOOL_LIT";
+			cout << "BOOL_LIT  ";
 			break;
 		case INT_LIT:
-			cout << "INT_LIT";
+			cout << "INT_LIT   ";
 			break;
 		case FLOAT_LIT:
-			cout << "FLOAT_LIT";
+			cout << "FLOAT_LIT ";
 			break;
 		case CHEESE_LIT:
 			cout << "CHEESE_LIT";
@@ -182,7 +184,7 @@ int main(int argc, char* argv[]) {
 		default:
 			break;
 		}
-		cout << scan.tokenBuffer;
+		cout << "\t\t" << scan.tokenBuffer << "\n";
 	}
 
 	return 0;
