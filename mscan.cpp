@@ -59,8 +59,6 @@ void Scanner::BufferString(char c)
 
 Token Scanner::CheckReserved()
 {
-	/* TODO: Check if $eof$ is correct */
-	// if (tokenBuffer == "$eof$") return EOF_SYM;
 	if (tolower(tokenBuffer) == "bool") return BOOL_SYM;
 	if (tolower(tokenBuffer) == "break") return BREAK_SYM;
 	if (tolower(tokenBuffer) == "case") return CASE_SYM;
