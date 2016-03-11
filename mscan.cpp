@@ -94,13 +94,14 @@ void Scanner::LexicalError(char& c, string& errorExp="")
 {	
 	cout << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
-		<< " on line #" << lineNumber+1 << '.' << endl;
+		<< " on line #" << lineNumber + 1 << '.' << endl;
 	listFile << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
-		<< " on line #" << lineNumber+1 << '.' << endl;
-	if(errorExp!=""){
-		//TODO :: I was starting with the comment but 
-		//I need to ampliate the code 
+		<< " on line #" << lineNumber + 1 << '.' << endl;
+	if (errorExp != "") {
+		/*TODO: I was starting with the comment but
+		 * I need to ampliate the code
+		 */
 	}
 	c = NextChar();
 }
@@ -133,47 +134,46 @@ Token Scanner::GetNextToken()
 	currentChar = NextChar();
 	while (!sourceFile.eof())
 	{
-		if (isspace(currentChar)){
-			currentChar = NextChar(); // do nothing
-		} else if (isalpha(currentChar))
-		{ // identifier
+		if (isspace(currentChar)) {
+			/* do nothing */
+			currentChar = NextChar();
+		} else if (isalpha(currentChar)) {
+			/* identifier */
 			BufferChar(currentChar);
 			c = sourceFile.peek();
-			while (isalnum(c) || c == '_')
-			{
+			while (isalnum(c) || c == '_') {
 				currentChar = NextChar();
 				BufferChar(currentChar);
 				c = sourceFile.peek();
 			}
 			return CheckReserved();
-		} else if (isdigit(currentChar)){ // integer or float literals
+		} else if (isdigit(currentChar)) {
+			/* integer or float literals */
 			BufferChar(currentChar);
 			c = sourceFile.peek();
-			while (isdigit(c))
-			{
+			while (isdigit(c)) {
 				currentChar = NextChar();
 				BufferChar(currentChar);
 				c = sourceFile.peek();
 			}
-			/* Check if it is a float */
-			if (c == '.')
-			{
+			/* check if it is a float */
+			if (c == '.') {
 				currentChar = NextChar();
 				c = sourceFile.peek();
+				/* check for a digit after the '.' */
 				if (!isdigit(c)) 
 					LexicalError(currentChar);
 				BufferChar(currentChar);
-				while (isdigit(c))
-				{
+				while (isdigit(c)) {
 					currentChar = NextChar();
 					BufferChar(currentChar);
 					c = sourceFile.peek();
 				}
-				if (c == 'e' || c == 'E')
-				{
+				/* check for power of 10 multipliers */
+				if (c == 'e' || c == 'E') {
 					currentChar = NextChar();
 					c = sourceFile.peek();
-					if(c != '+' && c!= '-'){
+					if (c != '+' && c!= '-') {
 						LexicalError(currentChar);
 					}
 					BufferChar(currentChar);
@@ -182,8 +182,7 @@ Token Scanner::GetNextToken()
 					if (!isdigit(c)) 
 						LexicalError(currentChar);
 					BufferChar(currentChar);
-					while (isdigit(c))
-					{
+					while (isdigit(c)) {
 						currentChar = NextChar();
 						BufferChar(currentChar);
 						c = sourceFile.peek();
@@ -192,56 +191,58 @@ Token Scanner::GetNextToken()
 				return FLOAT_LIT;
 			}
 			return INT_LIT;
-		} else if (currentChar == '"'){
+		} else if (currentChar == '"') {
 			// string literal
 			// BufferString(currentChar);
-			do
-			{
+			do {
 				currentChar = NextChar();
 				// cout << currentChar <<endl;
-				if(currentChar == '"' & sourceFile.peek()!='"'){
+				if (currentChar == '"' \
+						& sourceFile.peek() != '"') {
 					// BufferString(currentChar);
 					// cout << "________________________" <<endl;
 					// cout << stringBuffer <<endl;
 					// cout << "________________________" <<endl;
 					return CHEESE_LIT;
-				}else if(currentChar == '"' & sourceFile.peek()=='"'){
+				} else if (currentChar == '"' \
+						& sourceFile.peek() == '"') {
 					currentChar = NextChar();
 				}
 				BufferString(currentChar);
 			} while (sourceFile.peek()!='\n');
 			return CHEESE_LIT;
-		} else if (currentChar == '('){
+		} else if (currentChar == '(') {
 			return LBANANA;
-		} else if (currentChar == ')'){
+		} else if (currentChar == ')') {
 			return RBANANA;
-		} else if (currentChar == '['){
+		} else if (currentChar == '[') {
 			return LSTAPLE;
-		} else if (currentChar == ']'){
+		} else if (currentChar == ']') {
 			return RSTAPLE;
-		} else if (currentChar == '{'){
+		} else if (currentChar == '{') {
 			return LMUSTACHE;
-		} else if (currentChar == '}'){
+		} else if (currentChar == '}') {
 			return RMUSTACHE;
-		} else if (currentChar == ';'){
+		} else if (currentChar == ';') {
 			return SEMICOLON;
-		} else if (currentChar == ':'){
+		} else if (currentChar == ':') {
 			return COLON;
-		} else if (currentChar == ','){
+		} else if (currentChar == ',') {
 			return COMMA;
-		} else if (currentChar == '+'){
+		} else if (currentChar == '+') {
 			BufferChar(currentChar);
 			return PLUS_OP;
-		} else if (currentChar == '*'){
+		} else if (currentChar == '*') {
 			BufferChar(currentChar);
 			return MULT_OP;
-		} else if (currentChar == '/'){
-			if (sourceFile.peek() == ':') {// comment
-				do{  // skip comment
+		} else if (currentChar == '/') {
+			/* check if it is a multiline comment */
+			if (sourceFile.peek() == ':') {
+				do { /* skip comment */
 					currentChar = NextChar();
-					if(currentChar == ':'){
+					if (currentChar == ':') {
 						currentChar = NextChar();
-						if(currentChar == '/'){
+						if (currentChar == '/') {
 							break;
 						}
 					}
@@ -250,52 +251,49 @@ Token Scanner::GetNextToken()
 			BufferChar(currentChar);
 			return DIV_OP;
 		} else if (currentChar == '=') {
-			if (sourceFile.peek() == '=')
-			{
+			if (sourceFile.peek() == '=') {
 				currentChar = NextChar();
 				return EQ_OP1;
 			}
 			currentChar = NextChar();
 			return ASSIGN_OP;
 		} else if (currentChar == '!') {
-			if (sourceFile.peek() == '!')
-			{
+			if (sourceFile.peek() == '!') {
 				currentChar = NextChar();
 				return EQ_OP2;
-			}
-			else if(sourceFile.peek() == '='){
+			} else if (sourceFile.peek() == '=') {
 				currentChar = NextChar();
 				return NE_OP;
 			}
 		} else if (currentChar == '<') {
-			if (sourceFile.peek() == '=')
-			{
+			if (sourceFile.peek() == '=') {
 				currentChar = NextChar();
 				return LE_OP;
 			}
 			currentChar = NextChar();
 			return LT_OP;
 		} else if (currentChar == '>') {
-			if (sourceFile.peek() == '=')
-			{
+			if (sourceFile.peek() == '=') {
 				currentChar = NextChar();
 				return GE_OP;
 			}
 			currentChar = NextChar();
 			return GT_OP;
-		} else if (currentChar == '-'){
-			if (sourceFile.peek() == '-') {// comment
-				do{ // skip comment
+		} else if (currentChar == '-') {
+			/* check if it is a comment or a minus symbol */
+			if (sourceFile.peek() == '-') { /* comment */
+				do { /* skip comment */
 					currentChar = NextChar();
 				} while (currentChar != '\n');
-			} else{
-				BufferChar(currentChar); // minus operator
+			} else { /* minus operator */
+				BufferChar(currentChar);
 				return MINUS_OP;
 			}
-		} else{
+		} else {
+			/* Unrecognized character */
 			LexicalError(currentChar);
 		}
-	} // end while
+	} /* end while */
 
 	return EOF_SYM;
 }
