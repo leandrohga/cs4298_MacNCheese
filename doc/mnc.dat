@@ -44,7 +44,6 @@
 "!!"                EQ_OP2.
 "!="                NE_OP.
 "ID"                ID.
-"BOOL_LIT"          BOOL_LIT.
 "INT_LIT"           INT_LIT.
 "FLOAT_LIT"         FLOAT_LIT.
 "CHEESE_LIT"        CHEESE_LIT.
