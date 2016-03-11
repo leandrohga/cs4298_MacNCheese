@@ -19,3 +19,5 @@ mcode.o: mcode.cpp
 clobber:
 	rm -f *.o *.exe *.lis *.obj core micro sam macc trace.txt
 
+clean: clobber
+	rm -f *.asm *.lst
