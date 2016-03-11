@@ -1,0 +1,94 @@
+<program>           <stmt_list>
+<stmt_list>         <statement> <stmt_tail>
+<stmt_tail>         <statement> <stmt_tail>
+                  | ""
+<statement>         <simple_stmt>
+                  | <struct_stmt>
+<simple_stmt>       <assign_stmt>
+                  | <listen_stmt>
+                  | <shout_stmt>
+                  | <break_stmt>
+<assign_stmt>       <variable> "=" <expression> ";"
+                  | <variable>  "=" <init> ";"
+<listen_stmt>       "listen" <var_list> ";"
+<var_list>          <variable>  <var_list_tail>
+<var_list_tail>     "," <variable> <var_list_tail>
+                  | ""
+<variable>          "ID" <variable_tail>
+<variable_tail>     "[" <expression> "]"
+                  | ""
+<shout_stmt>        "shout"  <item_list> ";"
+<item_list>         <expression> <item_list_tail>
+<item_list_tail>    "," <expression> <item_list_tail>
+                  | ""
+<break_stmt>        "break"  ";"
+<struct_stmt>       <if_stmt>
+                  | <loop_stmt>
+                  | <while_stmt>
+                  | <for_stmt>
+                  | <select_stmt>
+                  | <declaration>
+<if_stmt>           "if" "(" <condition> ")" <stmt_list> <else_clause> "end"
+<else_clause>       "else"  <stmt_list>
+                  | ""
+<loop_stmt>         "do"  <stmt_list> "while" "(" <condition> ")" ";"
+<while_stmt>        "while" "(" <condition> ")" <stmt_list> "end"
+<for_stmt>        "for" "(" <assign_stmt> ";" <condition> ";" <assign_stmt> ")" <stmt_list> "end"
+<select_stmt>       "select" "(" <condition> ")" <case_list> <case_list_end>
+<case_list>         <case> <case_list_tail>
+<case_list_tail>    <case> <case_list_tail>
+                  | ""
+<case>              "case" <int_list> ":" <stmt_list>
+<int_list>          "INT_LIT" <int_list_tail>
+<int_list_tail>    "," "INT_LIT" <int_list_tail>
+                  | ""
+<case_list_end>    "otherwise" <stmt_list> "end"
+                  | "otherwise" ":" <stmt_list> "end"
+<condition>         <expression> <cond_tail>
+<cond_tail>         <rel_op> <expression>
+                  | ""
+<expression>        <factor> <expr_tail>
+<expr_tail>         <add_op> <factor> <expr_tail>
+                  | ""
+<factor>            <primary> <factor_tail>
+<factor_tail>       <mult_op> <primary> <factor_tail>
+                  | ""
+<primary>           <literal>
+                  | <variable>
+                  | "(" <expression> ")"
+<type>              "bool"
+                  | "cheese"
+                  | "cheese" "[" "INT_LIT" "]"
+                  | "int"
+                  | "float"
+<bool_lit>          "false"
+                  | "true"
+<literal>           <bool_lit>
+                  | "INT_LIT"
+                  | "FLOAT_LIT"
+                  | "CHEESE_LIT"
+<mult_op>           "*"
+                  | "/"
+<add_op>            "+"
+                  | "-"
+<rel_op>            "<"
+                  | "<="
+                  | ">"
+                  | ">="
+                  | "=="
+                  | "!!"
+                  | "!="
+<var_decs>          "decs" "{" <dec_list> "}"
+<dec_list>          <declaration> <dec_tail>
+<dec_tail>          <declaration> <dec_tail>
+                  | ""
+<declaration>       <type> ":" <var_dec_list> ";"
+                  | "hiphip" "[" "INT_LIT" "]" <type> <var_dec_list> ";"
+<var_dec_list>      "ID" <var_dec_tail>
+<var_dec_tail>      "," "ID"  <var_dec_tail>
+                  | ""
+<init>              "{" <init_list> "}"
+                  | <expression>
+<init_list>         <expression> <init_tail>
+<init_tail>         "," <expression> <init_tail>
+                  | ""
