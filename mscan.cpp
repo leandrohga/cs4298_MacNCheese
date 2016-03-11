@@ -217,22 +217,31 @@ Token Scanner::GetNextToken()
 			} while (sourceFile.peek()!='\n');
 			return CHEESE_LIT;
 		} else if (currentChar == '(') {
+			BufferString(currentChar);
 			return LBANANA;
 		} else if (currentChar == ')') {
+			BufferString(currentChar);
 			return RBANANA;
 		} else if (currentChar == '[') {
+			BufferString(currentChar);
 			return LSTAPLE;
 		} else if (currentChar == ']') {
+			BufferString(currentChar);
 			return RSTAPLE;
 		} else if (currentChar == '{') {
+			BufferString(currentChar);
 			return LMUSTACHE;
 		} else if (currentChar == '}') {
+			BufferString(currentChar);
 			return RMUSTACHE;
 		} else if (currentChar == ';') {
+			BufferString(currentChar);
 			return SEMICOLON;
 		} else if (currentChar == ':') {
+			BufferString(currentChar);
 			return COLON;
 		} else if (currentChar == ',') {
+			BufferString(currentChar);
 			return COMMA;
 		} else if (currentChar == '+') {
 			BufferChar(currentChar);
