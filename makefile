@@ -21,3 +21,6 @@ clobber:
 
 clean: clobber
 	rm -f *.asm *.lst
+
+scan_test: mscan.cpp scantester.cpp
+	$(CXX) $(FLAGS) mscan.cpp scantester.cpp -o scan_test
