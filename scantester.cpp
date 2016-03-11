@@ -13,6 +13,7 @@
 #include "mscan.h"
 
 ifstream sourceFile;
+ofstream listFile;
 Scanner scan;
 
 int main(int argc, char* argv[]) {
@@ -24,9 +25,16 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    listFile.open("listFile.lst");
+    if (!listFile.is_open()) {
+        cout << "Could not open list file.";
+        cin.get();
+        return 2;
+    }
+
     cout.width(20);
     while (!sourceFile.eof()) {
-        switch(scan.getNextToken()) {
+        switch(scan.GetNextToken()) {
             case EOF_SYM:
                 cout << "EOF_SYM";
                 break;

@@ -95,7 +95,7 @@ void Scanner::ClearBuffer()
 	stringBuffer = "";
 }
 
-void Scanner::LexicalError(char& c, string& errorExp="")
+void Scanner::LexicalError(char& c)/* TODO: , string& errorExp = "") */
 {	
 	cout << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
@@ -103,11 +103,11 @@ void Scanner::LexicalError(char& c, string& errorExp="")
 	listFile << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
 		<< " on line #" << lineNumber + 1 << '.' << endl;
-	if (errorExp != "") {
+//	if (errorExp != "") {
 		/*TODO: I was starting with the comment but
 		 * I need to ampliate the code
 		 */
-	}
+//	}
 	c = NextChar();
 }
 
