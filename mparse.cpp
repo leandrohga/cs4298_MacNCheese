@@ -5,14 +5,14 @@
 	                               mparse.cpp
 
 	                              Version 2007
- 
+
 	                           James L. Richards
 	                     Last Update: August 28, 2007
 			     Updated by Marty J. Wolf
 			       January 4, 2016
 
-	The routines in this unit are based on those provided in the book 
-	"Crafting A Compiler" by Charles N. Fischer and Richard J. LeBlanc, Jr., 
+	The routines in this unit are based on those provided in the book
+	"Crafting A Compiler" by Charles N. Fischer and Richard J. LeBlanc, Jr.,
 	Benjamin Cummings Publishing Co. (1991).
 
 	See Section 2.3-2.4, pp. 31-40.
@@ -22,6 +22,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
+
 using namespace std;
 
 extern ifstream sourceFile;
@@ -34,65 +35,54 @@ extern ofstream outFile, listFile;
 extern Scanner scan; // global scanner declared in micro.cpp
 extern CodeGen code; // global code generator declared in micro.cpp
 
-Parser::Parser()
-{
+Parser::Parser() {
 	tokenAvailable = false;  // no token initially available to parser
 }
 
-void Parser::Match(Token t)
-{
-	if (t != NextToken())
+void Parser::Match(Token t) {
+	if (t != NextToken()) {
 		SyntaxError(t);
-	else
+	} else {
 		tokenAvailable = false;
+    }
 }
 
-Token Parser::NextToken()
-{
-	if (!tokenAvailable)
-	{
+Token Parser::NextToken() {
+	if (!tokenAvailable) {
 		savedToken = scan.GetNextToken();
 		tokenAvailable = true;
 	}
-		return savedToken;
+	return savedToken;
 }
 
-void Parser::SyntaxError(Token t)
-{
-	cout << " *** Syntax Error Detected " << int(t) << ' '
-		<< int(savedToken);
-	listFile << " *** Syntax Error Detected " << int(t) << ' '
-		<< int(savedToken);
+void Parser::SyntaxError(Token t) {
+	cout << " *** Syntax Error Detected " << int(t) << ' ' << int(savedToken);
+	listFile << " *** Syntax Error Detected " << int(t) << ' ' << int(savedToken);
 	sourceFile.close();
 	listFile.close();
 	outFile.close();
 	cin.ignore(256, '\n');
 	cin.get();
-	exit(1);  // error termination
+	exit(1); // error termination
 }
 
-void Parser::SystemGoal()
-{
+void Parser::SystemGoal() {
 	ProgramProc();
 	Match(EOF_SYM);
 	code.Finish();  /*** CODE ***/
 }
 
-void Parser::ProgramProc()         
-{
+void Parser::ProgramProc() {
 	code.Start();  /*** CODE ***/
 	Match(BEGIN_SYM);
 	StatementList();
 	Match(END_SYM);
 }
 
-void Parser::StatementList()
-{
+void Parser::StatementList() {
 	Statement();
-	for (;;) 
-	{  // loop exited by return
-		switch (NextToken())
-		{
+	for (;;) { // loop exited by return
+		switch (NextToken()) {
 		case ID:
 		case READ_SYM:
 		case WRITE_SYM:
@@ -104,12 +94,9 @@ void Parser::StatementList()
 	}
 }
 
-void Parser::Statement()
-{
+void Parser::Statement() {
 	ExprRec identifier, expr;
-
-	switch (NextToken())
-	{
+	switch (NextToken()) {
 	case ID:
 		Ident(identifier);
 		Match(ASSIGN_OP);
@@ -137,101 +124,84 @@ void Parser::Statement()
 	}
 }
 
-void Parser::IdList()
-{
+void Parser::IdList() {
 	ExprRec identifier;
-
 	Ident(identifier);
 	code.ReadId(identifier);  /*** CODE ***/
-	for (;;) 
-	{  // loop exited by return
-		if (NextToken() == COMMA)
-		{
+	for (;;) { // loop exited by return
+		if (NextToken() == COMMA) {
 			Match(COMMA);
 			Ident(identifier);
 			code.ReadId(identifier);  /*** CODE ***/
-		}
-		else
+		} else {
 			return; // exit the function
+        }
 	}
 }
 
-void Parser::ExprItem()
-{	
+void Parser::ExprItem() {
 	//cerr << "ExprItem Check" << endl;
 	//cerr << expr.kind << endl;
 	////cerr << expr.val << endl;
 	//cerr << expr.name << endl;
 	//cerr << "ExprItem Check done" << endl;
 	switch(NextToken()){
-		case STR_LITERAL: // it is an string literal
-		    Match(STR_LITERAL);
-			code.WriteString();  /*** CODE ***/
-			break;
-		default:
-			ExprRec expr;
-			Expression(expr);
-			code.WriteExpr(expr);  /*** CODE ***/
-			for (;;) 
-			{  // loop exited by return
-				if (NextToken() == COMMA)
-				{
-					Match(COMMA);
-					Expression(expr);
-					code.WriteExpr(expr);  /*** CODE ***/
-				}
-				else
-					return; // exit loop
-			}
-			break;
+	case STR_LITERAL: // it is an string literal
+	    Match(STR_LITERAL);
+		code.WriteString();  /*** CODE ***/
+		break;
+	default:
+		ExprRec expr;
+		Expression(expr);
+		code.WriteExpr(expr);  /*** CODE ***/
+		for (;;) {  // loop exited by return
+			if (NextToken() == COMMA) {
+				Match(COMMA);
+				Expression(expr);
+				code.WriteExpr(expr);  /*** CODE ***/
+			} else {
+				return; // exit loop
+            }
+		}
+		break;
 	}
 }
-void Parser::ExprList()
-{
-
+void Parser::ExprList() {
 	ExprItem();
 	// code.WriteExpr(expr);  /*** CODE ***/
-	for (;;) 
-	{  // loop exited by return
-		if (NextToken() == COMMA)
-		{
+	for (;;) {  // loop exited by return
+		if (NextToken() == COMMA) {
 			Match(COMMA);
 			ExprItem();
-	//		code.WriteExpr(expr);  /*** CODE ***/
-		}
-		else
+	        //code.WriteExpr(expr);  /*** CODE ***/
+        } else {
 			return; // exit loop
+        }
 	}
 }
 
-void Parser::Expression(ExprRec& result)
-{
+void Parser::Expression(ExprRec& result) {
 	ExprRec leftOperand, rightOperand;
 	OpRec op;
-
 	Primary(result);
-	for (;;) 
-	{  // loop exited by return
-		if (NextToken() == PLUS_OP || NextToken() == MINUS_OP)
-		{
+	for (;;) {  // loop exited by return
+		if (NextToken() == PLUS_OP || NextToken() == MINUS_OP) {
 			// from call to Primary of gen_infix
-			leftOperand.kind = result.kind; 
+			leftOperand.kind = result.kind;
 			leftOperand.val = result.val;
 			leftOperand.name= result.name;
 			AddOp(op);
 			Primary(rightOperand);
-         /*** CODE ***/
+            /*** CODE ***/
 			code.GenInfix (leftOperand, op, rightOperand, result);
-		}
-		else
+		} else {
 			return; // exit loop
+        }
 	}
 }
 
-void Parser::Primary(ExprRec& result)
-{
-	switch (NextToken())
-	{
+void Parser::Primary(ExprRec& result) {
+	switch (NextToken()) {
 	case LPAREN:
 		Match(LPAREN);
 		Expression(result);
@@ -255,10 +225,8 @@ void Parser::Primary(ExprRec& result)
 	}
 }
 
-void Parser::AddOp(OpRec& op)
-{
-	switch (NextToken())
-	{
+void Parser::AddOp(OpRec& op) {
+	switch (NextToken()) {
 	case PLUS_OP:
 		Match(PLUS_OP);
 		code.ProcessOp(op);  /*** CODE ***/
@@ -272,8 +240,7 @@ void Parser::AddOp(OpRec& op)
 	}
 }
 
-void Parser::Ident(ExprRec& result)
-{
+void Parser::Ident(ExprRec& result) {
 	Match(ID);
 	code.ProcessId(result);  /*** CODE ***/
 }

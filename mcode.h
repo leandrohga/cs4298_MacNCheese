@@ -5,7 +5,7 @@
 	                                 mcode.h
 
 	                              Version 2007
- 
+
 	                           James L. Richards
 	                     Last Update: August 28, 2007
 	                     Update by M. J. Wolf: January 21,2016
@@ -29,23 +29,19 @@ using namespace std;
 
 enum OpKind { PLUS, MINUS };
 
-struct OpRec // information about an operator
-{
+struct OpRec { // information about an operator
 	OpKind op; // operator type
 };
 
 enum ExprKind { ID_EXPR, LITERAL_EXPR, TEMP_EXPR };
 
-struct ExprRec // information about a constant, variable, or
-               // an intermediate (temporary) result
-{
+struct ExprRec { // information about a constant, variable, or an intermediate (temporary) result
    ExprKind kind;   // operand type
    string   name;   // used when kind is ID_EXPR or TEMP_EXPR
    int      val;    // used when kind is LITERAL_EXPR
 };
 
-class CodeGen
-{
+class CodeGen {
 public:
 
 	CodeGen();
@@ -61,7 +57,7 @@ public:
 	void Finish();
 	// Generates code to finish the program.
 
-	void GenInfix(const ExprRec & e1, const OpRec & op, 
+	void GenInfix(const ExprRec & e1, const OpRec & op,
 	              const ExprRec & e2, ExprRec& e);
 	// Produces the assembly code for an infix operation.
 
@@ -116,7 +112,7 @@ private:
 	// Returns a representation for the operator o.
 
 	void Generate(const string & s1, const string & s2, const string & s3);
-	// Produces the SAM assembly code for one or two operand instructions. 
+	// Produces the SAM assembly code for one or two operand instructions.
 	// s1 is the opcode; s2 and s3 are operands.
 
 	string GetTemp();

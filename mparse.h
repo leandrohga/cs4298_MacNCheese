@@ -5,44 +5,15 @@
 	                                mparse.h
 
 	                              Version 2007
- 
+
 	                           James L. Richards
 	                     Last Update: August 28, 2007
 
-	The routines in this unit are based on those provided in the book 
-	"Crafting A Compiler" by Charles N. Fischer and Richard J. LeBlanc, Jr., 
+	The routines in this unit are based on those provided in the book
+	"Crafting A Compiler" by Charles N. Fischer and Richard J. LeBlanc, Jr.,
 	Benjamin Cummings Publishing Co. (1991).
 
 	See Section 2.3-2.4, pp. 31-40.
-	____________________________________________________________________________
-
-						 M I C R O   G R A M M A R
-
-	<program>        -> #Start begin <statement list> end
-
-	<statement list> -> <statement> { <statement> }
-
-	<statement>      -> <ident> := <expression> #Assign ;
-					 | read ( <id list> ) ;
-					 | write ( <expr list> ) #NewLine ;
-
-	<id list>        -> <ident> #ReadId { , <ident> #ReadId }
-
-	<expr list>      -> <expression> #WriteExpr
-						 { , <expression> #WriteExpr }
-
-	<expression>     -> <primary> { <add op> <primary> #GenInfix }
-
-	<primary>        -> ( <expression> )
-					 | <ident>
-					 | INT_LITERAL #ProcessLiteral
-
-	<add op>         -> PLUS_OP #ProcessOp
-					 | MINUS_OP #ProcessOp
-
-	<ident>          -> ID #ProcessId
-
-	<system goal>    -> <program> EOF_SYM #Finish
 	____________________________________________________________________________
 */
 
@@ -51,8 +22,7 @@
 
 #include "mcode.h"
 
-class Parser
-{
+class Parser {
 public:
 
 	Parser();
@@ -75,7 +45,7 @@ private:
 	// Gets the next token and saves it.
 
 	void Match(Token t);
-	// Returns successfully if the next token matches t; otherwise, a syntax 
+	// Returns successfully if the next token matches t; otherwise, a syntax
 	// error occurs and compilation is aborted.
 
 /* _____________________________________________________________________________

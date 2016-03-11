@@ -5,13 +5,13 @@
 	                               mcode.cpp
 
 	                              Version 2007
- 
+
 	                           James L. Richards
 	                     Last Update: August 28, 2007
 	                     Update by M. J. Wolf: January 21,2016
 
-	The routines in this unit are based on those provided in the book 
-	"Crafting A Compiler" by Charles N. Fischer and Richard J. LeBlanc, Jr., 
+	The routines in this unit are based on those provided in the book
+	"Crafting A Compiler" by Charles N. Fischer and Richard J. LeBlanc, Jr.,
 	Benjamin Cummings Publishing Co. (1991).
 
 	See Section 2.3-2.4, pp. 31-40.
@@ -34,8 +34,7 @@ extern Scanner scan; // global Scanner object declared in micro.cpp
 // **  Constructor  **
 // *******************
 
-CodeGen::CodeGen()
-{
+CodeGen::CodeGen() {
 	maxTemp = 0;
 }
 
@@ -43,24 +42,20 @@ CodeGen::CodeGen()
 // ** Private Member Functions  **
 // *******************************
 
-void CodeGen::CheckId(const string & s)
-{
+void CodeGen::CheckId(const string & s) {
 	if (!LookUp(s))  // variable not declared yet
 		Enter(s);
 }
 
-void CodeGen::Enter(const string & s)
-{
+void CodeGen::Enter(const string & s) {
 	symbolTable.push_back(s);
 }
 
-void CodeGen::ExtractExpr(const ExprRec & e, string& s)
-{
+void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
 	string t;
 	int k, n;
 
-	switch (e.kind)
-	{
+	switch (e.kind) {
 	case ID_EXPR:
 	case TEMP_EXPR:  // operand form: +k(R15)
 		s = e.name;
@@ -78,37 +73,32 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s)
 		s += t;
 	}
 }
-void CodeGen::ExtractStr(const ExprRec & e, string& s)
-{
+void CodeGen::ExtractStr(const ExprRec & e, string& s) {
 	string t;
 	int k, n;
 	s = e.name;
 	t = e.val;
 	n = 0;
-	while (symbolTable[n] != s){n++;} 
+	while (symbolTable[n] != s){n++;}
 	k = 2 * n;  // offset: 2 bytes per variable
 	s = "#" + t + "(R15)";
 }
 
-string CodeGen::ExtractOp(const OpRec & o)
-{
+string CodeGen::ExtractOp(const OpRec & o) {
 	if (o.op == PLUS)
 		return "IA        ";
 	else
 		return "IS        ";
 }
 
-void CodeGen::Generate(const string & s1, const string & s2, const string & s3)
-{
+void CodeGen::Generate(const string & s1, const string & s2, const string & s3) {
 	listFile.width(20);
 	listFile << ' ' << s1;
 	outFile << s1;
-	if (s2.length() > 0)
-	{
+	if (s2.length() > 0) {
 		listFile << s2;
 		outFile << s2;
-		if (s3.length() > 0)
-		{
+		if (s3.length() > 0) {
 			listFile << ',' << s3;
 			outFile << ',' << s3;
 		}
@@ -117,8 +107,7 @@ void CodeGen::Generate(const string & s1, const string & s2, const string & s3)
 	outFile << endl;
 }
 
-string CodeGen::GetTemp()
-{
+string CodeGen::GetTemp() {
 	string s;
 	static string t;
 
@@ -129,29 +118,25 @@ string CodeGen::GetTemp()
 	return t;
 }
 
-void CodeGen::IntToAlpha(int val, string& str)
-{
+void CodeGen::IntToAlpha(int val, string& str) {
 	int k;
 	char temp;
 
 	str = "";
 	if (val == 0) str = "0";
-	while (val > 0)
-	{
+	while (val > 0) {
 		str.append(1, (char)(val % 10 + (int)'0'));
 		val /= 10;
 	}
 	k = int(str.length());
-	for (int i = 0; i < k/2; i++)
-	{
+	for (int i = 0; i < k/2; i++) {
 		temp = str[i];
 		str[i] = str[k-i-1];
 		str[k-i-1] = temp;
 	}
 }
 
-bool CodeGen::LookUp(const string & s)
-{
+bool CodeGen::LookUp(const string & s) {
 	for (unsigned i = 0; i < symbolTable.size(); i++)
 	if (symbolTable[i] == s)
 		return true;
@@ -163,8 +148,7 @@ bool CodeGen::LookUp(const string & s)
 // ** Public Member Functions  **
 // ******************************
 
-void CodeGen::Assign(const ExprRec & target, const ExprRec & source)
-{
+void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 	string s;
 
 	ExtractExpr(source, s);
@@ -173,8 +157,7 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source)
 	Generate("STO       ", "R0", s);
 }
 
-void CodeGen::Finish()
-{
+void CodeGen::Finish() {
 	string s;
 
 	listFile.width(6);
@@ -207,39 +190,33 @@ void CodeGen::Finish()
 		<< endl;
 	listFile << " Relative" << endl;
 	listFile << " Address      Identifier" << endl;
-	listFile << " --------     --------------------------------" 
+	listFile << " --------     --------------------------------"
 		<< endl;
-	for (unsigned i = 0; i < symbolTable.size(); i++)
-	{
+	for (unsigned i = 0; i < symbolTable.size(); i++) {
 		listFile.width(7);
 		listFile << 2*i << "       " << symbolTable[i] << endl;
 	}
-	listFile << " _____________________________________________" 
+	listFile << " _____________________________________________"
 		<< endl;
 	listFile << endl;
 	listFile << " Normal successful compilation." << endl;
 	listFile.close();
 }
 
-void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, 
-                       const ExprRec & e2, ExprRec& e)
-{
+void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op,
+                       const ExprRec & e2, ExprRec& e) {
 	string opnd;
 
-	if (e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR)
-	{
+	if (e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR) {
 		e.kind = LITERAL_EXPR;
-		switch (op.op)
-		{
+		switch (op.op) {
 		case PLUS:
 			e.val = e1.val + e2.val;
 			break;
 		case MINUS:
 			e.val = e1.val - e2.val;
 		}
-	}
-	else
-	{
+	} else {
 		e.kind = TEMP_EXPR;
 		e.name = GetTemp();
 		ExtractExpr(e1, opnd);
@@ -251,61 +228,55 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op,
 	}
 }
 
-void CodeGen::NewLine()
-{
+void CodeGen::NewLine() {
 	Generate("WRNL      ", "", "");
 }
 
-void CodeGen::ProcessId(ExprRec& e)
-{
+void CodeGen::ProcessId(ExprRec& e) {
 	CheckId(scan.tokenBuffer);
 	e.kind = ID_EXPR;
 	e.name = scan.tokenBuffer;
 }
 
-void CodeGen::ProcessLiteral(ExprRec& e)
-{
+void CodeGen::ProcessLiteral(ExprRec& e) {
 	e.kind = LITERAL_EXPR;
 	e.val = atoi(scan.tokenBuffer.data());
 }
 
-void CodeGen::ProcessOp(OpRec& o)
-{
+void CodeGen::ProcessOp(OpRec& o) {
 	if (scan.tokenBuffer == "+")
 		o.op = PLUS;
 	else
 		o.op = MINUS;
 }
 
-void CodeGen::ReadId(const ExprRec & inVar)
-{
+void CodeGen::ReadId(const ExprRec & inVar) {
 	string s;
 
 	ExtractExpr(inVar, s);
 	Generate("RDI       ", s, "");
 }
 
-void CodeGen::Start()
-{
+void CodeGen::Start() {
 	Generate("LDA       ", "R15", "VARS");
 	Generate("LDA       ", "R14", "VARS2");
 }
 
-void CodeGen::WriteExpr(const ExprRec & outExpr)
-{
+void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	string s;
 	ExtractExpr(outExpr, s);
 	Generate("WRI       ", s, "");
 }
-int CodeGen::CountMyChars(const string & countMe ){
+
+int CodeGen::CountMyChars(const string & countMe ) {
 	int p = countMe.length();
-	if(p % 2 == 0){
+	if (p % 2 == 0) {
 		return p+2;
 	}
 	return p+1;
 }
-void CodeGen::WriteString()
-{
+
+void CodeGen::WriteString() {
 	string s;
 	s = scan.stringBuffer;
 //	cout << "write string" << endl;
