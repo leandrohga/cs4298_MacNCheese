@@ -95,19 +95,25 @@ void Scanner::ClearBuffer()
 	stringBuffer = "";
 }
 
-void Scanner::LexicalError(char& c)/* TODO: , string& errorExp = "") */
+void Scanner::LexicalError(char& c, string& errorExp="")/* TODO: , string& errorExp = "") */
 {	
+	if (errorExp != "") {
+	cout << " *** Lexical Error: '" << c
+		<< "' ignored at position " << int(lineBuffer.size())
+		<< " on line #" << lineNumber + 1 << '.' << '\n' 
+		<< errorExp << endl;
+	listFile << " *** Lexical Error: '" << c
+		<< "' ignored at position " << int(lineBuffer.size())
+		<< " on line #" << lineNumber + 1 << '.' << '\n' 
+		<< errorExp << endl;
+	} else {
 	cout << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
 		<< " on line #" << lineNumber + 1 << '.' << endl;
 	listFile << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
 		<< " on line #" << lineNumber + 1 << '.' << endl;
-//	if (errorExp != "") {
-		/*TODO: I was starting with the comment but
-		 * I need to ampliate the code
-		 */
-//	}
+	}
 	c = NextChar();
 }
 
@@ -167,7 +173,7 @@ Token Scanner::GetNextToken()
 				c = sourceFile.peek();
 				/* check for a digit after the '.' */
 				if (!isdigit(c)) 
-					LexicalError(currentChar);
+					LexicalError(currentChar, to_string(c)+" Boolean needs a digit after the '.'");
 				BufferChar(currentChar);
 				while (isdigit(c)) {
 					currentChar = NextChar();
@@ -179,13 +185,13 @@ Token Scanner::GetNextToken()
 					currentChar = NextChar();
 					c = sourceFile.peek();
 					if (c != '+' && c!= '-') {
-						LexicalError(currentChar);
+						LexicalError(currentChar, to_string(c)+" Boolean needs a '+' or a '-' after 'E' ");
 					}
 					BufferChar(currentChar);
 					currentChar = NextChar();
 					c = sourceFile.peek();
 					if (!isdigit(c)) 
-						LexicalError(currentChar);
+						LexicalError(currentChar, to_string(c)+"Boolean needs a  digit after '+' or '-'");
 					BufferChar(currentChar);
 					while (isdigit(c)) {
 						currentChar = NextChar();
@@ -305,7 +311,7 @@ Token Scanner::GetNextToken()
 			}
 		} else {
 			/* Unrecognized character */
-			LexicalError(currentChar);
+			LexicalError(currentChar, to_string(c)+" Unrecognized character");
 		}
 	} /* end while */
 
