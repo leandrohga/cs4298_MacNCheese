@@ -63,25 +63,13 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
 		while (symbolTable[n] != s) n++;
 		k = 2 * n;  // offset: 2 bytes per variable
 		IntToAlpha(k, t);
-			s ="+";
-			s += t;
-			s += "(R15)";
+		s = "+" + t + "(R15)";
 		break;
 	case LITERAL_EXPR:
 		IntToAlpha(e.val, t);
 		s = "#";
 		s += t;
 	}
-}
-void CodeGen::ExtractStr(const ExprRec & e, string& s) {
-	string t;
-	int k, n;
-	s = e.name;
-	t = e.val;
-	n = 0;
-	while (symbolTable[n] != s){n++;}
-	k = 2 * n;  // offset: 2 bytes per variable
-	s = "#" + t + "(R15)";
 }
 
 string CodeGen::ExtractOp(const OpRec & o) {
@@ -157,6 +145,9 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 	Generate("STO       ", "R0", s);
 }
 
+vector<string> str_vect;
+int str_cnt = 0;
+
 void CodeGen::Finish() {
 	string s;
 
@@ -166,22 +157,11 @@ void CodeGen::Finish() {
 	Generate("LABEL     ", "VARS", "");
 	IntToAlpha(int(2*(symbolTable.size()+1)), s);
 	Generate("SKIP      ", s, "");
-	Generate("LABEL     ", "VARS2", "");
-//	cout << "HERE" << endl;
-//	cout << stringsHolder[0] << " " << stringsHolder.size() << endl;
-	for(int i=0; i < stringsHolder.size(); i++ ){
-		string newString = "";
-		for(int j=0; j<stringsHolder[i].length();j++){
-			if(stringsHolder[i][j]==':' || stringsHolder[i][j] =='"'){
-//				if(j!=0 && j!=stringsHolder[i].length()-1) {
-					newString += ':';
-//				}
-			}
-			newString+=stringsHolder[i][j];
-//			cerr << stringsHolder[i][j] << " " << i << " " << j << endl;
-		}
-//		cerr << newString << endl;
-		Generate("STRING ", '"'+newString+'"',"");
+	Generate("LABEL     ", "STRS", "");
+	while (!str_vect.empty()) {
+		s = str_vect.front();
+		str_vect.erase(str_vect.begin());
+		Generate("STRING    ", s, "");
 	}
 	outFile.close();
 	listFile << endl << endl;
@@ -259,7 +239,7 @@ void CodeGen::ReadId(const ExprRec & inVar) {
 
 void CodeGen::Start() {
 	Generate("LDA       ", "R15", "VARS");
-	Generate("LDA       ", "R14", "VARS2");
+	Generate("LDA       ", "R14", "STRS");
 }
 
 void CodeGen::WriteExpr(const ExprRec & outExpr) {
@@ -268,22 +248,16 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	Generate("WRI       ", s, "");
 }
 
-int CodeGen::CountMyChars(const string & countMe ) {
-	int p = countMe.length();
-	if (p % 2 == 0) {
-		return p+2;
-	}
-	return p+1;
-}
-
 void CodeGen::WriteString() {
-	string s;
-	s = scan.stringBuffer;
-//	cout << "write string" << endl;
-//	cout << s << endl;
-	stringsHolder.push_back(s);
-	string a =  to_string(stringCounter);
-	a += "(R14)";
-	Generate("WRST       ",  "+"+a, "");
-	stringCounter += CountMyChars(s);
+	string s, t;
+	/* Save the string */
+	s = scan.tokenBuffer;
+	str_vect.push_back(s);
+	/* Update counter and Generate ASM */
+	IntToAlpha(str_cnt, t);
+	str_cnt += s.size() - 2;
+	if (str_cnt % 2)
+		str_cnt++;
+	s = "+" + t + "(R14)";
+	Generate("WRST       ", s, "");
 }
