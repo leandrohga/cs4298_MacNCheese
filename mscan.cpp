@@ -266,6 +266,7 @@ Token Scanner::GetNextToken()
 					if (currentChar == ':') {
 						currentChar = NextChar();
 						if (currentChar == '/') {
+							currentChar = NextChar();
 							break;
 						}
 					}
