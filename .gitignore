@@ -1,4 +1,4 @@
 
 *.lst
-
+*.o
 scan_test
