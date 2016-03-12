@@ -289,6 +289,10 @@ Token Scanner::GetNextToken()
 			} else if (sourceFile.peek() == '=') {
 				currentChar = NextChar();
 				return NE_OP;
+			} else {
+				LexicalError(currentChar, to_string(c) + \
+						" not operator is not" \
+						" supported by MnC");
 			}
 		} else if (currentChar == '<') {
 			if (sourceFile.peek() == '=') {
