@@ -41,8 +41,7 @@ class Scanner
 public:
 
 	string	tokenBuffer, // current token
-			lineBuffer,  // current line
-			stringBuffer;  // current line
+			lineBuffer;  // current line
 	int		lineNumber;  // line counter
 
 	Scanner();
@@ -54,7 +53,6 @@ public:
 private:
 
 	void BufferChar(char c);
-	void BufferString(char c);
    // Appends character c to the end of the token buffer provided that the
    // buffer is not full.
 

@@ -50,12 +50,6 @@ void Scanner::BufferChar(char c)
 	if (tokenBuffer.length() < ID_STRING_LEN){
 		tokenBuffer += c;
 	}
-	//cerr << tokenBuffer << endl;
-}
-void Scanner::BufferString(char c)
-{
-	stringBuffer += c;
-	//cerr << tokenBuffer << endl;
 }
 
 Token Scanner::CheckReserved()
@@ -92,7 +86,6 @@ Token Scanner::CheckReserved()
 void Scanner::ClearBuffer()
 {
 	tokenBuffer = "";
-	stringBuffer = "";
 }
 
 void Scanner::LexicalError(char& c)
@@ -206,24 +199,18 @@ Token Scanner::GetNextToken()
 			}
 			return INT_LIT;
 		} else if (currentChar == '"') {
-			// string literal
-			// BufferString(currentChar);
-			do {
+			/* string literal */
+			/* TODO: check if the " should be inluded */
+			BufferChar(currentChar);
+			c = sourceFile.peek();
+			/* TODO: check for scape characters, ASC, ... */
+			while (c != '"') {
 				currentChar = NextChar();
-				// cout << currentChar <<endl;
-				if (currentChar == '"' \
-						& sourceFile.peek() != '"') {
-					// BufferString(currentChar);
-					// cout << "________________________" <<endl;
-					// cout << stringBuffer <<endl;
-					// cout << "________________________" <<endl;
-					return CHEESE_LIT;
-				} else if (currentChar == '"' \
-						& sourceFile.peek() == '"') {
-					currentChar = NextChar();
-				}
-				BufferString(currentChar);
-			} while (sourceFile.peek()!='\n');
+				BufferChar(currentChar);
+				c = sourceFile.peek();
+			}
+			currentChar = NextChar();
+			BufferChar(currentChar);
 			return CHEESE_LIT;
 		} else if (currentChar == '(') {
 			BufferChar(currentChar);
