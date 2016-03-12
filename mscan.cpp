@@ -277,34 +277,44 @@ Token Scanner::GetNextToken()
 				return DIV_OP;
 			}
 		} else if (currentChar == '=') {
+			BufferChar(currentChar);
 			if (sourceFile.peek() == '=') {
 				currentChar = NextChar();
+				BufferChar(currentChar);
 				return EQ_OP1;
 			}
 			currentChar = NextChar();
 			return ASSIGN_OP;
 		} else if (currentChar == '!') {
+			BufferChar(currentChar);
 			if (sourceFile.peek() == '!') {
 				currentChar = NextChar();
+				BufferChar(currentChar);
 				return EQ_OP2;
 			} else if (sourceFile.peek() == '=') {
 				currentChar = NextChar();
+				BufferChar(currentChar);
 				return NE_OP;
 			} else {
 				LexicalError(currentChar, to_string(c) + \
 						" not operator is not" \
 						" supported by MnC");
 			}
+			currentChar = NextChar();
 		} else if (currentChar == '<') {
+			BufferChar(currentChar);
 			if (sourceFile.peek() == '=') {
 				currentChar = NextChar();
+				BufferChar(currentChar);
 				return LE_OP;
 			}
 			currentChar = NextChar();
 			return LT_OP;
 		} else if (currentChar == '>') {
+			BufferChar(currentChar);
 			if (sourceFile.peek() == '=') {
 				currentChar = NextChar();
+				BufferChar(currentChar);
 				return GE_OP;
 			}
 			currentChar = NextChar();
@@ -317,6 +327,7 @@ Token Scanner::GetNextToken()
 				} while (currentChar != '\n');
 			} else { /* minus operator */
 				BufferChar(currentChar);
+				currentChar = NextChar();
 				return MINUS_OP;
 			}
 		} else {
