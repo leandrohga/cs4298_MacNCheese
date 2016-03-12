@@ -95,7 +95,7 @@ void Scanner::ClearBuffer()
 	stringBuffer = "";
 }
 
-void Scanner::LexicalError(char& c)/* TODO: , string& errorExp = "") */
+void Scanner::LexicalError(char& c)
 {	
 	cout << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
@@ -106,7 +106,7 @@ void Scanner::LexicalError(char& c)/* TODO: , string& errorExp = "") */
 
 	c = NextChar();
 }
-void Scanner::LexicalError(char& c, const string& errorExp)/* TODO: , string& errorExp = "") */
+void Scanner::LexicalError(char& c, const string& errorExp)
 {
 	cout << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
