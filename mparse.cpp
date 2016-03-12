@@ -74,9 +74,7 @@ void Parser::SystemGoal() {
 
 void Parser::ProgramProc() {
 	code.Start();  /*** CODE ***/
-	Match(BEGIN_SYM);
 	StatementList();
-	Match(END_SYM);
 }
 
 void Parser::StatementList() {
@@ -84,8 +82,8 @@ void Parser::StatementList() {
 	for (;;) { // loop exited by return
 		switch (NextToken()) {
 		case ID:
-		case READ_SYM:
-		case WRITE_SYM:
+		case LISTEN_SYM:
+		case SHOUT_SYM:
 			Statement();
 			break;
 		default:
@@ -104,18 +102,18 @@ void Parser::Statement() {
 		code.Assign(identifier, expr);  /*** CODE ***/
 		Match(SEMICOLON);
 		break;
-	case READ_SYM:
-		Match(READ_SYM);
-		Match(LPAREN);
+	case LISTEN_SYM:
+		Match(LISTEN_SYM);
+		Match(LBANANA);
 		IdList();
-		Match(RPAREN);
+		Match(RBANANA);
 		Match(SEMICOLON);
 		break;
-	case WRITE_SYM:
-		Match(WRITE_SYM);
-		Match(LPAREN);
+	case SHOUT_SYM:
+		Match(SHOUT_SYM);
+		Match(LBANANA);
 		ExprList();
-		Match(RPAREN);
+		Match(RBANANA);
 		Match(SEMICOLON);
 		code.NewLine();  /*** CODE ***/
 		break;
@@ -146,8 +144,8 @@ void Parser::ExprItem() {
 	//cerr << expr.name << endl;
 	//cerr << "ExprItem Check done" << endl;
 	switch(NextToken()){
-	case STR_LITERAL: // it is an string literal
-	    Match(STR_LITERAL);
+	case CHEESE_LIT: // it is an string literal
+	    Match(CHEESE_LIT);
 		code.WriteString();  /*** CODE ***/
 		break;
 	default:
@@ -202,22 +200,22 @@ void Parser::Expression(ExprRec& result) {
 
 void Parser::Primary(ExprRec& result) {
 	switch (NextToken()) {
-	case LPAREN:
-		Match(LPAREN);
+	case LBANANA:
+		Match(LBANANA);
 		Expression(result);
-		Match(RPAREN);
+		Match(RBANANA);
 		break;
 	case ID:
 		Match(ID);
 		code.ProcessId(result);  /*** CODE ***/
 		code.ProcessId(result);  /*** CODE ***/
 		break;
-	case INT_LITERAL:
-		Match(INT_LITERAL);
+	case INT_LIT:
+		Match(INT_LIT);
 		code.ProcessLiteral(result);  /*** CODE ***/
 		break;
-	case STR_LITERAL:
-		Match(STR_LITERAL);
+	case CHEESE_LIT:
+		Match(CHEESE_LIT);
 		code.ProcessLiteral(result);  /*** CODE ***/
 		break;
 	default:
