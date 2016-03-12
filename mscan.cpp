@@ -270,9 +270,11 @@ Token Scanner::GetNextToken()
 						}
 					}
 				} while (!sourceFile.eof());
+			} else {
+				/* if it is a division operator */
+				BufferChar(currentChar);
+				return DIV_OP;
 			}
-			BufferChar(currentChar);
-			return DIV_OP;
 		} else if (currentChar == '=') {
 			if (sourceFile.peek() == '=') {
 				currentChar = NextChar();
