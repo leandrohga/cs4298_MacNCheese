@@ -1,0 +1,28 @@
+1. GRAMMAR
+- assignment statement is not LL1
+- cheese is not LL1
+- for statement -> introduce new variable
+MARTY IS TAKING/TOOK CARE OF THIS.
+
+2. SCANNER
+CHECK IF THE SCANNER IS WORKING
+FINISH IMPLEMENTATION OF THE SCANER
+- Update with the fixes from the grammar. Add test cases.
+	- Add the until reserved word
+	- Read the new token from the for loop
+	- Only acept owtherwise with : (Is this on the scanning phase???)
+- Guarante the proper reading of float variables. Add test case.
+- Guarante the proper reading of single line comments. Add test case.
+- Cheese: read and process variables properly.
+	- Add the 3-digit decimal ASCII digits - escape sequence. See
+	    page 6 of the reference manual.
+	- Add the escaped characters - '\\', '\"', '\n'
+
+3. PARSER
+- ADAPT THE PARSER TO THE NEW GRAMMAR
+
+4. CODE GENERATION
+- IMPLEMENT ACTION SYMBOLS
+- ASSEMBLY LANGUAGE FOR THE ACTION SYMBOLS
+
+4. WRITE PROGRAMS IN MAC N CHEESE
