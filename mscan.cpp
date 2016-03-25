@@ -169,7 +169,9 @@ Token Scanner::GetNextToken()
 				c = sourceFile.peek();
 				/* check for a digit after the '.' */
 				if (!isdigit(c)) 
-					LexicalError(currentChar, to_string(c)+" Boolean needs a digit after the '.'");
+					LexicalError(currentChar, to_string(c) \
+						+ " Boolean needs a digit" \
+						" after the '.'");
 				BufferChar(currentChar);
 				while (isdigit(c)) {
 					currentChar = NextChar();
@@ -181,13 +183,19 @@ Token Scanner::GetNextToken()
 					currentChar = NextChar();
 					c = sourceFile.peek();
 					if (c != '+' && c!= '-') {
-						LexicalError(currentChar, to_string(c)+" Boolean needs a '+' or a '-' after 'E' ");
+						LexicalError(currentChar, \
+							to_string(c) + \
+							" Boolean needs a "
+							"'+'/'-' after 'E'");
 					}
 					BufferChar(currentChar);
 					currentChar = NextChar();
 					c = sourceFile.peek();
 					if (!isdigit(c)) 
-						LexicalError(currentChar, to_string(c)+"Boolean needs a  digit after '+' or '-'");
+						LexicalError(currentChar, \
+							to_string(c) + \
+							" Boolean needs a " \
+							"digit after '+'/'-'");
 					BufferChar(currentChar);
 					while (isdigit(c)) {
 						currentChar = NextChar();
@@ -253,7 +261,8 @@ Token Scanner::GetNextToken()
 					if (currentChar == ':') {
 						currentChar = NextChar();
 						if (currentChar == '/') {
-							currentChar = NextChar();
+							currentChar = \
+								NextChar();
 							break;
 						}
 					}
@@ -284,7 +293,7 @@ Token Scanner::GetNextToken()
 				return NE_OP;
 			} else {
 				LexicalError(currentChar, to_string(c) + \
-						" not operator is not" \
+						" The not operator is not" \
 						" supported by MnC");
 			}
 			currentChar = NextChar();
@@ -319,7 +328,8 @@ Token Scanner::GetNextToken()
 			}
 		} else {
 			/* Unrecognized character */
-			LexicalError(currentChar, to_string(c)+" Unrecognized character");
+			LexicalError(currentChar, to_string(c) + \
+					" Unrecognized character");
 		}
 	} /* end while */
 
