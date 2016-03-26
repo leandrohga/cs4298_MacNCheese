@@ -16,7 +16,7 @@ FINISH IMPLEMENTATION OF THE SCANER
 - Cheese: read and process variables properly.
 	- Add the 3-digit decimal ASCII digits - escape sequence. See
 	    page 6 of the reference manual.
-	- Add the escaped characters - '\\', '\"', '\n'
+	- Add the escaped characters - '\\', '\"', '\n' (kind of done.... Please check it) Nelson
 
 3. PARSER
 - ADAPT THE PARSER TO THE NEW GRAMMAR
