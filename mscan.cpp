@@ -207,18 +207,32 @@ Token Scanner::GetNextToken()
 			}
 			return INT_LIT;
 		} else if (currentChar == '"') {
-			/* string literal */
-			/* TODO: check if the " should be inluded */
 			BufferChar(currentChar);
-			c = sourceFile.peek();
-			/* TODO: check for scape characters, ASC, ... */
-			while (c != '"') {
+			do { 
 				currentChar = NextChar();
 				BufferChar(currentChar);
-				c = sourceFile.peek();
-			}
-			currentChar = NextChar();
-			BufferChar(currentChar);
+				if (currentChar == '"') {
+					break;
+				}else if(currentChar == '\n'){
+					//I dont think we need this as 
+					//if the character is not one or 
+					//the other will keep adding 
+					//them to the buffer
+					int doNothing = 0;
+				}else if(currentChar == '\\')
+					currentChar = NextChar()
+					if (currentChar == '\\') {
+						currentChar = NextChar();
+						BufferChar(currentChar);
+					}else if(currentChar == '"'){
+						currentChar = NextChar();
+						BufferChar(currentChar);
+					}else{
+						LexicalError(currentChar, to_string(currentChar) + \
+						" was followed by the wrong character -options are \\ or \".");
+					}
+				}
+			} while (!sourceFile.eof());///this will let us have a multiline string I think.
 			return CHEESE_LIT;
 		} else if (currentChar == '(') {
 			BufferChar(currentChar);
@@ -326,6 +340,7 @@ Token Scanner::GetNextToken()
 				currentChar = NextChar();
 				return MINUS_OP;
 			}
+
 		} else {
 			/* Unrecognized character */
 			LexicalError(currentChar, to_string(c) + \
