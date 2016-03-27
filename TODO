@@ -11,7 +11,7 @@ FINISH IMPLEMENTATION OF THE SCANER
 	- Add the until reserved word
 	- Read the new token from the for loop
 	- Only acept owtherwise with : (Is this on the scanning phase???)
-- Guarante the proper reading of float variables. Add test case.
+- Guarante the proper reading of float variables. Add test case. (done please check if you would like) Nelson
 - Guarante the proper reading of single line comments. Add test case.
 - Cheese: read and process variables properly.
 	- Add the 3-digit decimal ASCII digits - escape sequence. See
