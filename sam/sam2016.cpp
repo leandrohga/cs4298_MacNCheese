@@ -20,6 +20,8 @@
 #include <ctime>
 #include <cstdlib>
 #include <sstream>
+#include <algorithm>
+
 using namespace std;
 
 const int MAXINT = 32767;
@@ -1698,12 +1700,21 @@ string Time()
 		+ suffix;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
 
 	cout << "SAM 2016 ASSEMBLER\n" << endl;
 	cout << "SAM source file name: ";
-	getline(cin, Source);
+	if (argc > 1) {
+		Source = string(argv[1]);
+		Source.erase(Source.end() - 4);
+		Source.erase(Source.end() - 3);
+		Source.erase(Source.end() - 2);
+		Source.erase(Source.end() - 1);
+		cout << Source << endl;
+	} else {
+		getline(cin, Source);
+	}
 
 	InFile.open((Source+".asm").data());
 	if(!InFile.is_open())
