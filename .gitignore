@@ -1,4 +1,9 @@
-
 *.lst
 *.o
 scan_test
+micro
+sam/sam
+sam/macc
+sam/*.obj
+sam/*.lis
+sam/trace.txt
