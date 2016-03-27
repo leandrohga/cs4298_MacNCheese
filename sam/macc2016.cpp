@@ -1370,19 +1370,24 @@ void Execute()
 	}
 }
 
-void Rdmem()
+void Rdmem(char *filename)
 {
 	ifstream Memf;
 	short i;
 
 	cout << "MACC 2016 Virtual Machine Emulator\n" << endl; 
-	cout << "Object file name (.obj extension assumed): ";
-	getline(cin, Source);
-	cout << endl;
-	Memf.open((Source+".obj").data(), ios_base::binary);
+	cout << "Object file name: ";
+	if (filename == NULL) {
+		getline(cin, Source);
+		cout << endl;
+	} else {
+		Source = string(filename);
+		cout << Source << endl;
+	}
+	Memf.open((Source).data(), ios_base::binary);
 	if (!Memf.is_open())
 	{
-		cout << "\nFile \"" << Source + ".obj" << "\" not found!" 
+		cout << "\nFile \"" << Source << "\" not found!" 
 			 << "\nExecution aborted.\n" << endl;
 		cin.get();
 		exit(1);
@@ -1396,7 +1401,7 @@ void Rdmem()
 		if (Trace)
 		{
 			TraceFile << "MACC 2016 Virtual Machine Trace\n" << endl;
-			TraceFile << "Program File: " << Source + ".obj\n" << endl;
+			TraceFile << "Program File: " << Source + "\n" << endl;
 			TraceFile << endl << hex << uppercase << setw(6) << "MEM |";
 			for (int k = 0; k < 16; k++) TraceFile << setw(4) << k;
 			TraceFile << endl;
@@ -1423,7 +1428,7 @@ void Rdmem()
 	Memf.close();
 }
 
-int main() // MACC2 Machine
+int main(int argc, char *argv[]) // MACC2 Machine
 {
 	MemImage = true;
 	Trace = true;
@@ -1436,7 +1441,10 @@ int main() // MACC2 Machine
 	if (Trace)
 		TraceFile.open("trace.txt");
 
-	Rdmem();
+	if (argc > 1)
+		Rdmem(argv[1]);
+	else
+		Rdmem(NULL);
 
 	if (MemImage)
 	{
