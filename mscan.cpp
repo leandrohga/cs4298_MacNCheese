@@ -209,23 +209,23 @@ Token Scanner::GetNextToken()
 			return INT_LIT;
 		} else if (currentChar == '"') {
 			BufferChar(currentChar);
-			do { 
+			do {
 				currentChar = NextChar();
 				BufferChar(currentChar);
 				if (currentChar == '"') {
 					break;
-				}else if(currentChar == '\n'){
+				} else if (currentChar == '\n') {
 					//I dont think we need this as 
 					//if the character is not one or 
 					//the other will keep adding 
 					//them to the buffer
 					int doNothing = 0;
-				}else if(currentChar == '\\')
-					currentChar = NextChar()
+				} else if (currentChar == '\\') {
+					currentChar = NextChar();
 					if (currentChar == '\\') {
 						currentChar = NextChar();
 						BufferChar(currentChar);
-					}else if(currentChar == '"'){
+					} else if (currentChar == '"') {
 						currentChar = NextChar();
 						BufferChar(currentChar);
 					}else{
