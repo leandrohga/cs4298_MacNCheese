@@ -74,6 +74,7 @@ Token Scanner::CheckReserved()
 	if ((tokenBuffer) == "int") return INT_SYM;
 	if ((tokenBuffer) == "listen") return LISTEN_SYM;
 	if ((tokenBuffer) == "otherwise") return OTHERWISE_SYM;
+	if ((tokenBuffer) == "until") return UNTIL_SYM;
 	if ((tokenBuffer) == "select") return SELECT_SYM;
 	if ((tokenBuffer) == "shout") return SHOUT_SYM;
 	if ((tokenBuffer) == "then") return THEN_SYM;
@@ -275,8 +276,7 @@ Token Scanner::GetNextToken()
 					if (currentChar == ':') {
 						currentChar = NextChar();
 						if (currentChar == '/') {
-							currentChar = \
-								NextChar();
+							currentChar = NextChar();
 							break;
 						}
 					}
