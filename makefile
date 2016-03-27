@@ -2,7 +2,7 @@ CXX = g++
 CC = g++
 FLAGS = -std=c++11
 
-all:   micro 
+all:   micro
 
 micro: micro.cpp mparse.o mscan.o mcode.o
 	$(CXX) $(FLAGS) mparse.o mscan.o mcode.o micro.cpp -o micro
@@ -17,7 +17,7 @@ mcode.o: mcode.cpp
 	$(CXX) $(FLAGS) -c mcode.cpp
 
 clobber:
-	rm -f *.o *.exe *.lis *.obj core micro sam macc trace.txt
+	rm -f *.o *.exe *.lis *.obj core micro
 
 clean: clobber
 	rm -f *.asm *.lst
