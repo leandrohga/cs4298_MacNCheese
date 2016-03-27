@@ -1,0 +1,23 @@
+/:
+This program tests the shout statement.
+Expected to print the following items:
+    true 1.5 2 abc true 1.5 2 abc
+:/
+
+decs {
+    bool: b;
+    float: f;
+    int: i;
+    cheese[3]: c;
+}
+
+b = true;
+f = 1.5;
+i = 2;
+c = "abc";
+
+shout b;
+shout f;
+shout i;
+shout c;
+shout b, f, i, c;
