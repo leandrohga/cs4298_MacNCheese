@@ -1,0 +1,56 @@
+/:
+Simple String Test
+:/
+
+decs {
+	float : c;
+}
+
+c = 1.1;
+
+shout(c);
+
+shout(“1.1”);
+
+c = 1.000000000000001;
+
+shout(c);
+
+shout(“1.000000000000001”);
+
+c = 0.2023155323001;
+
+shout(c);
+
+shout(“0.2023155323001”);
+
+c = -0.0124124312;
+
+shout(c);
+
+shout(“-0.0124124312”);
+
+c = 10.e+12;
+
+shout(c);
+
+shout(“10.e+12”);
+
+c = 10.e-12;
+
+shout(c);
+
+shout(“10.e-12”);
+
+
+c = 10.E+12;
+
+shout(c);
+
+shout(“10.E+12”);
+
+c = 10.E-12;
+
+shout(c);
+
+shout(“10.E-12”);
