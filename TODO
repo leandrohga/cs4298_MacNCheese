@@ -8,9 +8,9 @@ MARTY IS TAKING/TOOK CARE OF THIS.
 CHECK IF THE SCANNER IS WORKING
 FINISH IMPLEMENTATION OF THE SCANER
 - Update with the fixes from the grammar. Add test cases.
-	- Add the until reserved word
+	- Add the until reserved word -Done. Please check it! Nelson
 	- Read the new token from the for loop
-	- Only acept owtherwise with : (Is this on the scanning phase???)
+	- Only acept owtherwise with : (Is this on the scanning phase???) No it is not here. I will guess this is for the parser -Nelson
 - Guarante the proper reading of float variables. Add test case. (done please check if you would like) Nelson
 - Guarante the proper reading of single line comments. Add test case.
 - Cheese: read and process variables properly.
