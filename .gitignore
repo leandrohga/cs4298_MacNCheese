@@ -8,3 +8,4 @@ sam/*.obj
 sam/*.lis
 sam/trace.txt
 *.swp
+gens/
