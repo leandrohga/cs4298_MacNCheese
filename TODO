@@ -8,18 +8,16 @@ MARTY IS TAKING/TOOK CARE OF THIS.
 CHECK IF THE SCANNER IS WORKING
 FINISH IMPLEMENTATION OF THE SCANER
 - Update with the fixes from the grammar. Add test cases.
-	- Add the until reserved word -Done. Please check it! Nelson
 	- Read the new token from the for loop
-	- Only acept owtherwise with : (Is this on the scanning phase???) No it is not here. I will guess this is for the parser -Nelson
-- Guarante the proper reading of float variables. Add test case. (done please check if you would like) Nelson
-- Guarante the proper reading of single line comments. Add test case. (done! made a couple extra checks for weird behaviors, please check) Nelson
-- Cheese: read and process variables properly.
+	-- Guarante the proper reading of single line comments. Add test case. NOT WORKING. THE TEST CASES ARE GOOD.
+- Cheese: read and process variables properly. DONE - WE WILL REVISE THIS IN CLASS, AS I COULDN'T EXPLAIN IT WELL LAST TIME.
 	- Add the 3-digit decimal ASCII digits - escape sequence. See
-	    page 6 of the reference manual.
-	- Add the escaped characters - '\\', '\"', '\n' (kind of done.... Please check it) Nelson
+	    page 6 of the reference manual. DONE
+	- Add the escaped characters - '\\', '\"', '\n' DONE
 
 3. PARSER
 - ADAPT THE PARSER TO THE NEW GRAMMAR
+- Only acept owtherwise followed by :
 
 4. CODE GENERATION
 - IMPLEMENT ACTION SYMBOLS
