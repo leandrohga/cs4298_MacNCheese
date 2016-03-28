@@ -18,3 +18,4 @@ CHECK IF THE SCANNER IS WORKING
 
 4. WRITE PROGRAMS IN MAC N CHEESE
 - Added tests for \n in cheese. sprichard DONE. 
+- Add tests for \\n,"\n",\3 digit ascii. PENDING
