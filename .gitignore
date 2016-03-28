@@ -7,3 +7,4 @@ sam/macc
 sam/*.obj
 sam/*.lis
 sam/trace.txt
+*.swp
