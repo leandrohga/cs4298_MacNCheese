@@ -42,11 +42,16 @@ int main(int argc, char* argv[]) {
 		 << endl;
 
 	//Get the source file; if an argument was passed on the command-line, use it as the source file name
-	cout << " Source file (.mnc extension is assumed): ";
 	if (argc > 1) {
-		sourceName = argv[1];
-		cout << sourceName;
+		if (strcmp(argv[1], "help") == 0) {
+			cout << "Usage: ./micro [sourceFile]\n       ./micro help\nExample: ./micro myProgram.mnc";
+		} else {
+			sourceName = argv[1];
+			sourceName = sourceName.substr(0, sourceName.find(".mnc"));
+			cout << "Source file: " << sourceName << ".mnc";
+		}
 	} else {
+		cout << " Source file (.mnc extension is assumed): ";
 		getline(cin, sourceName);
 	}
 
