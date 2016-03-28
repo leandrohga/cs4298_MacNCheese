@@ -1,0 +1,11 @@
+/:
+Test the ability to have \n at the end of a cheese.
+:/
+
+decs{
+	Cheese : testCheese;
+}
+
+testCheese = "Testing Mac n Cheese is fun!\n";
+
+shout(testCheese);
