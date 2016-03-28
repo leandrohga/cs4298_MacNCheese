@@ -1,10 +1,4 @@
-1. GRAMMAR
-- assignment statement is not LL1
-- cheese is not LL1
-- for statement -> introduce new variable
-MARTY IS TAKING/TOOK CARE OF THIS.
-
-2. SCANNER
+1. SCANNER
 CHECK IF THE SCANNER IS WORKING
 FINISH IMPLEMENTATION OF THE SCANER
 - Update with the fixes from the grammar. Add test cases.
@@ -15,11 +9,11 @@ FINISH IMPLEMENTATION OF THE SCANER
 	    page 6 of the reference manual. DONE
 	- Add the escaped characters - '\\', '\"', '\n' DONE
 
-3. PARSER
+2. PARSER
 - ADAPT THE PARSER TO THE NEW GRAMMAR
 - Only acept owtherwise followed by :
 
-4. CODE GENERATION
+3. CODE GENERATION
 - IMPLEMENT ACTION SYMBOLS
 - ASSEMBLY LANGUAGE FOR THE ACTION SYMBOLS
 
