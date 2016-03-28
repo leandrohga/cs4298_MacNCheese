@@ -8,11 +8,3 @@ sam/*.obj
 sam/*.lis
 sam/trace.txt
 *.swp
-
-gens/generators/Intset.h
-
-gens/generators/Intset.h
-
-gens/generators/llgen2016.cpp
-
-gens/generators/parserGen2016.cpp
