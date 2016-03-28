@@ -1,3 +1,9 @@
+0. OTHER
+- Come up with a name for the compiler
+- Update files (make sure no one is working on it at the time)
+	- Rename files accordingly
+	- Update makefile
+
 1. SCANNER
 CHECK IF THE SCANNER IS WORKING
 	- Create test cases and run programs (mnc/microA).
