@@ -20,12 +20,12 @@ mscan.o: mscan.cpp
 mcode.o: mcode.cpp
 	$(CXX) $(FLAGS) -c mcode.cpp
 
+scan_test: mscan.cpp scantester.cpp
+	$(CXX) $(FLAGS) mscan.cpp scantester.cpp -o scan_test
+
 clobber:
 	rm -f *.o *.exe *.lis *.obj core micro
 
 clean: clobber
 	rm -f *.asm *.lst scan_test
-
-scan_test: mscan.cpp scantester.cpp
-	$(CXX) $(FLAGS) mscan.cpp scantester.cpp -o scan_test
 	-for d in $(DIRS); do (cd $$d; $(MAKE) clean); done
