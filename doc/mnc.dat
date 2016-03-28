@@ -22,6 +22,7 @@
 "then"              THEN_SYM.
 "true"              TRUE_SYM.
 "while"             WHILE_SYM.
+"until"             UNTIL_SYM.
 "["                 LSTAPLE.
 "]"                 RSTAPLE.
 "("                 LBANANA. 
@@ -47,8 +48,38 @@
 "INT_LIT"           INT_LIT.
 "FLOAT_LIT"         FLOAT_LIT.
 "CHEESE_LIT"        CHEESE_LIT.
+[Start]
+[Finish]
+[ProcessVar]
+[Assign]
+[Listen]
+[Break]
+[NewLine]
+[Shout]
+[IfThen]
+[IfElse]
+[IfEnd]
+[LoopBegin]
+[LoogEnd]
+[WhileBegin]
+[WhileEnd]
+[ForBegin]
+[ForUpdate]
+[ForEnd]
+[ForAssign]
+[SelectBegin]
+[SelectEnd]
+[Otherwise]
+[CaseEnd]
+[IntAppend]
+[ProcessOp]
+[SetCondition]
+[GenInfix]
+[ProcessLit]
+[ProcessVar]
+[DefineVar]
 *grammar
-<program>           <stmt_list>
+<program>           [Start] <stmt_list> [Finish]
 <stmt_list>         <statement> <stmt_tail>
 <stmt_tail>         <statement> <stmt_tail>
                   | ""
@@ -58,59 +89,61 @@
                   | <listen_stmt>
                   | <shout_stmt>
                   | <break_stmt> 
-<assign_stmt>       <variable> "=" <expression> ";"
-                  | <variable>  "=" <init> ";"
+<assign_stmt>       <variable> [ProcessVar] "=" <assign_tail> [Assign] ";"
+<assign_tail>	    <expression>
+                  | "{" <init_list> "}"
 <listen_stmt>       "listen" <var_list> ";"
-<var_list>          <variable>  <var_list_tail>
-<var_list_tail>     "," <variable> <var_list_tail>
+<var_list>          <variable>  [ProcessVar] [Listen] <var_list_tail>
+<var_list_tail>     "," <variable> [ProcessVar] [Listen] <var_list_tail>
                   | ""
 <variable>          "ID" <variable_tail> 
 <variable_tail>     "[" <expression> "]"
                   | ""
-<shout_stmt>        "shout"  <item_list> ";"
-<item_list>         <expression> <item_list_tail>  
-<item_list_tail>    "," <expression> <item_list_tail>
+<shout_stmt>        "shout"  <item_list> [NewLine] ";"
+<item_list>         <expression> [Shout] <item_list_tail>  
+<item_list_tail>    "," <expression> [Shout] <item_list_tail>
                   | ""
-<break_stmt>        "break"  ";"
+<break_stmt>        "break" [Break]  ";"
 <struct_stmt>       <if_stmt>
                   | <loop_stmt>
                   | <while_stmt>
                   | <for_stmt>
                   | <select_stmt>
-                  | <declaration>
-<if_stmt>           "if" "(" <condition> ")" <stmt_list> <else_clause> "end"
-<else_clause>       "else"  <stmt_list>
+                  | <var_decs>
+<if_stmt>           "if" "(" <condition> ")" [IfThen] <stmt_list> <else_clause> "end" [IfEnd]
+<else_clause>       "else" [IfElse] <stmt_list>
                   | ""
-<loop_stmt>         "do"  <stmt_list> "while" "(" <condition> ")" ";"
-<while_stmt>        "while" "(" <condition> ")" <stmt_list> "end"
-<for_stmt>        "for" "(" <assign_stmt> ";" <condition> ";" <assign_stmt> ")" <stmt_list> "end"
-<select_stmt>       "select" "(" <condition> ")" <case_list> <case_list_end>  
+<loop_stmt>         "do" [LoopBegin] <stmt_list> "until" "(" <condition> ")"[LoopEnd] ";"
+<while_stmt>        "while" "(" <condition> ")" [WhileBegin] <stmt_list> "end" [WhileEnd]
+<for_stmt>          "for" "(" <for_assign> ";" <condition> [ForBegin] ";" <for_assign> [ForUpdate] ")" <stmt_list> "end" [ForEnd]
+<for_assign>	    <variable> [ProcessVar] "=" <expression> [ForAssign]
+<select_stmt>       "select" "(" <expression> ")" [SelectBegin] <case_list> "otherwise" [Otherwise] ":" <stmt_list> [CaseEnd] "end" [SelectEnd]
 <case_list>         <case> <case_list_tail>  
 <case_list_tail>    <case> <case_list_tail>  
                   | ""
-<case>              "case" <int_list> ":" <stmt_list>
-<int_list>          "INT_LIT" <int_list_tail>  
-<int_list_tail>    "," "INT_LIT" <int_list_tail>  
+<case>              "case" <int_list> ":" <stmt_list> [CaseEnd]
+<int_list>          "INT_LIT" [IntAppend] <int_list_tail>  
+<int_list_tail>    "," "INT_LIT" [IntAppend] <int_list_tail>  
                   | ""
-<case_list_end>    "otherwise" <stmt_list> "end"
-                  | "otherwise" ":" <stmt_list> "end"
-<condition>         <expression> <cond_tail>
-<cond_tail>         <rel_op> <expression>
+<condition>         <expression> <cond_tail> [SetCondition]
+<cond_tail>         <rel_op> [ProcessOp] <expression>
                   | ""
 <expression>        <factor> <expr_tail>
-<expr_tail>         <add_op> <factor> <expr_tail>
+<expr_tail>         <add_op> [ProcessOp] <factor> [GenInfix] <expr_tail>
                   | ""
 <factor>            <primary> <factor_tail>
-<factor_tail>       <mult_op> <primary> <factor_tail>
+<factor_tail>       <mult_op> [ProcessOp] <primary> [GenInfix] <factor_tail>
                   | ""
-<primary>           <literal> 
-                  | <variable> 
+<primary>           <literal> [ProcessLit]  
+                  | <variable> [ProcessVar]
                   | "(" <expression> ")" 
 <type>              "bool" 
-                  | "cheese" 
-                  | "cheese" "[" "INT_LIT" "]"
                   | "int" 
                   | "float"
+                  | <cheese_type>
+<cheese_type>      "cheese" <cheese_type_tail>
+<cheese_type_tail>	"[" "INT_LIT" "]"
+                  | ""
 <bool_lit>          "false"
                   | "true"
 <literal>           <bool_lit> 
@@ -134,11 +167,9 @@
                   | ""
 <declaration>       <type> ":" <var_dec_list> ";"
                   | "hiphip" "[" "INT_LIT" "]" <type> <var_dec_list> ";"
-<var_dec_list>      "ID" <var_dec_tail>
-<var_dec_tail>      "," "ID"  <var_dec_tail>
+<var_dec_list>      "ID" [DefineVar] <var_dec_tail>
+<var_dec_tail>      "," "ID" [DefineVar] <var_dec_tail>
                   | ""
-<init>              "{" <init_list> "}"
-                  | <expression>
 <init_list>         <expression> <init_tail>
 <init_tail>         "," <expression> <init_tail>
                   | ""

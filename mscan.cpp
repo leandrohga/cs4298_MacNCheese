@@ -252,7 +252,7 @@ Token Scanner::GetNextToken()
 						for (ind = 0; ind < 3; ind++) {
 							/* check for 3 digits */
 							if (!isdigit(c))
-								LexicalError(c, to_string(c) + "received. Expected three digits after \\.");
+								LexicalError(c, to_string(c) + " received. Expected three digits after \\.");
 							currentChar = NextChar();
 							BufferChar(currentChar);
 							c = sourceFile.peek();
