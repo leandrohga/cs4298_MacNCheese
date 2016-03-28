@@ -1,9 +1,6 @@
 1. SCANNER
 CHECK IF THE SCANNER IS WORKING
-FINISH IMPLEMENTATION OF THE SCANER
-- Update with the fixes from the grammar. Add test cases.
-	- Read the new token from the for loop
-	-- Guarante the proper reading of single line comments. Add test case. NOT WORKING. THE TEST CASES ARE GOOD.
+- Guarante the proper reading of single line comments. Add test case. NOT WORKING. THE TEST CASES ARE GOOD.
 - Cheese: read and process variables properly. DONE - WE WILL REVISE THIS IN CLASS, AS I COULDN'T EXPLAIN IT WELL LAST TIME.
 	- Add the 3-digit decimal ASCII digits - escape sequence. See
 	    page 6 of the reference manual. DONE
