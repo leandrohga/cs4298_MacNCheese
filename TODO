@@ -1,10 +1,5 @@
 1. SCANNER
 CHECK IF THE SCANNER IS WORKING
-- Guarante the proper reading of single line comments. DONE.
-- Cheese: read and process variables properly. DONE - WE WILL REVISE THIS IN CLASS, AS I COULDN'T EXPLAIN IT WELL LAST TIME.
-	- Add the 3-digit decimal ASCII digits - escape sequence. See
-	    page 6 of the reference manual. DONE
-	- Add the escaped characters - '\\', '\"', '\n' DONE
 	- Create test cases and run programs (mnc/microA).
 
 2. PARSER
