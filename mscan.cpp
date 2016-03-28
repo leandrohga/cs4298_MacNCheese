@@ -317,7 +317,8 @@ Token Scanner::GetNextToken()
 			return MULT_OP;
 		} else if (currentChar == '/') {
 			/* check if it is a multiline comment */
-			if (sourceFile.peek() == ':') {
+			c = sourceFile.peek();
+			if (c == ':') {
 				do { /* skip comment */
 					currentChar = NextChar();
 					if (currentChar == ':') {
@@ -328,6 +329,11 @@ Token Scanner::GetNextToken()
 						}
 					}
 				} while (!sourceFile.eof());
+			} else if (c == '/') {
+				/* single line commment */
+				do { /* skip comment */
+					currentChar = NextChar();
+				} while (currentChar != '\n');
 			} else {
 				/* if it is a division operator */
 				BufferChar(currentChar);
@@ -377,17 +383,10 @@ Token Scanner::GetNextToken()
 			currentChar = NextChar();
 			return GT_OP;
 		} else if (currentChar == '-') {
-			/* check if it is a comment or a minus symbol */
-			if (sourceFile.peek() == '-') { /* comment */
-				do { /* skip comment */
-					currentChar = NextChar();
-				} while (currentChar != '\n');
-			} else { /* minus operator */
-				BufferChar(currentChar);
-				currentChar = NextChar();
-				return MINUS_OP;
-			}
-
+			/* minus operator */
+			BufferChar(currentChar);
+			currentChar = NextChar();
+			return MINUS_OP;
 		} else {
 			/* Unrecognized character */
 			LexicalError(currentChar, to_string(c) + \
