@@ -1,0 +1,11 @@
+/:
+Tests the ability to have \n character in the beginning of a cheese
+:/
+
+decs{
+	cheese : testCheese;
+}
+
+testCheese = "/n testing escape stuff";
+
+shout(testCheese);
