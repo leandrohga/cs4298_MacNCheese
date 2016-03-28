@@ -208,32 +208,79 @@ Token Scanner::GetNextToken()
 			}
 			return INT_LIT;
 		} else if (currentChar == '"') {
+			/* string literal */
 			BufferChar(currentChar);
-			do {
-				currentChar = NextChar();
-				BufferChar(currentChar);
-				if (currentChar == '"') {
-					break;
-				} else if (currentChar == '\n') {
-					//I dont think we need this as 
-					//if the character is not one or 
-					//the other will keep adding 
-					//them to the buffer
-					int doNothing = 0;
-				} else if (currentChar == '\\') {
+			c = sourceFile.peek();
+			/* while not end of string */
+			while (c != '"') {
+				/* escape sequences */
+				if (c == '\\') {
+					/*
+					 * Replace the '\' for a ':'
+					 * which's SAM's escape char
+					 */
 					currentChar = NextChar();
-					if (currentChar == '\\') {
+					c = sourceFile.peek();
+					currentChar = ':';
+					if (c == '\\') {
+						/* '\\' sequence */
+						/* Just remove one '\' */
 						currentChar = NextChar();
 						BufferChar(currentChar);
-					} else if (currentChar == '"') {
+						c = sourceFile.peek();
+					} else if (c == '"') {
+						/* '\"' sequence */
+						/* replace '"' for ':' */
+						BufferChar(currentChar);
 						currentChar = NextChar();
 						BufferChar(currentChar);
-					}else{
+						c = sourceFile.peek();
+					} else if (c == 'n') {
+						/* \n sequence */
+						/* replace for ascii '\n'(012)*/
+						currentChar = NextChar();
+						currentChar = '0';
+						BufferChar(currentChar);
+						currentChar = '1';
+						BufferChar(currentChar);
+						currentChar = '2';
+						BufferChar(currentChar);
+						c = sourceFile.peek();
+					} else if (isdigit(c)) {
+						/* '\ddd' sequence */
+						int ind;
+						for (ind = 0; ind < 3; ind++) {
+							/* check for 3 digits */
+							if (!isdigit(c))
+								LexicalError(c, to_string(c) + "received. Expected three digits after \\.");
+							currentChar = NextChar();
+							BufferChar(currentChar);
+							c = sourceFile.peek();
+						}
+					} else {
 						LexicalError(currentChar, to_string(currentChar) + \
 						" was followed by the wrong character -options are \\ or \".");
 					}
+				} else if (c == ':') {
+					/*
+					 * ':' is the escape char used
+					 * by the SAM assembler. So it
+					 * needs to be escaped.
+					 */
+					currentChar = NextChar();
+					BufferChar(currentChar);
+					BufferChar(currentChar);
+					c = sourceFile.peek();
+				} else {
+					/* regular characters */
+					currentChar = NextChar();
+					BufferChar(currentChar);
+					c = sourceFile.peek();
 				}
-			} while (!sourceFile.eof());///this will let us have a multiline string I think.
+			}
+			/* buffer the final '"' */
+			currentChar = NextChar();
+			BufferChar(currentChar);
 			return CHEESE_LIT;
 		} else if (currentChar == '(') {
 			BufferChar(currentChar);
