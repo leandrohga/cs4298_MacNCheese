@@ -12,4 +12,4 @@ macc: macc2016.cpp
 
 clobber:
 	rm -f *.o *.exe *.lis *.obj core sam macc trace.txt
-
+clean: clobber
