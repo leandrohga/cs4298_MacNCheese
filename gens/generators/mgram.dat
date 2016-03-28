@@ -1,0 +1,49 @@
+*parser,fgmstvx     Micro Grammar
+*tokens
+"$eof$"             EOF_SYM.
+"ID"                ID.
+"INT_LITERAL"       INT_LITERAL.
+"BEGIN"             BEGIN_SYM.
+"END"               END_SYM.
+"READ"              READ_SYM.
+"WRITE"             WRITE_SYM.
+":="                ASSIGN_OP.
+"PLUS_OP"           PLUS_OP.
+"MINUS_OP"          MINUS_OP.
+","                 COMMA.
+";"                 SEMICOLON.
+"("                 LPAREN.
+")"                 RPAREN.
+[start]
+[assign]
+[new_line]
+[read_id]
+[write_expr]
+[gen_infix]
+[process_literal]
+[process_op]
+[process_id]
+[finish]
+*grammar
+<program>          [start] "BEGIN" <statement_list> "END" [finish]
+<statement_list>   <statement> <statement_tail>
+<statement_tail>   <statement> <statement_tail>
+                   | ""
+<statement>        <ident> ":=" <expression> [assign] ";"
+                   | "READ" "(" <id_list> ")" ";"
+                   | "WRITE" "(" <expr_list> ")" [new_line] ";"
+<id_list>          <ident> [read_id] <id_tail>
+<id_tail>          "," <ident> [read_id] <id_tail>
+                   | ""
+<expr_list>        <expression> [write_expr] <expr_tail>
+<expr_tail>        "," <expression> [write_expr] <expr_tail>
+                   | ""
+<expression>       <primary> <primary_tail>
+<primary_tail>     <add_op> <primary> [gen_infix] <primary_tail>
+                   | ""
+<primary>          "(" <expression> ")"
+                   | <ident>
+                   | "INT_LITERAL" [process_literal]
+<add_op>           "PLUS_OP" [process_op]
+                   | "MINUS_OP" [process_op]
+<ident>            "ID" [process_id]

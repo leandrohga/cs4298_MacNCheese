@@ -1,0 +1,215 @@
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  Micro Grammar Statistics  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   23 productions
+   14 terminal symbols
+   14 nonterminal symbols
+   10 semantic (action) symbols
+
+  The longest right hand side contains 6 symbols.
+  The shortest right hand side contains 0 symbols.
+
+  There are 33 non-zero parse table entries.
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  Micro Grammar Augmented Productions  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+     1.   <<goal>>         --> <program> "$eof$"
+
+     2.   <program>        --> [start] "BEGIN" <statement_list> "END" [finish]
+
+     3.   <statement_list> --> <statement> <statement_tail>
+
+     4.   <statement_tail> --> <statement> <statement_tail>
+
+     5.   <statement_tail> --> ""
+
+     6.   <statement>      --> <ident> ":=" <expression> [assign] ";"
+
+     7.   <statement>      --> "READ" "(" <id_list> ")" ";"
+
+     8.   <statement>      --> "WRITE" "(" <expr_list> ")" [new_line] ";"
+
+     9.   <id_list>        --> <ident> [read_id] <id_tail>
+
+    10.   <id_tail>        --> "," <ident> [read_id] <id_tail>
+
+    11.   <id_tail>        --> ""
+
+    12.   <expr_list>      --> <expression> [write_expr] <expr_tail>
+
+    13.   <expr_tail>      --> "," <expression> [write_expr] <expr_tail>
+
+    14.   <expr_tail>      --> ""
+
+    15.   <expression>     --> <primary> <primary_tail>
+
+    16.   <primary_tail>   --> <add_op> <primary> [gen_infix] <primary_tail>
+
+    17.   <primary_tail>   --> ""
+
+    18.   <primary>        --> "(" <expression> ")"
+
+    19.   <primary>        --> <ident>
+
+    20.   <primary>        --> "INT_LITERAL" [process_literal]
+
+    21.   <add_op>         --> "PLUS_OP" [process_op]
+
+    22.   <add_op>         --> "MINUS_OP" [process_op]
+
+    23.   <ident>          --> "ID" [process_id]
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  Micro Grammar Terminal Symbols  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+     1.   "$eof$"           rhs:    1
+    13.   "("               rhs:    7    8   18
+    14.   ")"               rhs:    7    8   18
+    11.   ","               rhs:   10   13
+     8.   ":="              rhs:    6
+    12.   ";"               rhs:    6    7    8
+     4.   "BEGIN"           rhs:    2
+     5.   "END"             rhs:    2
+     2.   "ID"              rhs:   23
+     3.   "INT_LITERAL"     rhs:   20
+    10.   "MINUS_OP"        rhs:   22
+     9.   "PLUS_OP"         rhs:   21
+     6.   "READ"            rhs:    7
+     7.   "WRITE"           rhs:    8
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  Micro Grammar Nonterminal Symbols  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    15.   <<goal>>         *   lhs:    1
+    28.   <add_op>             lhs:   21   22  rhs:   16
+    23.   <expr_list>          lhs:   12  rhs:    8
+    25.   <expr_tail>          lhs:   13   14  rhs:   12   13
+    21.   <expression>         lhs:   15  rhs:    6   12   13   18
+    22.   <id_list>            lhs:    9  rhs:    7
+    24.   <id_tail>            lhs:   10   11  rhs:    9   10
+    20.   <ident>              lhs:   23  rhs:    6    9   10   19
+    26.   <primary>            lhs:   18   19   20  rhs:   15   16
+    27.   <primary_tail>       lhs:   16   17  rhs:   15   16
+    16.   <program>            lhs:    2  rhs:    1
+    18.   <statement>          lhs:    6    7    8  rhs:    3    4
+    17.   <statement_list>     lhs:    3  rhs:    2
+    19.   <statement_tail>     lhs:    4    5  rhs:    3    4
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  Micro Grammar Semantic Symbols  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+     2.   [assign]              rhs:    6
+    10.   [finish]              rhs:    2
+     6.   [gen_infix]           rhs:   16
+     3.   [new_line]            rhs:    8
+     9.   [process_id]          rhs:   23
+     7.   [process_literal]     rhs:   20
+     8.   [process_op]          rhs:   21   22
+     4.   [read_id]             rhs:    9   10
+     1.   [start]               rhs:    2
+     5.   [write_expr]          rhs:   12   13
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  Micro Grammar First Sets  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  First( <<goal>> )         = [ "BEGIN" ]
+  First( <add_op> )         = [ "MINUS_OP", "PLUS_OP" ]
+  First( <expr_list> )      = [ "ID", "INT_LITERAL", "(" ]
+  First( <expr_tail> )      = [ "", "," ]
+  First( <expression> )     = [ "ID", "(", "INT_LITERAL" ]
+  First( <id_list> )        = [ "ID" ]
+  First( <id_tail> )        = [ "", "," ]
+  First( <ident> )          = [ "ID" ]
+  First( <primary> )        = [ "ID", "INT_LITERAL", "(" ]
+  First( <primary_tail> )   = [ "PLUS_OP", "MINUS_OP", "" ]
+  First( <program> )        = [ "BEGIN" ]
+  First( <statement> )      = [ "ID", "WRITE", "READ" ]
+  First( <statement_list> ) = [ "READ", "WRITE", "ID" ]
+  First( <statement_tail> ) = [ "READ", "WRITE", "ID", "" ]
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  Micro Grammar Follow Sets  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Follow( <<goal>> )         = [ "$eof$" ]
+  Follow( <add_op> )         = [ "(", "INT_LITERAL", "ID" ]
+  Follow( <expr_list> )      = [ ")" ]
+  Follow( <expr_tail> )      = [ ")" ]
+  Follow( <expression> )     = [ ";", ")", "," ]
+  Follow( <id_list> )        = [ ")" ]
+  Follow( <id_tail> )        = [ ")" ]
+  Follow( <ident> )          = [ ";", ")", ":=", "PLUS_OP", "MINUS_OP", "," ]
+  Follow( <primary> )        = [ ")", ";", ",", "MINUS_OP", "PLUS_OP" ]
+  Follow( <primary_tail> )   = [ ")", ";", "," ]
+  Follow( <program> )        = [ "$eof$" ]
+  Follow( <statement> )      = [ "END", "ID", "WRITE", "READ" ]
+  Follow( <statement_list> ) = [ "END" ]
+  Follow( <statement_tail> ) = [ "END" ]
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  Micro Grammar Parse Table  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+  [ <program>, "BEGIN" ] = 2
+
+  [ <statement_list>, "ID" ] = 3
+  [ <statement_list>, "WRITE" ] = 3
+  [ <statement_list>, "READ" ] = 3
+
+  [ <statement_tail>, "ID" ] = 4
+  [ <statement_tail>, "WRITE" ] = 4
+  [ <statement_tail>, "READ" ] = 4
+  [ <statement_tail>, "END" ] = 5
+
+  [ <statement>, "ID" ] = 6
+  [ <statement>, "READ" ] = 7
+  [ <statement>, "WRITE" ] = 8
+
+  [ <id_list>, "ID" ] = 9
+
+  [ <id_tail>, "," ] = 10
+  [ <id_tail>, ")" ] = 11
+
+  [ <expr_list>, "ID" ] = 12
+  [ <expr_list>, "(" ] = 12
+  [ <expr_list>, "INT_LITERAL" ] = 12
+
+  [ <expr_tail>, "," ] = 13
+  [ <expr_tail>, ")" ] = 14
+
+  [ <expression>, "ID" ] = 15
+  [ <expression>, "INT_LITERAL" ] = 15
+  [ <expression>, "(" ] = 15
+
+  [ <primary_tail>, "MINUS_OP" ] = 16
+  [ <primary_tail>, "PLUS_OP" ] = 16
+  [ <primary_tail>, ")" ] = 17
+  [ <primary_tail>, ";" ] = 17
+  [ <primary_tail>, "," ] = 17
+
+  [ <primary>, "(" ] = 18
+  [ <primary>, "ID" ] = 19
+  [ <primary>, "INT_LITERAL" ] = 20
+
+  [ <add_op>, "PLUS_OP" ] = 21
+  [ <add_op>, "MINUS_OP" ] = 22
+
+  [ <ident>, "ID" ] = 23

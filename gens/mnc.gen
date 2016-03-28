@@ -1,0 +1,832 @@
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  MACC_N_CHEESE Grammar 2016 Statistics  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   95 productions
+   48 terminal symbols
+   53 nonterminal symbols
+   30 semantic (action) symbols
+
+  The longest right hand side contains 13 symbols.
+  The shortest right hand side contains 0 symbols.
+
+  There are 236 non-zero parse table entries.
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  MACC_N_CHEESE Grammar 2016 Augmented Productions  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+     1.   <<goal>>           --> <program> "$eof$"
+
+     2.   <program>          --> [Start] <stmt_list> [Finish]
+
+     3.   <stmt_list>        --> <statement> <stmt_tail>
+
+     4.   <stmt_tail>        --> <statement> <stmt_tail>
+
+     5.   <stmt_tail>        --> ""
+
+     6.   <statement>        --> <simple_stmt>
+
+     7.   <statement>        --> <struct_stmt>
+
+     8.   <simple_stmt>      --> <assign_stmt>
+
+     9.   <simple_stmt>      --> <listen_stmt>
+
+    10.   <simple_stmt>      --> <shout_stmt>
+
+    11.   <simple_stmt>      --> <break_stmt>
+
+    12.   <assign_stmt>      --> <variable> [ProcessVar] "=" <assign_tail> [Assign] ";"
+
+    13.   <assign_tail>      --> <expression>
+
+    14.   <assign_tail>      --> "{" <init_list> "}"
+
+    15.   <listen_stmt>      --> "listen" <var_list> ";"
+
+    16.   <var_list>         --> <variable> [ProcessVar] [Listen] <var_list_tail>
+
+    17.   <var_list_tail>    --> "," <variable> [ProcessVar] [Listen] <var_list_tail>
+
+    18.   <var_list_tail>    --> ""
+
+    19.   <variable>         --> "ID" <variable_tail>
+
+    20.   <variable_tail>    --> "[" <expression> "]"
+
+    21.   <variable_tail>    --> ""
+
+    22.   <shout_stmt>       --> "shout" <item_list> [NewLine] ";"
+
+    23.   <item_list>        --> <expression> [Shout] <item_list_tail>
+
+    24.   <item_list_tail>   --> "," <expression> [Shout] <item_list_tail>
+
+    25.   <item_list_tail>   --> ""
+
+    26.   <break_stmt>       --> "break" [Break] ";"
+
+    27.   <struct_stmt>      --> <if_stmt>
+
+    28.   <struct_stmt>      --> <loop_stmt>
+
+    29.   <struct_stmt>      --> <while_stmt>
+
+    30.   <struct_stmt>      --> <for_stmt>
+
+    31.   <struct_stmt>      --> <select_stmt>
+
+    32.   <struct_stmt>      --> <var_decs>
+
+    33.   <if_stmt>          --> "if" "(" <condition> ")" [IfThen] <stmt_list>
+                                        <else_clause> "end" [IfEnd]
+
+    34.   <else_clause>      --> "else" [IfElse] <stmt_list>
+
+    35.   <else_clause>      --> ""
+
+    36.   <loop_stmt>        --> "do" [LoopBegin] <stmt_list> "until" "(" <condition>
+                                        ")" [LoopEnd] ";"
+
+    37.   <while_stmt>       --> "while" "(" <condition> ")" [WhileBegin] <stmt_list>
+                                        "end" [WhileEnd]
+
+    38.   <for_stmt>         --> "for" "(" <for_assign> ";" <condition> [ForBegin]
+                                        ";" <for_assign> [ForUpdate] ")"
+                                        <stmt_list> "end" [ForEnd]
+
+    39.   <for_assign>       --> <variable> [ProcessVar] "=" <expression> [ForAssign]
+
+    40.   <select_stmt>      --> "select" "(" <expression> ")" [SelectBegin]
+                                        <case_list> "otherwise" [Otherwise] ":"
+                                        <stmt_list> [CaseEnd] "end" [SelectEnd]
+
+    41.   <case_list>        --> <case> <case_list_tail>
+
+    42.   <case_list_tail>   --> <case> <case_list_tail>
+
+    43.   <case_list_tail>   --> ""
+
+    44.   <case>             --> "case" <int_list> ":" <stmt_list> [CaseEnd]
+
+    45.   <int_list>         --> "INT_LIT" [IntAppend] <int_list_tail>
+
+    46.   <int_list_tail>    --> "," "INT_LIT" [IntAppend] <int_list_tail>
+
+    47.   <int_list_tail>    --> ""
+
+    48.   <condition>        --> <expression> <cond_tail> [SetCondition]
+
+    49.   <cond_tail>        --> <rel_op> [ProcessOp] <expression>
+
+    50.   <cond_tail>        --> ""
+
+    51.   <expression>       --> <factor> <expr_tail>
+
+    52.   <expr_tail>        --> <add_op> [ProcessOp] <factor> [GenInfix] <expr_tail>
+
+    53.   <expr_tail>        --> ""
+
+    54.   <factor>           --> <primary> <factor_tail>
+
+    55.   <factor_tail>      --> <mult_op> [ProcessOp] <primary> [GenInfix]
+                                        <factor_tail>
+
+    56.   <factor_tail>      --> ""
+
+    57.   <primary>          --> <literal> [ProcessLit]
+
+    58.   <primary>          --> <variable> [ProcessVar]
+
+    59.   <primary>          --> "(" <expression> ")"
+
+    60.   <type>             --> "bool"
+
+    61.   <type>             --> "int"
+
+    62.   <type>             --> "float"
+
+    63.   <type>             --> <cheese_type>
+
+    64.   <cheese_type>      --> "cheese" <cheese_type_tail>
+
+    65.   <cheese_type_tail> --> "[" "INT_LIT" "]"
+
+    66.   <cheese_type_tail> --> ""
+
+    67.   <bool_lit>         --> "false"
+
+    68.   <bool_lit>         --> "true"
+
+    69.   <literal>          --> <bool_lit>
+
+    70.   <literal>          --> "INT_LIT"
+
+    71.   <literal>          --> "FLOAT_LIT"
+
+    72.   <literal>          --> "CHEESE_LIT"
+
+    73.   <mult_op>          --> "*"
+
+    74.   <mult_op>          --> "/"
+
+    75.   <add_op>           --> "+"
+
+    76.   <add_op>           --> "-"
+
+    77.   <rel_op>           --> "<"
+
+    78.   <rel_op>           --> "<="
+
+    79.   <rel_op>           --> ">"
+
+    80.   <rel_op>           --> ">="
+
+    81.   <rel_op>           --> "=="
+
+    82.   <rel_op>           --> "!!"
+
+    83.   <rel_op>           --> "!="
+
+    84.   <var_decs>         --> "decs" "{" <dec_list> "}"
+
+    85.   <dec_list>         --> <declaration> <dec_tail>
+
+    86.   <dec_tail>         --> <declaration> <dec_tail>
+
+    87.   <dec_tail>         --> ""
+
+    88.   <declaration>      --> <type> ":" <var_dec_list> ";"
+
+    89.   <declaration>      --> "hiphip" "[" "INT_LIT" "]" <type> <var_dec_list> ";"
+
+    90.   <var_dec_list>     --> "ID" [DefineVar] <var_dec_tail>
+
+    91.   <var_dec_tail>     --> "," "ID" [DefineVar] <var_dec_tail>
+
+    92.   <var_dec_tail>     --> ""
+
+    93.   <init_list>        --> <expression> <init_tail>
+
+    94.   <init_tail>        --> "," <expression> <init_tail>
+
+    95.   <init_tail>        --> ""
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  MACC_N_CHEESE Grammar 2016 Terminal Symbols  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    43.   "!!"             rhs:   82
+    44.   "!="             rhs:   83
+     1.   "$eof$"          rhs:    1
+    26.   "("              rhs:   33   36   37   38   40   59
+    27.   ")"              rhs:   33   36   37   38   40   59
+    36.   "*"              rhs:   73
+    34.   "+"              rhs:   75
+    32.   ","              rhs:   17   24   46   91   94
+    35.   "-"              rhs:   76
+    37.   "/"              rhs:   74
+    30.   ":"              rhs:   40   44   88
+    31.   ";"              rhs:   12   15   22   26   36 2*38   88   89
+    38.   "<"              rhs:   77
+    39.   "<="             rhs:   78
+    33.   "="              rhs:   12   39
+    42.   "=="             rhs:   81
+    40.   ">"              rhs:   79
+    41.   ">="             rhs:   80
+    48.   "CHEESE_LIT"     rhs:   72
+    47.   "FLOAT_LIT"      rhs:   71
+    45.   "ID"             rhs:   19   90   91
+    46.   "INT_LIT"        rhs:   45   46   65   70   89
+    24.   "["              rhs:   20   65   89
+    25.   "]"              rhs:   20   65   89
+     2.   "bool"           rhs:   60
+     3.   "break"          rhs:   26
+     4.   "case"           rhs:   44
+     5.   "cheese"         rhs:   64
+     6.   "decs"           rhs:   84
+     7.   "do"             rhs:   36
+     8.   "else"           rhs:   34
+     9.   "end"            rhs:   33   37   38   40
+    10.   "false"          rhs:   67
+    11.   "float"          rhs:   62
+    12.   "for"            rhs:   38
+    13.   "hiphip"         rhs:   89
+    14.   "if"             rhs:   33
+    15.   "int"            rhs:   61
+    16.   "listen"         rhs:   15
+    17.   "otherwise"      rhs:   40
+    18.   "select"         rhs:   40
+    19.   "shout"          rhs:   22
+    20.   "then"         
+    21.   "true"           rhs:   68
+    23.   "until"          rhs:   36
+    22.   "while"          rhs:   37
+    28.   "{"              rhs:   14   84
+    29.   "}"              rhs:   14   84
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  MACC_N_CHEESE Grammar 2016 Nonterminal Symbols  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    49.   <<goal>>           *   lhs:    1
+    87.   <add_op>               lhs:   75   76  rhs:   52
+    56.   <assign_stmt>          lhs:   12  rhs:    8
+    61.   <assign_tail>          lhs:   13   14  rhs:   12
+    95.   <bool_lit>             lhs:   67   68  rhs:   69
+    59.   <break_stmt>           lhs:   26  rhs:   11
+    79.   <case>                 lhs:   44  rhs:   41   42
+    78.   <case_list>            lhs:   41  rhs:   40
+    80.   <case_list_tail>       lhs:   42   43  rhs:   41   42
+    93.   <cheese_type>          lhs:   64  rhs:   63
+    94.   <cheese_type_tail>     lhs:   65   66  rhs:   64
+    83.   <cond_tail>            lhs:   49   50  rhs:   48
+    75.   <condition>            lhs:   48  rhs:   33   36   37   38
+    96.   <dec_list>             lhs:   85  rhs:   84
+    98.   <dec_tail>             lhs:   86   87  rhs:   85   86
+    97.   <declaration>          lhs:   88   89  rhs:   85   86
+    76.   <else_clause>          lhs:   34   35  rhs:   33
+    86.   <expr_tail>            lhs:   52   53  rhs:   51   52
+    62.   <expression>           lhs:   51  rhs:   13   20   23   24   39   40   48
+                                  49   59   93   94
+    85.   <factor>               lhs:   54  rhs:   51   52
+    89.   <factor_tail>          lhs:   55   56  rhs:   54   55
+    77.   <for_assign>           lhs:   39  rhs: 2*38
+    72.   <for_stmt>             lhs:   38  rhs:   30
+    69.   <if_stmt>              lhs:   33  rhs:   27
+    63.   <init_list>            lhs:   93  rhs:   14
+   101.   <init_tail>            lhs:   94   95  rhs:   93   94
+    81.   <int_list>             lhs:   45  rhs:   44
+    82.   <int_list_tail>        lhs:   46   47  rhs:   45   46
+    67.   <item_list>            lhs:   23  rhs:   22
+    68.   <item_list_tail>       lhs:   24   25  rhs:   23   24
+    57.   <listen_stmt>          lhs:   15  rhs:    9
+    91.   <literal>              lhs:   69   70   71   72  rhs:   57
+    70.   <loop_stmt>            lhs:   36  rhs:   28
+    90.   <mult_op>              lhs:   73   74  rhs:   55
+    88.   <primary>              lhs:   57   58   59  rhs:   54   55
+    50.   <program>              lhs:    2  rhs:    1
+    84.   <rel_op>               lhs:   77   78   79   80   81   82   83  rhs:   49
+    73.   <select_stmt>          lhs:   40  rhs:   31
+    58.   <shout_stmt>           lhs:   22  rhs:   10
+    54.   <simple_stmt>          lhs:    8    9   10   11  rhs:    6
+    52.   <statement>            lhs:    6    7  rhs:    3    4
+    51.   <stmt_list>            lhs:    3  rhs:    2   33   34   36   37   38   40
+                                  44
+    53.   <stmt_tail>            lhs:    4    5  rhs:    3    4
+    55.   <struct_stmt>          lhs:   27   28   29   30   31   32  rhs:    7
+    92.   <type>                 lhs:   60   61   62   63  rhs:   88   89
+    99.   <var_dec_list>         lhs:   90  rhs:   88   89
+   100.   <var_dec_tail>         lhs:   91   92  rhs:   90   91
+    74.   <var_decs>             lhs:   84  rhs:   32
+    64.   <var_list>             lhs:   16  rhs:   15
+    65.   <var_list_tail>        lhs:   17   18  rhs:   16   17
+    60.   <variable>             lhs:   19  rhs:   12   16   17   39   58
+    66.   <variable_tail>        lhs:   20   21  rhs:   19
+    71.   <while_stmt>           lhs:   37  rhs:   29
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  MACC_N_CHEESE Grammar 2016 Semantic Symbols  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+     4.   [Assign]           rhs:   12
+     6.   [Break]            rhs:   26
+    23.   [CaseEnd]          rhs:   40   44
+    29.   [DefineVar]        rhs:   90   91
+     2.   [Finish]           rhs:    2
+    19.   [ForAssign]        rhs:   39
+    16.   [ForBegin]         rhs:   38
+    18.   [ForEnd]           rhs:   38
+    17.   [ForUpdate]        rhs:   38
+    27.   [GenInfix]         rhs:   52   55
+    10.   [IfElse]           rhs:   34
+    11.   [IfEnd]            rhs:   33
+     9.   [IfThen]           rhs:   33
+    24.   [IntAppend]        rhs:   45   46
+     5.   [Listen]           rhs:   16   17
+    13.   [LoogEnd]        
+    12.   [LoopBegin]        rhs:   36
+    30.   [LoopEnd]          rhs:   36
+     7.   [NewLine]          rhs:   22
+    22.   [Otherwise]        rhs:   40
+    28.   [ProcessLit]       rhs:   57
+    25.   [ProcessOp]        rhs:   49   52   55
+     3.   [ProcessVar]       rhs:   12   16   17   39   58
+    20.   [SelectBegin]      rhs:   40
+    21.   [SelectEnd]        rhs:   40
+    26.   [SetCondition]     rhs:   48
+     8.   [Shout]            rhs:   23   24
+     1.   [Start]            rhs:    2
+    14.   [WhileBegin]       rhs:   37
+    15.   [WhileEnd]         rhs:   37
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  MACC_N_CHEESE Grammar 2016 First Sets  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  First( <<goal>> )           = [ "decs", "select", "for", "while", "do", "if", "break",
+                                    "shout", "listen", "ID" ]
+  First( <add_op> )           = [ "-", "+" ]
+  First( <assign_stmt> )      = [ "ID" ]
+  First( <assign_tail> )      = [ "false", "true", "CHEESE_LIT", "FLOAT_LIT", "INT_LIT",
+                                    "ID", "(", "{" ]
+  First( <bool_lit> )         = [ "true", "false" ]
+  First( <break_stmt> )       = [ "break" ]
+  First( <case> )             = [ "case" ]
+  First( <case_list> )        = [ "case" ]
+  First( <case_list_tail> )   = [ "case", "" ]
+  First( <cheese_type> )      = [ "cheese" ]
+  First( <cheese_type_tail> ) = [ "", "[" ]
+  First( <cond_tail> )        = [ "<", "<=", ">", ">=", "==", "!!", "!=", "" ]
+  First( <condition> )        = [ "false", "true", "CHEESE_LIT", "FLOAT_LIT", "INT_LIT",
+                                    "ID", "(" ]
+  First( <dec_list> )         = [ "cheese", "float", "int", "bool", "hiphip" ]
+  First( <dec_tail> )         = [ "cheese", "float", "int", "bool", "hiphip", "" ]
+  First( <declaration> )      = [ "cheese", "bool", "int", "float", "hiphip" ]
+  First( <else_clause> )      = [ "", "else" ]
+  First( <expr_tail> )        = [ "+", "-", "" ]
+  First( <expression> )       = [ "ID", "INT_LIT", "FLOAT_LIT", "CHEESE_LIT", "true",
+                                    "false", "(" ]
+  First( <factor> )           = [ "false", "true", "CHEESE_LIT", "FLOAT_LIT", "INT_LIT",
+                                    "ID", "(" ]
+  First( <factor_tail> )      = [ "*", "/", "" ]
+  First( <for_assign> )       = [ "ID" ]
+  First( <for_stmt> )         = [ "for" ]
+  First( <if_stmt> )          = [ "if" ]
+  First( <init_list> )        = [ "false", "true", "CHEESE_LIT", "FLOAT_LIT", "INT_LIT",
+                                    "ID", "(" ]
+  First( <init_tail> )        = [ "", "," ]
+  First( <int_list> )         = [ "INT_LIT" ]
+  First( <int_list_tail> )    = [ "", "," ]
+  First( <item_list> )        = [ "false", "true", "CHEESE_LIT", "FLOAT_LIT", "INT_LIT",
+                                    "ID", "(" ]
+  First( <item_list_tail> )   = [ "", "," ]
+  First( <listen_stmt> )      = [ "listen" ]
+  First( <literal> )          = [ "false", "true", "CHEESE_LIT", "FLOAT_LIT", "INT_LIT" ]
+  First( <loop_stmt> )        = [ "do" ]
+  First( <mult_op> )          = [ "/", "*" ]
+  First( <primary> )          = [ "ID", "INT_LIT", "FLOAT_LIT", "CHEESE_LIT", "true",
+                                    "false", "(" ]
+  First( <program> )          = [ "if", "do", "while", "for", "select", "decs", "ID",
+                                    "listen", "shout", "break" ]
+  First( <rel_op> )           = [ "!=", "!!", "==", ">=", ">", "<=", "<" ]
+  First( <select_stmt> )      = [ "select" ]
+  First( <shout_stmt> )       = [ "shout" ]
+  First( <simple_stmt> )      = [ "break", "shout", "listen", "ID" ]
+  First( <statement> )        = [ "if", "do", "while", "for", "select", "decs", "ID",
+                                    "listen", "shout", "break" ]
+  First( <stmt_list> )        = [ "decs", "select", "for", "while", "do", "if", "break",
+                                    "shout", "listen", "ID" ]
+  First( <stmt_tail> )        = [ "decs", "select", "for", "while", "do", "if", "break",
+                                    "shout", "listen", "ID", "" ]
+  First( <struct_stmt> )      = [ "decs", "select", "for", "while", "do", "if" ]
+  First( <type> )             = [ "cheese", "float", "int", "bool" ]
+  First( <var_dec_list> )     = [ "ID" ]
+  First( <var_dec_tail> )     = [ "", "," ]
+  First( <var_decs> )         = [ "decs" ]
+  First( <var_list> )         = [ "ID" ]
+  First( <var_list_tail> )    = [ "", "," ]
+  First( <variable> )         = [ "ID" ]
+  First( <variable_tail> )    = [ "", "[" ]
+  First( <while_stmt> )       = [ "while" ]
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  MACC_N_CHEESE Grammar 2016 Follow Sets  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Follow( <<goal>> )           = [ "$eof$" ]
+  Follow( <add_op> )           = [ "(", "ID", "INT_LIT", "FLOAT_LIT", "CHEESE_LIT",
+                                    "true", "false" ]
+  Follow( <assign_stmt> )      = [ "otherwise", "case", "end", "else", "until", "$eof$", "ID",
+                                    "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+  Follow( <assign_tail> )      = [ ";" ]
+  Follow( <bool_lit> )         = [ "]", ")", ",", "}", "+", "-", "!=", "!!", "==", ">=",
+                                    ">", "<=", "<", ";", "/", "*" ]
+  Follow( <break_stmt> )       = [ "otherwise", "case", "end", "else", "until", "$eof$",
+                                    "ID", "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+  Follow( <case> )             = [ "otherwise", "case" ]
+  Follow( <case_list> )        = [ "otherwise" ]
+  Follow( <case_list_tail> )   = [ "otherwise" ]
+  Follow( <cheese_type> )      = [ ":", "ID" ]
+  Follow( <cheese_type_tail> ) = [ "ID", ":" ]
+  Follow( <cond_tail> )        = [ ";", ")" ]
+  Follow( <condition> )        = [ ")", ";" ]
+  Follow( <dec_list> )         = [ "}" ]
+  Follow( <dec_tail> )         = [ "}" ]
+  Follow( <declaration> )      = [ "}", "hiphip", "bool", "int", "float", "cheese" ]
+  Follow( <else_clause> )      = [ "end" ]
+  Follow( <expr_tail> )        = [ "}", ",", ")", "]", ";", "<", "<=", ">", ">=", "==",
+                                    "!!", "!=" ]
+  Follow( <expression> )       = [ "]", ")", ",", "}", "!=", "!!", "==", ">=", ">", "<=",
+                                    "<", ";" ]
+  Follow( <factor> )           = [ "}", ",", ")", "]", ";", "<", "<=", ">", ">=", "==",
+                                    "!!", "!=", "-", "+" ]
+  Follow( <factor_tail> )      = [ "]", ")", ",", "}", "+", "-", "!=", "!!", "==", ">=", ">",
+                                    "<=", "<", ";" ]
+  Follow( <for_assign> )       = [ ")", ";" ]
+  Follow( <for_stmt> )         = [ "otherwise", "case", "end", "else", "until", "$eof$",
+                                    "ID", "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+  Follow( <if_stmt> )          = [ "otherwise", "case", "end", "else", "until", "$eof$",
+                                    "ID", "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+  Follow( <init_list> )        = [ "}" ]
+  Follow( <init_tail> )        = [ "}" ]
+  Follow( <int_list> )         = [ ":" ]
+  Follow( <int_list_tail> )    = [ ":" ]
+  Follow( <item_list> )        = [ ";" ]
+  Follow( <item_list_tail> )   = [ ";" ]
+  Follow( <listen_stmt> )      = [ "otherwise", "case", "end", "else", "until", "$eof$", "ID",
+                                    "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+  Follow( <literal> )          = [ "}", ",", ")", "]", "*", "/", ";", "<", "<=", ">",
+                                    ">=", "==", "!!", "!=", "-", "+" ]
+  Follow( <loop_stmt> )        = [ "otherwise", "case", "end", "else", "until", "$eof$",
+                                    "ID", "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+  Follow( <mult_op> )          = [ "(", "false", "true", "CHEESE_LIT", "FLOAT_LIT",
+                                    "INT_LIT", "ID" ]
+  Follow( <primary> )          = [ "]", ")", ",", "}", "+", "-", "!=", "!!", "==", ">=",
+                                    ">", "<=", "<", ";", "/", "*" ]
+  Follow( <program> )          = [ "$eof$" ]
+  Follow( <rel_op> )           = [ "(", "false", "true", "CHEESE_LIT", "FLOAT_LIT",
+                                    "INT_LIT", "ID" ]
+  Follow( <select_stmt> )      = [ "otherwise", "case", "end", "else", "until", "$eof$", "ID",
+                                    "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+  Follow( <shout_stmt> )       = [ "otherwise", "case", "end", "else", "until", "$eof$",
+                                    "ID", "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+  Follow( <simple_stmt> )      = [ "otherwise", "case", "decs", "select", "for", "while",
+                                    "do", "if", "break", "shout", "listen", "ID",
+                                    "$eof$", "until", "else", "end" ]
+  Follow( <statement> )        = [ "otherwise", "case", "end", "else", "until", "$eof$",
+                                    "ID", "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+  Follow( <stmt_list> )        = [ "otherwise", "case", "$eof$", "until", "else", "end" ]
+  Follow( <stmt_tail> )        = [ "otherwise", "case", "end", "else", "until", "$eof$" ]
+  Follow( <struct_stmt> )      = [ "otherwise", "case", "decs", "select", "for", "while",
+                                    "do", "if", "break", "shout", "listen", "ID",
+                                    "$eof$", "until", "else", "end" ]
+  Follow( <type> )             = [ "ID", ":" ]
+  Follow( <var_dec_list> )     = [ ";" ]
+  Follow( <var_dec_tail> )     = [ ";" ]
+  Follow( <var_decs> )         = [ "otherwise", "case", "end", "else", "until", "$eof$",
+                                    "ID", "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+  Follow( <var_list> )         = [ ";" ]
+  Follow( <var_list_tail> )    = [ ";" ]
+  Follow( <variable> )         = [ "}", ")", "]", ",", "*", "/", ";", "<", "<=", ">", ">=",
+                                    "==", "!!", "!=", "-", "+", "=" ]
+  Follow( <variable_tail> )    = [ "]", ")", "}", "=", "+", "-", "!=", "!!", "==", ">=", ">",
+                                    "<=", "<", ";", "/", "*", "," ]
+  Follow( <while_stmt> )       = [ "otherwise", "case", "end", "else", "until", "$eof$",
+                                    "ID", "listen", "shout", "break", "if", "do",
+                                    "while", "for", "select", "decs" ]
+
+
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~~  MACC_N_CHEESE Grammar 2016 Parse Table  ~~
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+  [ <program>, "decs" ] = 2
+  [ <program>, "select" ] = 2
+  [ <program>, "for" ] = 2
+  [ <program>, "while" ] = 2
+  [ <program>, "do" ] = 2
+  [ <program>, "if" ] = 2
+  [ <program>, "break" ] = 2
+  [ <program>, "shout" ] = 2
+  [ <program>, "listen" ] = 2
+  [ <program>, "ID" ] = 2
+
+  [ <stmt_list>, "if" ] = 3
+  [ <stmt_list>, "do" ] = 3
+  [ <stmt_list>, "while" ] = 3
+  [ <stmt_list>, "for" ] = 3
+  [ <stmt_list>, "select" ] = 3
+  [ <stmt_list>, "decs" ] = 3
+  [ <stmt_list>, "ID" ] = 3
+  [ <stmt_list>, "listen" ] = 3
+  [ <stmt_list>, "shout" ] = 3
+  [ <stmt_list>, "break" ] = 3
+
+  [ <stmt_tail>, "if" ] = 4
+  [ <stmt_tail>, "do" ] = 4
+  [ <stmt_tail>, "while" ] = 4
+  [ <stmt_tail>, "for" ] = 4
+  [ <stmt_tail>, "select" ] = 4
+  [ <stmt_tail>, "decs" ] = 4
+  [ <stmt_tail>, "ID" ] = 4
+  [ <stmt_tail>, "listen" ] = 4
+  [ <stmt_tail>, "shout" ] = 4
+  [ <stmt_tail>, "break" ] = 4
+  [ <stmt_tail>, "otherwise" ] = 5
+  [ <stmt_tail>, "case" ] = 5
+  [ <stmt_tail>, "end" ] = 5
+  [ <stmt_tail>, "else" ] = 5
+  [ <stmt_tail>, "until" ] = 5
+  [ <stmt_tail>, "$eof$" ] = 5
+
+  [ <statement>, "break" ] = 6
+  [ <statement>, "shout" ] = 6
+  [ <statement>, "listen" ] = 6
+  [ <statement>, "ID" ] = 6
+  [ <statement>, "decs" ] = 7
+  [ <statement>, "select" ] = 7
+  [ <statement>, "for" ] = 7
+  [ <statement>, "while" ] = 7
+  [ <statement>, "do" ] = 7
+  [ <statement>, "if" ] = 7
+
+  [ <simple_stmt>, "ID" ] = 8
+  [ <simple_stmt>, "listen" ] = 9
+  [ <simple_stmt>, "shout" ] = 10
+  [ <simple_stmt>, "break" ] = 11
+
+  [ <assign_stmt>, "ID" ] = 12
+
+  [ <assign_tail>, "ID" ] = 13
+  [ <assign_tail>, "INT_LIT" ] = 13
+  [ <assign_tail>, "FLOAT_LIT" ] = 13
+  [ <assign_tail>, "CHEESE_LIT" ] = 13
+  [ <assign_tail>, "true" ] = 13
+  [ <assign_tail>, "false" ] = 13
+  [ <assign_tail>, "(" ] = 13
+  [ <assign_tail>, "{" ] = 14
+
+  [ <listen_stmt>, "listen" ] = 15
+
+  [ <var_list>, "ID" ] = 16
+
+  [ <var_list_tail>, "," ] = 17
+  [ <var_list_tail>, ";" ] = 18
+
+  [ <variable>, "ID" ] = 19
+
+  [ <variable_tail>, "[" ] = 20
+  [ <variable_tail>, "]" ] = 21
+  [ <variable_tail>, ")" ] = 21
+  [ <variable_tail>, "}" ] = 21
+  [ <variable_tail>, "=" ] = 21
+  [ <variable_tail>, "+" ] = 21
+  [ <variable_tail>, "-" ] = 21
+  [ <variable_tail>, "!=" ] = 21
+  [ <variable_tail>, "!!" ] = 21
+  [ <variable_tail>, "==" ] = 21
+  [ <variable_tail>, ">=" ] = 21
+  [ <variable_tail>, ">" ] = 21
+  [ <variable_tail>, "<=" ] = 21
+  [ <variable_tail>, "<" ] = 21
+  [ <variable_tail>, ";" ] = 21
+  [ <variable_tail>, "/" ] = 21
+  [ <variable_tail>, "*" ] = 21
+  [ <variable_tail>, "," ] = 21
+
+  [ <shout_stmt>, "shout" ] = 22
+
+  [ <item_list>, "ID" ] = 23
+  [ <item_list>, "INT_LIT" ] = 23
+  [ <item_list>, "FLOAT_LIT" ] = 23
+  [ <item_list>, "CHEESE_LIT" ] = 23
+  [ <item_list>, "true" ] = 23
+  [ <item_list>, "false" ] = 23
+  [ <item_list>, "(" ] = 23
+
+  [ <item_list_tail>, "," ] = 24
+  [ <item_list_tail>, ";" ] = 25
+
+  [ <break_stmt>, "break" ] = 26
+
+  [ <struct_stmt>, "if" ] = 27
+  [ <struct_stmt>, "do" ] = 28
+  [ <struct_stmt>, "while" ] = 29
+  [ <struct_stmt>, "for" ] = 30
+  [ <struct_stmt>, "select" ] = 31
+  [ <struct_stmt>, "decs" ] = 32
+
+  [ <if_stmt>, "if" ] = 33
+
+  [ <else_clause>, "else" ] = 34
+  [ <else_clause>, "end" ] = 35
+
+  [ <loop_stmt>, "do" ] = 36
+
+  [ <while_stmt>, "while" ] = 37
+
+  [ <for_stmt>, "for" ] = 38
+
+  [ <for_assign>, "ID" ] = 39
+
+  [ <select_stmt>, "select" ] = 40
+
+  [ <case_list>, "case" ] = 41
+
+  [ <case_list_tail>, "case" ] = 42
+  [ <case_list_tail>, "otherwise" ] = 43
+
+  [ <case>, "case" ] = 44
+
+  [ <int_list>, "INT_LIT" ] = 45
+
+  [ <int_list_tail>, "," ] = 46
+  [ <int_list_tail>, ":" ] = 47
+
+  [ <condition>, "ID" ] = 48
+  [ <condition>, "INT_LIT" ] = 48
+  [ <condition>, "FLOAT_LIT" ] = 48
+  [ <condition>, "CHEESE_LIT" ] = 48
+  [ <condition>, "true" ] = 48
+  [ <condition>, "false" ] = 48
+  [ <condition>, "(" ] = 48
+
+  [ <cond_tail>, "!=" ] = 49
+  [ <cond_tail>, "!!" ] = 49
+  [ <cond_tail>, "==" ] = 49
+  [ <cond_tail>, ">=" ] = 49
+  [ <cond_tail>, ">" ] = 49
+  [ <cond_tail>, "<=" ] = 49
+  [ <cond_tail>, "<" ] = 49
+  [ <cond_tail>, ";" ] = 50
+  [ <cond_tail>, ")" ] = 50
+
+  [ <expression>, "false" ] = 51
+  [ <expression>, "true" ] = 51
+  [ <expression>, "CHEESE_LIT" ] = 51
+  [ <expression>, "FLOAT_LIT" ] = 51
+  [ <expression>, "INT_LIT" ] = 51
+  [ <expression>, "ID" ] = 51
+  [ <expression>, "(" ] = 51
+
+  [ <expr_tail>, "-" ] = 52
+  [ <expr_tail>, "+" ] = 52
+  [ <expr_tail>, "}" ] = 53
+  [ <expr_tail>, "," ] = 53
+  [ <expr_tail>, ")" ] = 53
+  [ <expr_tail>, "]" ] = 53
+  [ <expr_tail>, ";" ] = 53
+  [ <expr_tail>, "<" ] = 53
+  [ <expr_tail>, "<=" ] = 53
+  [ <expr_tail>, ">" ] = 53
+  [ <expr_tail>, ">=" ] = 53
+  [ <expr_tail>, "==" ] = 53
+  [ <expr_tail>, "!!" ] = 53
+  [ <expr_tail>, "!=" ] = 53
+
+  [ <factor>, "ID" ] = 54
+  [ <factor>, "INT_LIT" ] = 54
+  [ <factor>, "FLOAT_LIT" ] = 54
+  [ <factor>, "CHEESE_LIT" ] = 54
+  [ <factor>, "true" ] = 54
+  [ <factor>, "false" ] = 54
+  [ <factor>, "(" ] = 54
+
+  [ <factor_tail>, "/" ] = 55
+  [ <factor_tail>, "*" ] = 55
+  [ <factor_tail>, "]" ] = 56
+  [ <factor_tail>, ")" ] = 56
+  [ <factor_tail>, "," ] = 56
+  [ <factor_tail>, "}" ] = 56
+  [ <factor_tail>, "+" ] = 56
+  [ <factor_tail>, "-" ] = 56
+  [ <factor_tail>, "!=" ] = 56
+  [ <factor_tail>, "!!" ] = 56
+  [ <factor_tail>, "==" ] = 56
+  [ <factor_tail>, ">=" ] = 56
+  [ <factor_tail>, ">" ] = 56
+  [ <factor_tail>, "<=" ] = 56
+  [ <factor_tail>, "<" ] = 56
+  [ <factor_tail>, ";" ] = 56
+
+  [ <primary>, "false" ] = 57
+  [ <primary>, "true" ] = 57
+  [ <primary>, "CHEESE_LIT" ] = 57
+  [ <primary>, "FLOAT_LIT" ] = 57
+  [ <primary>, "INT_LIT" ] = 57
+  [ <primary>, "ID" ] = 58
+  [ <primary>, "(" ] = 59
+
+  [ <type>, "bool" ] = 60
+  [ <type>, "int" ] = 61
+  [ <type>, "float" ] = 62
+  [ <type>, "cheese" ] = 63
+
+  [ <cheese_type>, "cheese" ] = 64
+
+  [ <cheese_type_tail>, "[" ] = 65
+  [ <cheese_type_tail>, "ID" ] = 66
+  [ <cheese_type_tail>, ":" ] = 66
+
+  [ <bool_lit>, "false" ] = 67
+  [ <bool_lit>, "true" ] = 68
+
+  [ <literal>, "true" ] = 69
+  [ <literal>, "false" ] = 69
+  [ <literal>, "INT_LIT" ] = 70
+  [ <literal>, "FLOAT_LIT" ] = 71
+  [ <literal>, "CHEESE_LIT" ] = 72
+
+  [ <mult_op>, "*" ] = 73
+  [ <mult_op>, "/" ] = 74
+
+  [ <add_op>, "+" ] = 75
+  [ <add_op>, "-" ] = 76
+
+  [ <rel_op>, "<" ] = 77
+  [ <rel_op>, "<=" ] = 78
+  [ <rel_op>, ">" ] = 79
+  [ <rel_op>, ">=" ] = 80
+  [ <rel_op>, "==" ] = 81
+  [ <rel_op>, "!!" ] = 82
+  [ <rel_op>, "!=" ] = 83
+
+  [ <var_decs>, "decs" ] = 84
+
+  [ <dec_list>, "cheese" ] = 85
+  [ <dec_list>, "bool" ] = 85
+  [ <dec_list>, "int" ] = 85
+  [ <dec_list>, "float" ] = 85
+  [ <dec_list>, "hiphip" ] = 85
+
+  [ <dec_tail>, "cheese" ] = 86
+  [ <dec_tail>, "bool" ] = 86
+  [ <dec_tail>, "int" ] = 86
+  [ <dec_tail>, "float" ] = 86
+  [ <dec_tail>, "hiphip" ] = 86
+  [ <dec_tail>, "}" ] = 87
+
+  [ <declaration>, "cheese" ] = 88
+  [ <declaration>, "float" ] = 88
+  [ <declaration>, "int" ] = 88
+  [ <declaration>, "bool" ] = 88
+  [ <declaration>, "hiphip" ] = 89
+
+  [ <var_dec_list>, "ID" ] = 90
+
+  [ <var_dec_tail>, "," ] = 91
+  [ <var_dec_tail>, ";" ] = 92
+
+  [ <init_list>, "ID" ] = 93
+  [ <init_list>, "INT_LIT" ] = 93
+  [ <init_list>, "FLOAT_LIT" ] = 93
+  [ <init_list>, "CHEESE_LIT" ] = 93
+  [ <init_list>, "true" ] = 93
+  [ <init_list>, "false" ] = 93
+  [ <init_list>, "(" ] = 93
+
+  [ <init_tail>, "," ] = 94
+  [ <init_tail>, "}" ] = 95
