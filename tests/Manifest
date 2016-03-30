@@ -14,3 +14,14 @@ CheeeTestWithEscape3.mnc -> Test the ability to have \n at the end of a cheese
 
 SimpleBoolTest.mnc -> Tests the abilty to set/shout a bool type
 
+simpleplus.mnc -> Test ability to shout a + expression
+
+simplemult.mnc -> Test ability to shouth a * expression
+
+simpleplusmult.mnc -> Tests ability to shout a + and * expression
+
+simpleplusmultparenthesis.mnc -> Test ability to shout a +/- and *
+		expression including parenthesis.
+
+shoutcomplexexp.mnc -> Test ability to shout a + - * /
+		expression including parenthesis.

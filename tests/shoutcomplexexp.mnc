@@ -1,0 +1,5 @@
+//  simple.mnc
+//
+//  One of the simplest MNC programs possible.
+
+shout 8 * (2 + 5) / 4 - 10 * 2 + (3 - 1) * 13;
