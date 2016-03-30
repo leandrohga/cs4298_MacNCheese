@@ -9,3 +9,9 @@ sam/*.lis
 sam/trace.txt
 *.swp
 gens/
+tests/macc
+tests/sam
+tests/*.asm
+tests/*.lis
+tests/*.obj
+tests/trace.txt
