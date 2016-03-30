@@ -4,4 +4,4 @@ compileall:
 	
 
 clean:
-	rm -f *.asm *.lst *.lis *.obj
+	rm -f *.asm *.lst *.lis *.obj trace.txt
