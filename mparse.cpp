@@ -839,9 +839,9 @@ void Parser::StmtList()
 
 void Parser::Program()
 {
-	// code.Start();
+	code.Start(); /*** CODE ***/
 	StmtList();
-	// code.Finish();
+	code.Finish(); /*** CODE ***/
 }
 
 void Parser::SystemGoal()
