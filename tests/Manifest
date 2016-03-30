@@ -6,5 +6,11 @@ SimpleIntAddTest2.mnc -> Tests the ability to add 2 Integers, result should be 2
 
 SimpleCheeseTest1.mnc -> Tests for the ability to print a cheese to the console
 
+CheeseTestWithEscape1.mnc -> Test the ability to have \n character somewhere (middle) in a cheese
+
+CheeseTestWithEscape2.mnc -> Test the ability to have \n at the beginning of a cheese
+
+CheeeTestWithEscape3.mnc -> Test the ability to have \n at the end of a cheese
+
 SimpleBoolTest.mnc -> Tests the abilty to set/shout a bool type
 
