@@ -303,7 +303,7 @@ void Parser::Primary(ExprRec& result)
 		break;
 	case LBANANA:
 		Match(LBANANA);
-//		Expression();
+		Expression(result);
 		Match(RBANANA);
 		break;
 	default:
