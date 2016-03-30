@@ -321,17 +321,22 @@ void Parser::AddOp()
 	}
 }
 
-void Parser::ExprTail()
+void Parser::ExprTail(ExprRec& result)
 {
+	ExprRec leftOperand, rightOperand;
+	OpRec op;
 	switch (NextToken())
 	{
 	case PLUS_OP:
 	case MINUS_OP:
+		leftOperand.kind = result.kind;
+		leftOperand.val = result.val;
+		leftOperand.name = result.name;
 		AddOp();
-		// code.ProcessOp();
-//		Factor();
-		// code.GenInfix();
-		ExprTail();
+		code.ProcessOp(op); /*** CODE ***/
+		Factor(rightOperand);
+		code.GenInfix(leftOperand, op, rightOperand, result);
+		ExprTail(result);
 		break;
 	case RSTAPLE:
 	case RBANANA:
@@ -668,7 +673,7 @@ void Parser::InitList()
 void Parser::Expression(ExprRec& result)
 {
 	Factor(result);
-	ExprTail();
+	ExprTail(result);
 }
 
 void Parser::AssignTail()

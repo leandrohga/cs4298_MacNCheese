@@ -82,7 +82,7 @@ private:
 
 	void AddOp();
 
-	void ExprTail();
+	void ExprTail(ExprRec& result);
 
 	void Factor(ExprRec& result);
 
