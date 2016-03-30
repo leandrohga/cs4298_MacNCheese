@@ -27,25 +27,33 @@ using namespace std;
 
 #include "mscan.h"
 
-enum OpKind { PLUS, MINUS };
+enum OpKind {
+	PLUS, MINUS
+};
 
 struct OpRec { // information about an operator
 	OpKind op; // operator type
 };
 
-enum ExprKind { ID_EXPR, LITERAL_EXPR, TEMP_EXPR };
+enum ExprKind {
+	ID_EXPR, LITERAL_EXPR, TEMP_EXPR
+};
 
-struct ExprRec { // information about a constant, variable, or an intermediate (temporary) result
-   ExprKind kind;   // operand type
-   string   name;   // used when kind is ID_EXPR or TEMP_EXPR
-   int      val;    // used when kind is LITERAL_EXPR
+struct ExprRec { //information about a constant, variable, or an intermediate (temporary) result
+	ExprKind kind; //operand type
+	string name; //used when kind is ID_EXPR or TEMP_EXPR
+	//used when using a LITERAL_EXPR:
+	int ival;
+	float fval;
+	bool bval;
+	string sval;
 };
 
 class CodeGen {
 public:
 
 	CodeGen();
-	// Initializes the code generator;
+	// Initializes the code generator
 
 /* _____________________________________________________________________________
 */
@@ -57,8 +65,7 @@ public:
 	void Finish();
 	// Generates code to finish the program.
 
-	void GenInfix(const ExprRec & e1, const OpRec & op,
-	              const ExprRec & e2, ExprRec& e);
+	void GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2, ExprRec& e);
 	// Produces the assembly code for an infix operation.
 
 	void NewLine();
