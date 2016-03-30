@@ -28,7 +28,7 @@ using namespace std;
 #include "mscan.h"
 
 enum OpKind {
-	PLUS, MINUS
+	PLUS, MINUS, MULT, DIV
 };
 
 struct OpRec { // information about an operator

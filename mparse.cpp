@@ -248,17 +248,22 @@ void Parser::MultOp()
 	}
 }
 
-void Parser::FactorTail()
+void Parser::FactorTail(ExprRec& result)
 {
+	ExprRec leftOperand, rightOperand;
+	OpRec op;
 	switch (NextToken())
 	{
 	case MULT_OP:
 	case DIV_OP:
+		leftOperand.kind = result.kind;
+		leftOperand.val = result.val;
+		leftOperand.name = result.name;
 		MultOp();
-		// code.ProcessOp();
-//		Primary();
-		// code.GenInfix();
-		FactorTail();
+		code.ProcessOp(op); /*** CODE ***/
+		Primary(rightOperand);
+		code.GenInfix(leftOperand, op, rightOperand, result);
+		FactorTail(result);
 		break;
 	case RSTAPLE:
 	case RBANANA:
@@ -359,7 +364,7 @@ void Parser::ExprTail(ExprRec& result)
 void Parser::Factor(ExprRec& result)
 {
 	Primary(result);
-	FactorTail();
+	FactorTail(result);
 }
 
 void Parser::RelOp()

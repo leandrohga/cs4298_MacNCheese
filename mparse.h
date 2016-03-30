@@ -76,7 +76,7 @@ private:
 
 	void MultOp();
 
-	void FactorTail();
+	void FactorTail(ExprRec& result);
 
 	void Primary(ExprRec& result);
 
