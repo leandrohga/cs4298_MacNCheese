@@ -218,7 +218,7 @@ void CodeGen::ProcessId(ExprRec& e) {
 	e.name = scan.tokenBuffer;
 }
 
-void CodeGen::ProcessLiteral(ExprRec& e) {
+void CodeGen::ProcessLit(ExprRec& e) {
 	e.kind = LITERAL_EXPR;
 	e.val = atoi(scan.tokenBuffer.data());
 }
@@ -240,6 +240,10 @@ void CodeGen::ReadId(const ExprRec & inVar) {
 void CodeGen::Start() {
 	Generate("LDA       ", "R15", "VARS");
 	Generate("LDA       ", "R14", "STRS");
+}
+
+void CodeGen::Shout(const ExprRec & outExpr) {
+	this->WriteExpr(outExpr);
 }
 
 void CodeGen::WriteExpr(const ExprRec & outExpr) {
