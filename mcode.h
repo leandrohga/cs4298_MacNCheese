@@ -43,6 +43,7 @@ struct ExprRec { //information about a constant, variable, or an intermediate (t
 	ExprKind kind; //operand type
 	string name; //used when kind is ID_EXPR or TEMP_EXPR
 	//used when using a LITERAL_EXPR:
+	int val; /* FIXME */
 	int ival;
 	float fval;
 	bool bval;
