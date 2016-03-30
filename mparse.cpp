@@ -710,7 +710,7 @@ void Parser::ShoutStmt()
 {
 	Match(SHOUT_SYM);
 	ItemList();
-	// code.NewLine();
+	code.NewLine(); /*** CODE ***/
 	Match(SEMICOLON);
 }
 
