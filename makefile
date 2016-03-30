@@ -1,12 +1,15 @@
 CXX = g++
 CC = g++
 FLAGS = -std=c++11
-DIRS = sam
+DIRS = sam tests
 
 all: micro
 
 build: micro sam
 	-for d in $(DIRS); do (cd $$d; $(MAKE)); done
+	cp sam/sam tests/
+	cp sam/macc tests/
+	cp micro tests/
 
 micro: micro.cpp mparse.o mscan.o mcode.o
 	$(CXX) $(FLAGS) mparse.o mscan.o mcode.o micro.cpp -o micro
