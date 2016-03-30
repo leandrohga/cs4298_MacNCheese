@@ -47,6 +47,7 @@ int main(int argc, char* argv[]) {
 			cout << "Usage: ./micro [sourceFile]\n       ./micro help\nExample: ./micro myProgram.mnc";
 		} else {
 			sourceName = argv[1];
+			//get the string up to the start of the .mnc extension; re-add the extension later in the program
 			sourceName = sourceName.substr(0, sourceName.find(".mnc"));
 			cout << "Source file: " << sourceName << ".mnc";
 		}
