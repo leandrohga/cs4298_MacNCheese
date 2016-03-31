@@ -191,6 +191,7 @@ int main(int argc, char* argv[]) {
 		}
 		cout << "\t\t" << scan.tokenBuffer << "\n";
 	}
-
+	sourceFile.close();
+	listFile.close();
 	return 0;
 }
