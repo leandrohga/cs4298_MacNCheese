@@ -7,7 +7,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <ctime> 	
+#include <ctime>
+#include <dirent.h>
 using namespace std;
 
 #include "mscan.h"
@@ -18,41 +19,46 @@ Scanner scan;
 
 int called(string argv);
 
-string test[] = {
-	"tests/Assign01.mnc",
-	"tests/Assign02.mnc",
-	"tests/CheeseTestWithEscape1.mnc",
-	"tests/CheeseTestWithEscape2.mnc",
-	"tests/CheeseTestWithEscape3.mnc",
-	"tests/controlStatementTest.mnc",
-	"tests/declarations.mnc",
-	"tests/ScanTest.mnc",
-	"tests/shoutTest.mnc",
-	"tests/simple.mnc",
-	"tests/SimpleBoolTest.mnc",
-	"tests/SimpleCheeseTest1.mnc",
-	"tests/SimpleCommentsTest.mnc",
-	"tests/SimpleFloatTest.mnc",
-	"tests/SimpleIntAddTest2.mnc",
-	"tests/SimpleIntTest1.mnc",
-	"tests/SimpleStringTest1.mnc",
-	"tests/SimpleTest1.mnc",
-	"tests/variables.mnc"
-};
+char test[2000][256];// I dont think we ever are 
+//going to have even more than 100 test, but 
+//I want to play safe
+
+DIR *dir;
+
+struct dirent *ent;
+
 int main() {
 	string answer;
-	int value = 0;
+	int value = 0,
+	 	i = 0;
+	if ((dir = opendir ("./tests/")) != NULL) {
+	  /* print all the files and directories within directory */
+	  while ((ent = readdir (dir)) != NULL) {
+		string a = ent->d_name;
+		cout << a << " " << a.length() << endl;
+	  	if(a != "." && a != ".." && a.length() > 4 && a.substr( a.length() - 4 ) == ".mnc") {
+		    printf ("%s\n", ent->d_name);
+		    strcpy(test[i],"./tests/");
+		    strcat(test[i],ent->d_name);
+		    i++;
+		}
+	  }
+	  closedir (dir);
+	} else {
+	  /* could not open directory */
+	  perror ("There was no file on the directory");
+	  return 3;
+	}
 	for(int i=0; i < sizeof(test); i++){
 		string argv = test[i];
 		cout << argv << endl;
 		int value = called(argv);
 		if(value == 1 || value == 2){
 			break;
+		///break if there is an error
 		}
 		//stop and let the user check the file
 		//print the name of the file
-		//
-		///break if there is an error
 		cout << "Is " << test[i] << " correct? \n intro no and press enter to stop scanning or answer no \n enter what ever else and press enter to continue" << endl;
 		cin >> answer;
 		if(answer == "no" || answer == "NO" || answer == "nO" || answer == "No"){
