@@ -73,10 +73,15 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
 }
 
 string CodeGen::ExtractOp(const OpRec & o) {
-	if (o.op == PLUS)
+	if (o.op == PLUS) {
 		return "IA        ";
-	else
+	} else if (o.op == MINUS) {
 		return "IS        ";
+	} else if (o.op == MULT) {
+		return "IM        ";
+	} else {
+		return "ID        ";
+	}
 }
 
 void CodeGen::Generate(const string & s1, const string & s2, const string & s3) {
@@ -195,6 +200,13 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op,
 			break;
 		case MINUS:
 			e.val = e1.val - e2.val;
+			break;
+		case MULT:
+			e.val = e1.val * e2.val;
+			break;
+		case DIV:
+			e.val = e1.val / e2.val;
+			break;
 		}
 	} else {
 		e.kind = TEMP_EXPR;
@@ -218,16 +230,22 @@ void CodeGen::ProcessId(ExprRec& e) {
 	e.name = scan.tokenBuffer;
 }
 
-void CodeGen::ProcessLiteral(ExprRec& e) {
+void CodeGen::ProcessLit(ExprRec& e) {
 	e.kind = LITERAL_EXPR;
 	e.val = atoi(scan.tokenBuffer.data());
 }
 
 void CodeGen::ProcessOp(OpRec& o) {
-	if (scan.tokenBuffer == "+")
+	string c = scan.tokenBuffer;
+	if (c == "+") {
 		o.op = PLUS;
-	else
+	} else if (c == "-") {
 		o.op = MINUS;
+	} else if (c == "*") {
+		o.op = MULT;
+	} else {
+		o.op = DIV;
+	}
 }
 
 void CodeGen::ReadId(const ExprRec & inVar) {
@@ -240,6 +258,10 @@ void CodeGen::ReadId(const ExprRec & inVar) {
 void CodeGen::Start() {
 	Generate("LDA       ", "R15", "VARS");
 	Generate("LDA       ", "R14", "STRS");
+}
+
+void CodeGen::Shout(const ExprRec & outExpr) {
+	this->WriteExpr(outExpr);
 }
 
 void CodeGen::WriteExpr(const ExprRec & outExpr) {

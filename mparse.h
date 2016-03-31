@@ -76,15 +76,15 @@ private:
 
 	void MultOp();
 
-	void FactorTail();
+	void FactorTail(ExprRec& result);
 
-	void Primary();
+	void Primary(ExprRec& result);
 
 	void AddOp();
 
-	void ExprTail();
+	void ExprTail(ExprRec& result);
 
-	void Factor();
+	void Factor(ExprRec& result);
 
 	void RelOp();
 
@@ -118,7 +118,7 @@ private:
 
 	void IfStmt();
 
-	void ItemListTail();
+	void ItemListTail(ExprRec& expr);
 
 	void ItemList();
 
@@ -130,7 +130,7 @@ private:
 
 	void InitList();
 
-	void Expression();
+	void Expression(ExprRec& result);
 
 	void AssignTail();
 

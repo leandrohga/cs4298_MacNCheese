@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <string>
+#include <string.h>
 #include <ctime>
 using namespace std;
 
@@ -36,10 +36,10 @@ string Time();
 int main(int argc, char* argv[]) {
 	string sourceName, outName, listName;
 
-	cout << "\n"
+	/*cout << "\n"
 		 << " M A C C   N   C H E E S E   C O M P I L E R\n"
 		 << " ___________________________________________\n"
-		 << endl;
+		 << endl;*/
 
 	//Get the source file; if an argument was passed on the command-line, use it as the source file name
 	if (argc > 1) {
@@ -83,9 +83,9 @@ int main(int argc, char* argv[]) {
 	parse.SystemGoal();
 
 	cout << endl
-		<< "\n Successful Compilation\n"
-		<< "\n Object code: " << outName << endl
-		<< "\n Listing file: " << listName << endl << endl;
+		 << "\n Successful Compilation"
+		 << "\n Object code: " << outName
+		 << "\n Listing file: " << listName << endl;
 
 	return 0;
 }

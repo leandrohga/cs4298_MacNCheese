@@ -18,11 +18,16 @@ Scanner scan;
 
 int main(int argc, char* argv[]) {
 
-	sourceFile.open(argv[1]);
-	if (!sourceFile.is_open()) {
-		cout << "File not found.";
-		cin.get();
-		return 1;
+	if (strcmp("help", argv[1]) == 0) {
+		cout << "Usage: ./scan_test [inputFile]\n       ./scan_test help\nExample: ./scan_test myProgram.mnc" << endl;
+		return 0;
+	} else {
+		sourceFile.open(argv[1]);
+		if (!sourceFile.is_open()) {
+			cout << "File not found.";
+			cin.get();
+			return 1;
+		}
 	}
 
 	listFile.open("listFile.lst");

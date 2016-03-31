@@ -66,7 +66,7 @@ void Parser::InitTail()
 	{
 	case COMMA:
 		Match(COMMA);
-		Expression();
+//		Expression();
 		InitTail();
 		break;
 	case RMUSTACHE:
@@ -248,17 +248,22 @@ void Parser::MultOp()
 	}
 }
 
-void Parser::FactorTail()
+void Parser::FactorTail(ExprRec& result)
 {
+	ExprRec leftOperand, rightOperand;
+	OpRec op;
 	switch (NextToken())
 	{
 	case MULT_OP:
 	case DIV_OP:
+		leftOperand.kind = result.kind;
+		leftOperand.val = result.val;
+		leftOperand.name = result.name;
 		MultOp();
-		// code.ProcessOp();
-		Primary();
-		// code.GenInfix();
-		FactorTail();
+		code.ProcessOp(op); /*** CODE ***/
+		Primary(rightOperand);
+		code.GenInfix(leftOperand, op, rightOperand, result);
+		FactorTail(result);
 		break;
 	case RSTAPLE:
 	case RBANANA:
@@ -280,7 +285,7 @@ void Parser::FactorTail()
 	}
 }
 
-void Parser::Primary()
+void Parser::Primary(ExprRec& result)
 {
 	switch (NextToken())
 	{
@@ -290,7 +295,7 @@ void Parser::Primary()
 	case FLOAT_LIT:
 	case CHEESE_LIT:
 		Literal();
-		// code.ProcessLit();
+		code.ProcessLit(result); /*** CODE ***/
 		break;
 	case ID:
 		Variable();
@@ -298,7 +303,7 @@ void Parser::Primary()
 		break;
 	case LBANANA:
 		Match(LBANANA);
-		Expression();
+		Expression(result);
 		Match(RBANANA);
 		break;
 	default:
@@ -321,17 +326,22 @@ void Parser::AddOp()
 	}
 }
 
-void Parser::ExprTail()
+void Parser::ExprTail(ExprRec& result)
 {
+	ExprRec leftOperand, rightOperand;
+	OpRec op;
 	switch (NextToken())
 	{
 	case PLUS_OP:
 	case MINUS_OP:
+		leftOperand.kind = result.kind;
+		leftOperand.val = result.val;
+		leftOperand.name = result.name;
 		AddOp();
-		// code.ProcessOp();
-		Factor();
-		// code.GenInfix();
-		ExprTail();
+		code.ProcessOp(op); /*** CODE ***/
+		Factor(rightOperand);
+		code.GenInfix(leftOperand, op, rightOperand, result);
+		ExprTail(result);
 		break;
 	case RSTAPLE:
 	case RBANANA:
@@ -351,10 +361,10 @@ void Parser::ExprTail()
 	}
 }
 
-void Parser::Factor()
+void Parser::Factor(ExprRec& result)
 {
-	Primary();
-	FactorTail();
+	Primary(result);
+	FactorTail(result);
 }
 
 void Parser::RelOp()
@@ -400,7 +410,7 @@ void Parser::CondTail()
 	case NE_OP:
 		RelOp();
 		// code.ProcessOp();
-		Expression();
+//		Expression();
 		break;
 	case RBANANA:
 	case SEMICOLON:
@@ -469,7 +479,7 @@ void Parser::ForAssign()
 	Variable();
 	// code.ProcessVar();
 	Match(ASSIGN_OP);
-	Expression();
+//	Expression();
 	// code.ForAssign();
 }
 
@@ -491,7 +501,7 @@ void Parser::ElseClause()
 
 void Parser::Condition()
 {
-	Expression();
+//	Expression();
 	CondTail();
 	// code.SetCondition();
 }
@@ -508,7 +518,7 @@ void Parser::SelectStmt()
 {
 	Match(SELECT_SYM);
 	Match(LBANANA);
-	Expression();
+//	Expression();
 	Match(RBANANA);
 	// code.SelectBegin();
 	CaseList();
@@ -576,15 +586,15 @@ void Parser::IfStmt()
 	// code.IfEnd();
 }
 
-void Parser::ItemListTail()
+void Parser::ItemListTail(ExprRec& expr)
 {
 	switch (NextToken())
 	{
 	case COMMA:
 		Match(COMMA);
-		Expression();
-		// code.Shout();
-		ItemListTail();
+		Expression(expr);
+		code.Shout(expr); /*** CODE ***/
+		ItemListTail(expr);
 		break;
 	case SEMICOLON:
 		break;
@@ -595,9 +605,10 @@ void Parser::ItemListTail()
 
 void Parser::ItemList()
 {
-	Expression();
-	// code.Shout();
-	ItemListTail();
+	ExprRec expr;
+	Expression(expr);
+	code.Shout(expr); /*** CODE ***/
+	ItemListTail(expr);
 }
 
 void Parser::VariableTail()
@@ -606,7 +617,7 @@ void Parser::VariableTail()
 	{
 	case LSTAPLE:
 		Match(LSTAPLE);
-		Expression();
+//		Expression();
 		Match(RSTAPLE);
 		break;
 	case RSTAPLE:
@@ -660,14 +671,14 @@ void Parser::VarList()
 
 void Parser::InitList()
 {
-	Expression();
+//	Expression();
 	InitTail();
 }
 
-void Parser::Expression()
+void Parser::Expression(ExprRec& result)
 {
-	Factor();
-	ExprTail();
+	Factor(result);
+	ExprTail(result);
 }
 
 void Parser::AssignTail()
@@ -681,7 +692,7 @@ void Parser::AssignTail()
 	case INT_LIT:
 	case FLOAT_LIT:
 	case CHEESE_LIT:
-		Expression();
+//		Expression();
 		break;
 	case LMUSTACHE:
 		Match(LMUSTACHE);
@@ -710,7 +721,7 @@ void Parser::ShoutStmt()
 {
 	Match(SHOUT_SYM);
 	ItemList();
-	// code.NewLine();
+	code.NewLine(); /*** CODE ***/
 	Match(SEMICOLON);
 }
 
@@ -839,9 +850,9 @@ void Parser::StmtList()
 
 void Parser::Program()
 {
-	// code.Start();
+	code.Start(); /*** CODE ***/
 	StmtList();
-	// code.Finish();
+	code.Finish(); /*** CODE ***/
 }
 
 void Parser::SystemGoal()
