@@ -26,6 +26,9 @@ mcode.o: mcode.cpp
 scan_test: mscan.cpp scantester.cpp
 	$(CXX) $(FLAGS) mscan.cpp scantester.cpp -o scan_test
 
+test_all: mscan.cpp testall.cpp
+	$(CXX) $(FLAGS) mscan.cpp testall.cpp -o test_all
+
 clobber:
 	rm -f *.o *.exe *.lis *.obj core micro
 
