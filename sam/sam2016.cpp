@@ -1,13 +1,13 @@
 /*	____________________________________________________________________________
 
 	                              S A M 2 0 0 7
- 
+
 
 	              An Assembler for the MACC2 Virtual Computer
- 
-	                            James L. Richards 
+
+	                            James L. Richards
 	                       Last Update: August 28, 2007
-			       Last Update: January 2, 2016 
+			       Last Update: January 2, 2016
 			       by Marty J. Wolf
 	____________________________________________________________________________
 */
@@ -29,9 +29,9 @@ const int MAXINT = 32767;
 typedef unsigned char Byte;
 typedef unsigned short Word;
 
-enum OpKind {OIN, IA, IS, IM, IDENT, FN, FA, FS, FM, FD, 
-			BI, BO, BA, IC, FC, JSR, BKT, LD, STO, LDA, 
-			FLT, FIX, J, SR, SL, SRD, SLD, RD, WR, TRNG, 
+enum OpKind {OIN, IA, IS, IM, IDENT, FN, FA, FS, FM, FD,
+			BI, BO, BA, IC, FC, JSR, BKT, LD, STO, LDA,
+			FLT, FIX, J, SR, SL, SRD, SLD, RD, WR, TRNG,
 			HALT, NOP, CLR, REALDIR, STRINGDIR, INTDIR,
 			SKIPDIR, LABELDIR};
 
@@ -66,15 +66,15 @@ string       Source;
 ifstream     InFile;
 ofstream     ListFile;
 
-bool         Saved;     // Flag for one character lookahead 
-char         Ch;        // Current character from the input 
+bool         Saved;     // Flag for one character lookahead
+char         Ch;        // Current character from the input
 
-vector<Byte> Mem;       // Memory Image being created 
-Word         Lc;        // Location Counter           
-ofstream     MemFile;   // File for the memory image  
+vector<Byte> Mem;       // Memory Image being created
+Word         Lc;        // Location Counter
+ofstream     MemFile;   // File for the memory image
 
 SymPtr       Symbols;
-int          Line;      // Number of the current input line 
+int          Line;      // Number of the current input line
 
 ErrorKind    Error;
 bool         Errs;
@@ -129,9 +129,9 @@ void CheckTab(SymPtr cur)
 		if (cur->loc < 0)
 		{
 			Warning = true;
-			ListFile << "   WARNING -- " << cur->id << " Undefined" 
+			ListFile << "   WARNING -- " << cur->id << " Undefined"
 				<< endl;
-			cout << "   WARNING -- " << cur->id << " Undefined" 
+			cout << "   WARNING -- " << cur->id << " Undefined"
 				<< endl;
 		}
 		CheckTab(cur->right);
@@ -222,11 +222,11 @@ void InRegAddr (Word& w, int reg, int hbit)
 	Word mask1 = 0xFFFF,
 		 mask2 = 0xFFFF,
 		 wreg;
-	
+
 	wreg = Word(reg);
 	wreg <<= hbit - 3;
 
-	w &= ((mask1 << (hbit+1)) | (mask2 >> (19-hbit))); 
+	w &= ((mask1 << (hbit+1)) | (mask2 >> (19-hbit)));
 	w |= wreg;
 }
 
@@ -253,7 +253,7 @@ void GetCh()
 			do
 			{
 				InFile.get(Ch);
-				ListFile << Ch;		
+				ListFile << Ch;
 			} while((Ch == ' ' || Ch == '\t') && !Eoln(InFile));
 			if (Ch == '%') // skip remainder of line
 			{
@@ -278,7 +278,7 @@ void ScanName (string& id)
 //
 {
 	id = "";
-	while (id.length() < 7 && ((Ch >= 'A' && Ch <= 'Z')|| isdigit(Ch))) 
+	while (id.length() < 7 && ((Ch >= 'A' && Ch <= 'Z')|| isdigit(Ch)))
 	{
 		id += Ch;
 		GetCh();
@@ -348,7 +348,7 @@ void ScanStr()
 //
 //  Gets a quoted string from the input stream.
 //
-{         
+{
 	bool one;
 	int  ival;
 	Byte byte1, byte2;
@@ -446,7 +446,7 @@ void ScanReal (Word& w1, Word& w2)
 {
 	union FloatRec
 	{
-		Byte  b[4]; 
+		Byte  b[4];
 		float rf;
 	};
 
@@ -505,7 +505,7 @@ void ScanInt (Word& w)
 		temp = temp * 10 + int(Ch) - int('0');
 		GetCh();
 	}
-	Saved = true;    // Note the lookahead. 
+	Saved = true;    // Note the lookahead.
 	if (neg)
 		temp = -temp;
 	if (temp > MAXINT || temp < -MAXINT-1)
@@ -550,7 +550,7 @@ void GetGenAddr(OpKind op, Word& w1, Word& w2, bool& flag)
 	int    reg;
 	string id;
 	SymPtr idrec;
- 
+
 	flag = false;
 	GetCh();
 	if (Ch == '*')
@@ -602,7 +602,7 @@ void GetGenAddr(OpKind op, Word& w1, Word& w2, bool& flag)
 		ScanInt(w2);
 	}
 
-	else 
+	else
 		switch (Ch)
 		{
 		case 'R': // direct register
@@ -619,10 +619,10 @@ void GetGenAddr(OpKind op, Word& w1, Word& w2, bool& flag)
 			flag = true;
 			if (w1 & 0x0040)
 				Error = BAD_GEN_ADDR;
-			else if (op == FN || op == FA || op == FS|| op == FM 
-						|| op == FD || op == FC || op == FIX 
+			else if (op == FN || op == FA || op == FS|| op == FM
+						|| op == FD || op == FC || op == FIX
 						|| op == JSR || op == BKT || op == STO
-						|| op == J || op == RD || op == TRNG) 
+						|| op == J || op == RD || op == TRNG)
 				Error = ILL_MED_ADDR;
 			else if (w1 == (Wrop | 0x0080))
 				Error = ILL_MED_ADDR;
@@ -635,7 +635,7 @@ void GetGenAddr(OpKind op, Word& w1, Word& w2, bool& flag)
 			}
 			break;
 
-		case '-': case '+': // indexed 
+		case '-': case '+': // indexed
 			w1 = w1 | 0x0020; // [5]
 			flag = true;
 			if (Ch == '-')
@@ -698,7 +698,7 @@ void GetBop (OpKind& op, Word& wd)
 			op = BKT;
 			wd = Bktop;
 		}
-		else 
+		else
 			Error = UNKNOWN_OP_NAME;
 		break;
 
@@ -708,7 +708,7 @@ void GetBop (OpKind& op, Word& wd)
 		break;
 
 	default:
-		// character does not legally follow `B' 
+		// character does not legally follow `B'
 		Error = UNKNOWN_OP_NAME;
 	}
 }
@@ -743,7 +743,7 @@ void GetFop (OpKind& op, Word& wd)
 			op = FIX;
 			wd = Fixop;
 		}
-		else 
+		else
 			Error = UNKNOWN_OP_NAME;
 		break;
 
@@ -754,7 +754,7 @@ void GetFop (OpKind& op, Word& wd)
 			op = FLT;
 			wd = Fltop;
 		}
-		else 
+		else
 			Error = UNKNOWN_OP_NAME;
 		break;
 
@@ -825,7 +825,7 @@ void GetIop (OpKind& op, Word& wd)
 		break;
 
 	default:
-		// character does not legally follow `I' 
+		// character does not legally follow `I'
 		Error = UNKNOWN_OP_NAME;
 	}
 }
@@ -836,7 +836,7 @@ void GetJop (OpKind& op, Word& wd)
 //
 {
 	GetCh();
-	op = J; // most are simple jumps--except JSR!! 
+	op = J; // most are simple jumps--except JSR!!
 	switch (Ch)
 	{
 	case 'E':
@@ -894,7 +894,7 @@ void GetJop (OpKind& op, Word& wd)
 			Error = UNKNOWN_OP_NAME;
         break;
 
-	default:        
+	default:
 		//Ch not in ['E','G',...] }
         Error = UNKNOWN_OP_NAME;
 	}
@@ -1031,14 +1031,14 @@ void GetRop (OpKind& op, Word& wd)
 	{
 		GetCh();
 		if (Ch == 'A')
-		{        
+		{
 			GetCh();
 			if (Ch == 'L')
 				op = REALDIR;
 			else
 				Error = UNKNOWN_OP_NAME;
 		}
-		else // Ch != 'A' 
+		else // Ch != 'A'
 			Error = UNKNOWN_OP_NAME;
 	}
 	else // Ch != 'E'
@@ -1063,7 +1063,7 @@ void GetSop (OpKind& op, Word& wd)
 			else
 				Error = UNKNOWN_OP_NAME;
 		}
-		else // Ch != 'I' 
+		else // Ch != 'I'
 			Error = UNKNOWN_OP_NAME;
 		break;
 
@@ -1126,7 +1126,7 @@ void GetSop (OpKind& op, Word& wd)
 			switch (Ch)
 			{
 			case 'C':
-				wd = Srop | 0x0070; // [4, 5, 6] 
+				wd = Srop | 0x0070; // [4, 5, 6]
 				break;
 			case 'E':
 				wd = Srop | 0x0060; // [5, 6]
@@ -1295,7 +1295,7 @@ void ProLine()
 	short  i1, i2;
 	string id;
 	SymPtr idrec;
- 
+
 	twowds = false;
 	Error = NO_ERROR;
 
@@ -1342,7 +1342,7 @@ void ProLine()
 				else // Ch != 'T'
 					Error = UNKNOWN_OP_NAME;
 			}
-			else // Ch != 'L' 
+			else // Ch != 'L'
 				Error = UNKNOWN_OP_NAME;
 		}
 		else // Ch != 'A'
@@ -1412,11 +1412,11 @@ void ProLine()
 	case 'W':
 		GetWop(op, wd);
 		break;
-	
+
 	default:
 		Error = UNKNOWN_OP_NAME;
 	}
-	
+
 	if (Error == NO_ERROR)
 	{
 		switch (op)
@@ -1431,7 +1431,7 @@ void ProLine()
 			}
 			break;
 
-		case SL: 
+		case SL:
 		case SR:
 		case SLD:
 		case SRD:
@@ -1460,28 +1460,28 @@ void ProLine()
             }
 			break;
 
-		case OIN: 
-		case IA: 
-		case IS: 
-		case IM: 
-		case IDENT: 
-		case FN: 
+		case OIN:
+		case IA:
+		case IS:
+		case IM:
+		case IDENT:
+		case FN:
 		case FA:
-        case FS: 
-		case FM: 
-		case FD: 
-		case BI: 
-		case BO: 
-		case BA: 
+        case FS:
+		case FM:
+		case FD:
+		case BI:
+		case BO:
+		case BA:
 		case IC:
-		case FC: 
-		case JSR: 
-		case BKT: 
-		case LD: 
-		case STO: 
-		case LDA: 
+		case FC:
+		case JSR:
+		case BKT:
+		case LD:
+		case STO:
+		case LDA:
 		case FLT:
-		case FIX: 
+		case FIX:
 		case TRNG:
             reg = GetRegAddr();
             if (Error == NO_ERROR)
@@ -1519,7 +1519,7 @@ void ProLine()
 					InsertMem (wd);
 			break;
 
-		case RD: 
+		case RD:
 		case WR:
             twowds = false;
 			if (!((0x0400 & wd)&&(0x0100 & wd)))
@@ -1640,9 +1640,9 @@ void InitOpcodes()
 
 string Date()
 {
-	const string MONTH[] = 
-		{ "January", "February", "March", "April", "May", "June", 
-		  "July", "August", "September", "October", "November", 
+	const string MONTH[] =
+		{ "January", "February", "March", "April", "May", "June",
+		  "July", "August", "September", "October", "November",
 		  "December" };
 /*
 	char theDate[10];
@@ -1653,19 +1653,19 @@ string Date()
 
 	moNumber = 10 * (theDate[0] - '0') + theDate[1] - '0' - 1;
 	return MONTH[moNumber] + ' '
-		+ ((strDate[3] == '0') ? strDate.substr(4,1) 
-		                       : strDate.substr(3,2)) 
+		+ ((strDate[3] == '0') ? strDate.substr(4,1)
+		                       : strDate.substr(3,2))
 		+ ", 20" + strDate.substr(6,3);
 */
 	   time_t now = time(0);
 
 	   tm *ltm = localtime(&now);
 
-           return MONTH[ltm->tm_mon] + " " + 
-		static_cast<ostringstream*>( 
+           return MONTH[ltm->tm_mon] + " " +
+		static_cast<ostringstream*>(
 			&(ostringstream() << ltm->tm_mday) )->str()
 		+ ", " +
-		static_cast<ostringstream*>( 
+		static_cast<ostringstream*>(
 			&(ostringstream() << 1900 + ltm->tm_year) )->str();
 
 
@@ -1673,8 +1673,8 @@ string Date()
 
 string Time()
 {
-	const  string HOUR[] 
-		= { "12", "1", "2", "3", "4", "5", "6", 
+	const  string HOUR[]
+		= { "12", "1", "2", "3", "4", "5", "6",
 		    "7", "8", "9", "10", "11" };
 	int    hrNumber;
 	string suffix;
@@ -1695,7 +1695,7 @@ string Time()
 	if ( ltm->tm_min < 10)
 	   pad = "0";
 	return HOUR[hrNumber] + ':' + pad +
-		static_cast<ostringstream*>( 
+		static_cast<ostringstream*>(
 			&(ostringstream() << ltm->tm_min) )->str()
 		+ suffix;
 }
@@ -1704,22 +1704,23 @@ int main(int argc, char *argv[])
 {
 
 	cout << "SAM 2016 ASSEMBLER\n" << endl;
-	cout << "SAM source file name: ";
 	if (argc > 1) {
-		Source = string(argv[1]);
-		Source.erase(Source.end() - 4);
-		Source.erase(Source.end() - 3);
-		Source.erase(Source.end() - 2);
-		Source.erase(Source.end() - 1);
-		cout << Source << endl;
+        if (strcmp(argv[1], "help") == 0) {
+			cout << "Usage: ./sam [sourceFile]\n       ./sam help";
+		} else {
+			Source = argv[1];
+			Source = Source.substr(0, Source.find(".asm"));
+			cout << "SAM source file name: " << Source << ".asm" << endl;
+		}
 	} else {
+        cout << "SAM source file name: ";
 		getline(cin, Source);
 	}
 
-	InFile.open((Source+".asm").data());
+	InFile.open((Source + ".asm").data());
 	if(!InFile.is_open())
 	{
-		cout << "\nFile \"" << Source + ".asm" << "\" not found!" 
+		cout << "\nFile \"" << Source + ".asm" << "\" not found!"
 			 << "\nAssembly aborted.\n" << endl;
 		cin.get();
 		exit(1);
@@ -1744,8 +1745,8 @@ int main(int argc, char *argv[])
 	{
 		ListFile << endl;
 		ListFile << setw(10) << "LN" << setw(6) << "LC" << endl;
-		ListFile << setw(10) << Line 
-			     << setw(6) << hex << uppercase << Lc 
+		ListFile << setw(10) << Line
+			     << setw(6) << hex << uppercase << Lc
 				 << dec << ": ";
 	}
 	else
@@ -1768,8 +1769,8 @@ int main(int argc, char *argv[])
 			if (!InFile.eof())
 			{
 				ListFile << endl << flush;
-				ListFile << setw(10) << ++Line 
-					     << setw(6) << hex << uppercase << Lc 
+				ListFile << setw(10) << ++Line
+					     << setw(6) << hex << uppercase << Lc
 						 << dec << ": ";
 				GetCh();
 			}
@@ -1787,7 +1788,7 @@ int main(int argc, char *argv[])
 			if (Ch != '%' && !isspace(Ch))
 			{ // skip text after instruction
 			    Warn(TEXT_FOLLOWS);
-				do				
+				do
 				{
 					InFile.get(Ch);
 					ListFile << Ch;
@@ -1818,7 +1819,7 @@ int main(int argc, char *argv[])
 						"Improperly Formed General Address";
 					break;
 				case BAD_REG_ADDR:
-					ListFile << 
+					ListFile <<
 						"Register Address Out of Range";
 					break;
 				case BAD_INTEGER:
@@ -1846,7 +1847,7 @@ int main(int argc, char *argv[])
 						"Immediate Address not Permitted";
 					break;
 				case BAD_SHFT_AMT:
-					ListFile << 
+					ListFile <<
 						"Shift Amount not in Range";
 					break;
 				default:;
@@ -1879,10 +1880,10 @@ int main(int argc, char *argv[])
 			ListFile << hex << short(Mem[i]);
 		}
 		ListFile << endl << endl;
-		MemFile.close(); 
-	 
+		MemFile.close();
+
 		cout << "   SUCCESSFUL ASSEMBLY." << endl;
-	 	cout << "   OBJECT CODE FILE: "+ Source + ".obj" << endl; 
+	 	cout << "   OBJECT CODE FILE: "+ Source + ".obj" << endl;
 	}
 	else
 	{
@@ -1894,6 +1895,6 @@ int main(int argc, char *argv[])
 	InFile.close();
 
 	//cin.ignore(256, '\n');
-    //cin.get(); // wait for Enter 
+    //cin.get(); // wait for Enter
     return 0;
 }

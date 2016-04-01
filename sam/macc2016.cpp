@@ -25,48 +25,48 @@ const short
 	REG_SIZE = 16,     // 16-bit registers
 	MAX_INT  = 32767,
 
-				  //  Addressing Modes 
+				  //  Addressing Modes
 				  //-------------------
-	DREG   = 0,   // direct register   
-	DMEM   = 1,   // direct memory     
-	INDXD  = 2,   // indexed           
-	IMMED  = 3,   // immediate         
-	IREG   = 4,   // indirect register 
-	IMEM   = 5,   // indirect memory   
-	IINDXD = 6,   // indirect indexed  
-	PCREL  = 7,   // Pc relative       
+	DREG   = 0,   // direct register
+	DMEM   = 1,   // direct memory
+	INDXD  = 2,   // indexed
+	IMMED  = 3,   // immediate
+	IREG   = 4,   // indirect register
+	IMEM   = 5,   // indirect memory
+	IINDXD = 6,   // indirect indexed
+	PCREL  = 7,   // Pc relative
 
-	// Opcodes     |      Machine Operations       
+	// Opcodes     |      Machine Operations
 	//-------------|-------------------------------
-	IN     = 0,   // Integer Negation              
-	IA     = 1,   // Integer Addition              
-	IS     = 2,   // Integer Subtraction           
-	IM     = 3,   // Integer Multiplication        
-	ID     = 4,   // Integer Division              
-	FN     = 5,   // Floating point Negation      
-	FA     = 6,   // Floating point Addition       
-	FS     = 7,   // Floating point Subtraction    
-	FM     = 8,   // Floating point Multiplication 
-	FD     = 9,   // Floating point Division       
-	BI     = 10,  // Bitwise Inversion             
-	BO     = 11,  // Bitwise or                    
-	BA     = 12,  // Bitwise and                   
-	IC     = 13,  // Integer Comparison            
-	FC     = 14,  // Floating point Comparison     
-	JSR    = 15,  // Jump to SubRoutine            
-	BKT    = 16,  // BlocK Transfer                
-	LD     = 17,  // Load                          
-	STO    = 18,  // STOre                         
-	LDA    = 19,  // LoaD Address                  
-	FLT    = 20,  // Integer to FLoat              
-	FIX    = 21,  // Float to Integer              
-	J      = 22,  // Jump                          
-	SR     = 23,  // Shift Right                   
-	SL     = 24,  // Shift Left                    
-	RD     = 25,  // ReaD                          
-	WR     = 26,  // WRite                         
-	TRNG   = 27,  // Test RaNGe                    
-	HALT   = 31;  // HALT execution                
+	IN     = 0,   // Integer Negation
+	IA     = 1,   // Integer Addition
+	IS     = 2,   // Integer Subtraction
+	IM     = 3,   // Integer Multiplication
+	ID     = 4,   // Integer Division
+	FN     = 5,   // Floating point Negation
+	FA     = 6,   // Floating point Addition
+	FS     = 7,   // Floating point Subtraction
+	FM     = 8,   // Floating point Multiplication
+	FD     = 9,   // Floating point Division
+	BI     = 10,  // Bitwise Inversion
+	BO     = 11,  // Bitwise or
+	BA     = 12,  // Bitwise and
+	IC     = 13,  // Integer Comparison
+	FC     = 14,  // Floating point Comparison
+	JSR    = 15,  // Jump to SubRoutine
+	BKT    = 16,  // BlocK Transfer
+	LD     = 17,  // Load
+	STO    = 18,  // STOre
+	LDA    = 19,  // LoaD Address
+	FLT    = 20,  // Integer to FLoat
+	FIX    = 21,  // Float to Integer
+	J      = 22,  // Jump
+	SR     = 23,  // Shift Right
+	SL     = 24,  // Shift Left
+	RD     = 25,  // ReaD
+	WR     = 26,  // WRite
+	TRNG   = 27,  // Test RaNGe
+	HALT   = 31;  // HALT execution
 
 	typedef short RegAddr;           //  = 0..15
 
@@ -81,7 +81,7 @@ const short
 	typedef short WordRange;         //  = -MAX_INT..MAX_INT
 
 	typedef char ByteRange;          //  = -128..127
- 
+
 	union ICrec
 	{
 		Word      wf;
@@ -105,17 +105,17 @@ const short
 	Byte     Mem[MEM_SIZE];   // Memory
 	Word     Regs[REG_SIZE];  // Registers
 	MemAddr  Pc;              // Program Counter
-	Word     Ir;              // Instruction Register 
+	Word     Ir;              // Instruction Register
 
 	bool     StopProgram;     // Machine halt flag
 	bool     Lt, Eq, Gt;      // CPU status bits
 	MemAddr  oldPc;
 
-	ICrec    Icr;             // Integer conversion record   
-	RCrec    Rcr;             // Real conversion record      
-	BCrec    Bcr;             // Boolean conversion record  
+	ICrec    Icr;             // Integer conversion record
+	RCrec    Rcr;             // Real conversion record
+	BCrec    Bcr;             // Boolean conversion record
 
-	bool     MemImage;        // true iff nonempty memory image exists 
+	bool     MemImage;        // true iff nonempty memory image exists
 	bool     Trace;           // true iff a trace file is desired
 
 	string   Source;          // name of object code file
@@ -204,7 +204,7 @@ void ShowAddr(short location, short mode, short r2, short a2)
 	}
 }
 
-void WriteInst (short loc, short opcode, short field1, short field2, 
+void WriteInst (short loc, short opcode, short field1, short field2,
 				short field3, short addr2)
 //
 //  Writes out an instruction to the trace file.
@@ -327,7 +327,7 @@ void WriteInst (short loc, short opcode, short field1, short field2,
 		case 10: TraceFile << "WRIN  "; break;
 		case 11: TraceFile << "WRLN  "; break;
 		default:
-			TraceFile << "  Invalid WR instruction, fmt = " 
+			TraceFile << "  Invalid WR instruction, fmt = "
 						<< field1 << ": ";
 		}
 		break;
@@ -337,25 +337,25 @@ void WriteInst (short loc, short opcode, short field1, short field2,
     case HALT: TraceFile << "HALT  "; break;
 
     default:
-		TraceFile << "  Invalid instruction, opcode = " 
+		TraceFile << "  Invalid instruction, opcode = "
 					<< opcode << ": '";
 	}
 
-	if ((opcode >= IN && opcode <= FLT) || opcode == TRNG) 
+	if ((opcode >= IN && opcode <= FLT) || opcode == TRNG)
 	{ // 2 address
 		ShowReg(field1);
 		TraceFile << ", ";
 		ShowAddr (loc, field2, field3, addr2);
 	}
-	else if ((opcode == J && field1 != 7)      // jump but not nop   
-			|| (opcode == WR && field1 != 11)  // write but not wrnl 
+	else if ((opcode == J && field1 != 7)      // jump but not nop
+			|| (opcode == WR && field1 != 11)  // write but not wrnl
             || (opcode == RD))
 		ShowAddr (loc, field2, field3, addr2);
-	else if (opcode == SR || opcode == SL)     // 1 register address 
+	else if (opcode == SR || opcode == SL)     // 1 register address
     {
       ShowReg(field1);
       TraceFile << ", ";
-      TraceFile << field3;  // amnt 
+      TraceFile << field3;  // amnt
     }
 	TraceFile << endl;
 }
@@ -377,7 +377,7 @@ void DisplayRegs()
 	for (short i = 0; i < REG_SIZE; i++)
 	{
 		Icr.wf = Regs[i];
-		TraceFile << "  Reg[" << setw(2) << dec << i << "] = " 
+		TraceFile << "  Reg[" << setw(2) << dec << i << "] = "
 			<< setw(5) << hex << Icr.sintf;
 		if ((i + 1) % 4 == 0)
 			TraceFile << endl;
@@ -447,7 +447,7 @@ short Eac(short mode, RegAddr reg, short& w2)
 		Icr.wf = Regs[reg];
 		taddr = (w2 + Icr.sintf ) % MEM_SIZE;
 		BytesToWord(Mem[taddr], Mem[taddr+1], Icr.wf);
-		// Icr.wf := Icr.wf - [15]; 
+		// Icr.wf := Icr.wf - [15];
 		taddr = Icr.sintf;
 		break;
 
@@ -469,7 +469,7 @@ void TwoAddr (short opcode, short r1, short amode, short r2, short& w2)
 	float rop1, rop2;
 
 	addr = Eac(amode, r2, w2);
-	if (opcode == IN || opcode == IA || opcode == IS 
+	if (opcode == IN || opcode == IA || opcode == IS
 			|| opcode == IM || opcode == ID || opcode == IC)
 	{
 		if (addr >= 0)
@@ -497,7 +497,7 @@ void TwoAddr (short opcode, short r1, short amode, short r2, short& w2)
 			ans = iop1 / iop2;
 			break;
         case IC:
-            ans = iop1;    // to restore state of Regs[r1] 
+            ans = iop1;    // to restore state of Regs[r1]
             Lt = false;
             Eq = false;
             Gt = false;
@@ -513,7 +513,7 @@ void TwoAddr (short opcode, short r1, short amode, short r2, short& w2)
 		Regs[r1] = Icr.wf;
 	}
 
-	else if (opcode == FN || opcode == FA || opcode == FS 
+	else if (opcode == FN || opcode == FA || opcode == FS
 				|| opcode == FM || opcode == FD || opcode == FC)
 	{
 		WordToBytes(Regs[r1], Rcr.b[3], Rcr.b[2]) ;
@@ -608,7 +608,7 @@ void TwoAddr (short opcode, short r1, short amode, short r2, short& w2)
 		{
 			cout << "Address of BKT is a Register " << (Pc - 2) << endl;
 			if (Trace)
-				TraceFile << "Address of BKT is a Register " 
+				TraceFile << "Address of BKT is a Register "
 					<< (Pc - 2) << endl;
 			StopProgram = true;
 		}
@@ -634,7 +634,7 @@ void TwoAddr (short opcode, short r1, short amode, short r2, short& w2)
             {
 				BytesToWord(Mem[addr], Mem[addr+1], Icr.wf);
 				TraceFile << "  ***** Value " << Icr.sintf
-						<< " stored at address " << hex << addr 
+						<< " stored at address " << hex << addr
 						<< dec << endl;
             }
 		}
@@ -651,7 +651,7 @@ void TwoAddr (short opcode, short r1, short amode, short r2, short& w2)
 		{
 			cout << "Address of LDA is a Register " << (Pc - 2) << endl;
 			if (Trace)
-				TraceFile << "Address of LDA is a Register " 
+				TraceFile << "Address of LDA is a Register "
 					<< (Pc - 2) << endl;
 			StopProgram = true;
 		}
@@ -688,18 +688,18 @@ void TwoAddr (short opcode, short r1, short amode, short r2, short& w2)
 		if (addr >= 0)
 		{
 			BytesToWord(Mem[addr], Mem[addr+1], Icr.wf);
-			iop1 = Icr.sintf;		// lower bound 
+			iop1 = Icr.sintf;		// lower bound
 			BytesToWord(Mem[addr+2], Mem[addr+3], Icr.wf);
-			iop2 = Icr.sintf;		// upper bound 
+			iop2 = Icr.sintf;		// upper bound
 			Icr.wf = Regs[r1];
-			ans = Icr.sintf ;		// test expression 
+			ans = Icr.sintf ;		// test expression
 			if (ans < iop1 || ans > iop2)
 			{
 				cout << "Index expression out of bounds at " << (Pc-2)
 					<< " (expr = " << ans << " lower = " << iop1
 					<< " upper = " << iop2 << ")" << endl;
 				if (Trace)
-					TraceFile << "Index expression out of bounds at " 
+					TraceFile << "Index expression out of bounds at "
 						<< (Pc-2)
 						<< " (expr = " << ans << " lower = " << iop1
 						<< " upper = " << iop2 << ")" << endl;
@@ -708,10 +708,10 @@ void TwoAddr (short opcode, short r1, short amode, short r2, short& w2)
 		}
 		else
 		{
-			cout << "Address of TRNG is a register at " 
+			cout << "Address of TRNG is a register at "
 				<< (Pc-2) << endl;
 			if (Trace)
-				cout << "Address of TRNG is a register at " 
+				cout << "Address of TRNG is a register at "
 					<< (Pc-2) << endl;
 			StopProgram = true;
 		}
@@ -757,7 +757,7 @@ void Jop(int jmode, short amode, short reg, short& w2)
 		case 6: // JGT
 			if (Gt) Pc = addr;
 			break;
-		case 7:; // no jump 
+		case 7:; // no jump
 		}
 	else
 	{
@@ -795,12 +795,12 @@ void SRop (short reg, short smode, short amnt)
 		Regs[reg] = w1;
 		break;
 
-    case 4:                       // SRDZ--DoubleWord fill with 0 
-	case 5:                       // SRDO--DoubleWord fill with 1 
+    case 4:                       // SRDZ--DoubleWord fill with 0
+	case 5:                       // SRDO--DoubleWord fill with 1
     case 6:                       // SRDE--DoubleWord bit extend
     case 7:                       // SRDC--DoubleWord circular
 		w1 = Regs[reg];
-		w2 = Regs[(reg + 1) % REG_SIZE]; 
+		w2 = Regs[(reg + 1) % REG_SIZE];
 		if (amnt == 0)
 			amnt = 16;
 		if ((smode == 5) || ((smode == 6) && (0x8000 & w1)))
@@ -816,7 +816,7 @@ void SRop (short reg, short smode, short amnt)
 		else
 		{
 			mask1 = w1 << (16 - amnt);
-			mask2 = 0x0000;	
+			mask2 = 0x0000;
 		}
 		w1 = (w1 >> amnt) | mask2;
 		w2 = (w2 >> amnt) | mask1;
@@ -852,12 +852,12 @@ void SLop (short reg, short smode, short amnt)
 		Regs[reg] = w1;
 		break;
 
-    case 4:                       // SLDZ--DoubleWord fill with 0 
-	case 5:                       // SLDO--DoubleWord fill with 1 
+    case 4:                       // SLDZ--DoubleWord fill with 0
+	case 5:                       // SLDO--DoubleWord fill with 1
     case 6:                       // SLDE--DoubleWord bit extend
     case 7:                       // SLDC--DoubleWord circular
 		w1 = Regs[reg];
-		w2 = Regs[(reg + 1) % REG_SIZE]; 
+		w2 = Regs[(reg + 1) % REG_SIZE];
 		if (amnt == 0)
 			amnt = 16;
 		if ((smode == 5) || ((smode == 6) && (0x8000 & w1)))
@@ -873,7 +873,7 @@ void SLop (short reg, short smode, short amnt)
 		else
 		{
 			mask1 = w2 >> (16 - amnt);
-			mask2 = 0x0000;	
+			mask2 = 0x0000;
 		}
 		w1 = (w1 << amnt) | mask1;
 		w2 = (w2 << amnt) | mask2;
@@ -897,7 +897,7 @@ void RDop (short rmode, short amode, short reg, short& w2)
 		addr = Eac(amode, reg, w2);
 		switch (rmode)
 		{
-		case 0:                          // RDI--read integer 
+		case 0:                          // RDI--read integer
 			cin >> i;
 			if ((i > MAX_INT) || (i < -MAX_INT))
 			{
@@ -916,7 +916,7 @@ void RDop (short rmode, short amode, short reg, short& w2)
 			}
 			break;
 
-		case 1:                          // RDF--read floating point 
+		case 1:                          // RDF--read floating point
 			cin >> Rcr.rf;
 			if (addr >= 0)
 			{
@@ -932,7 +932,7 @@ void RDop (short rmode, short amode, short reg, short& w2)
 			}
 			break;
 
-		case 2:                          // RDBD--read binary digit 
+		case 2:                          // RDBD--read binary digit
 			cin >> ch;
 			if (ch == '0')
 				if (addr >= 0)
@@ -948,7 +948,7 @@ void RDop (short rmode, short amode, short reg, short& w2)
 			{
 				cout << "Invalid Input: RDBD " << (Pc - 2) << endl;
 				if (Trace)
-					TraceFile << "Invalid Input: RDBD " << (Pc - 2) 
+					TraceFile << "Invalid Input: RDBD " << (Pc - 2)
 						<< endl;
 				StopProgram = true;
 			}
@@ -966,10 +966,10 @@ void RDop (short rmode, short amode, short reg, short& w2)
 					; // do nothing
 				else
 				{
-					cout << "Invalid Input: RDBW " << ( Pc - 2) 
+					cout << "Invalid Input: RDBW " << ( Pc - 2)
 						<< endl;
 					if (Trace)
-						TraceFile << "Invalid Input: RDBW " 
+						TraceFile << "Invalid Input: RDBW "
 							<< ( Pc - 2) << endl;
 					flag = false;
 					StopProgram = true;
@@ -983,8 +983,8 @@ void RDop (short rmode, short amode, short reg, short& w2)
 					Regs[reg] = wd;
 			break;
 
-		case 4:                           // RDOD--read octal digit 
-		case 5:                           // RDOW--read octal Word          
+		case 4:                           // RDOD--read octal digit
+		case 5:                           // RDOW--read octal Word
 			cout << "Operations RDOD and RDOW not presently"
 				<< " implemented, at " << (Pc-2) << endl;
 			if (Trace)
@@ -993,7 +993,7 @@ void RDop (short rmode, short amode, short reg, short& w2)
 			StopProgram = true;
 			break;
 
-		case 6:                           // RDHD--read hex digit 
+		case 6:                           // RDHD--read hex digit
             cin >> ch;
 			ch = toupper(ch);
 			if ((ch >= 'A' && ch <= 'F') || isdigit(ch))
@@ -1027,13 +1027,13 @@ void RDop (short rmode, short amode, short reg, short& w2)
 			{
 				cout << "Invalid Input: RDHD " << (Pc - 2) << endl;
 				if (Trace)
-					TraceFile << "Invalid Input: RDHD " << (Pc - 2) 
+					TraceFile << "Invalid Input: RDHD " << (Pc - 2)
 						<< endl;
 				StopProgram = true;
 			}
 			break;
 
-		case 7:                          // RDHW--read hex Word 
+		case 7:                          // RDHW--read hex Word
 			i = 15;
 			flag = true;
 			wd = 0x0000;
@@ -1049,7 +1049,7 @@ void RDop (short rmode, short amode, short reg, short& w2)
 				{
 					cout << "Invalid Input: RDHW " << (Pc - 2) << endl;
 					if (Trace)
-						TraceFile << "Invalid Input: RDHW " << (Pc - 2) 
+						TraceFile << "Invalid Input: RDHW " << (Pc - 2)
 							<< endl;
 					flag = false;
 					StopProgram = true;
@@ -1085,7 +1085,7 @@ void RDop (short rmode, short amode, short reg, short& w2)
 				Regs[reg] = wd;
 			break;
 
-		case 8:                           // RDCH--read ASCII character 
+		case 8:                           // RDCH--read ASCII character
 			cin.get(ch);
 			if (addr >= 0)
 				Mem[addr] = Byte(ch);
@@ -1093,12 +1093,12 @@ void RDop (short rmode, short amode, short reg, short& w2)
 				Regs[reg] = (Regs[reg] & 0xFF00) | (Word(ch) & 0x00FF);
 			break;
 
-		case 9:                           // RDST--read ASCII string 
+		case 9:                           // RDST--read ASCII string
 			if (addr < 0)
 			{
 				cout << "Invalid Address: RDST " << (Pc - 2) << endl;
 				if (Trace)
-					TraceFile << "Invalid Address: RDST " << (Pc - 2) 
+					TraceFile << "Invalid Address: RDST " << (Pc - 2)
 						<< endl;
 				StopProgram = true;
 			}
@@ -1129,7 +1129,7 @@ void RDop (short rmode, short amode, short reg, short& w2)
 			cin.ignore(256,'\n');
 			break;
 
-		case 10:                          // RDIN--read instruction 
+		case 10:                          // RDIN--read instruction
 			cout << "Operation RDIN not presently implemented"
 				<< " at " << (Pc-2) << endl;
 			if (Trace)
@@ -1138,7 +1138,7 @@ void RDop (short rmode, short amode, short reg, short& w2)
 			StopProgram = true;
 			break;
 
-		case 11:                          // RDNL--read newline 
+		case 11:                          // RDNL--read newline
 			cin.ignore(256, '\n');
 		}
 	}
@@ -1146,7 +1146,7 @@ void RDop (short rmode, short amode, short reg, short& w2)
     {
 		cout << "Invalid Read Mode Detected at " << (Pc - 2) << endl;
 		if (Trace)
-			TraceFile << "Invalid Read Mode Detected at " << (Pc - 2) 
+			TraceFile << "Invalid Read Mode Detected at " << (Pc - 2)
 				<< endl;
 		StopProgram = true;
     }
@@ -1167,7 +1167,7 @@ void WRop (short wmode, short amode, short reg, short& w2)
 		addr = Eac(amode, reg, w2);
 		switch (wmode)
 		{
-		case 0:                           // WRI--write integer 
+		case 0:                           // WRI--write integer
             if (addr >= 0)
 				BytesToWord(Mem[addr], Mem[addr+1], Icr.wf);
             else
@@ -1175,7 +1175,7 @@ void WRop (short wmode, short amode, short reg, short& w2)
             cout << ' ' << Icr.sintf;
             break;
 
-		case 1:                           // WRF--write float 
+		case 1:                           // WRF--write float
 			if (addr >= 0)
 			{
 				Rcr.b[3] = Mem[addr     ];
@@ -1192,7 +1192,7 @@ void WRop (short wmode, short amode, short reg, short& w2)
 			cout << Rcr.rf;
 			break;
 
-		case 2:                           // WRBD--write binary digit 
+		case 2:                           // WRBD--write binary digit
 			if (addr >= 0)
 				BytesToWord(Mem[addr], Mem[addr+1], wd);
 			else
@@ -1203,7 +1203,7 @@ void WRop (short wmode, short amode, short reg, short& w2)
 				cout << '0';
 			break;
 
-		case 3:                           // WRBW--write binary Word 
+		case 3:                           // WRBW--write binary Word
 			if (addr >= 0)
 				BytesToWord(Mem[addr], Mem[addr+1], wd);
 			else
@@ -1215,8 +1215,8 @@ void WRop (short wmode, short amode, short reg, short& w2)
 					cout << '0';
 			break;
 
-		case 4:                           // WROD--write octal digit 
-		case 5:                           // WROW--write octal Word  
+		case 4:                           // WROD--write octal digit
+		case 5:                           // WROW--write octal Word
 			cout << "Operations WROD and WROW not presently"
 				<< " implemented, at " << (Pc-2) << endl;
 			if (Trace)
@@ -1225,7 +1225,7 @@ void WRop (short wmode, short amode, short reg, short& w2)
 			StopProgram = true;
 			break;
 
-		case 6:                           // WRHD--write hex digit 
+		case 6:                           // WRHD--write hex digit
 			if (addr >= 0)
 				BytesToWord(Mem[addr], Mem[addr+1], wd);
 			else
@@ -1241,7 +1241,7 @@ void WRop (short wmode, short amode, short reg, short& w2)
 			cout << uppercase << hex << ival;
 			break;
 
-		case 7:                           // WRHW--write hex Word 
+		case 7:                           // WRHW--write hex Word
 			if (addr >= 0)
 				BytesToWord(Mem[addr], Mem[addr+1], wd);
 			else
@@ -1272,7 +1272,7 @@ void WRop (short wmode, short amode, short reg, short& w2)
 				cout << char(Regs[reg] & 0x00FF);
 			break;
 
-		case 9:                           // WRST--write string 
+		case 9:                           // WRST--write string
 			ch = ' ';
 			do
 			{
@@ -1298,7 +1298,7 @@ void WRop (short wmode, short amode, short reg, short& w2)
     {
 		cout << "Invalid Write Mode Dectected at " << (Pc - 1) << endl;
 		if (Trace)
-			TraceFile << "Invalid Write Mode Dectected at " << (Pc - 1) 
+			TraceFile << "Invalid Write Mode Dectected at " << (Pc - 1)
 				<< endl;
 		StopProgram = true;
     }
@@ -1375,19 +1375,22 @@ void Rdmem(char *filename)
 	ifstream Memf;
 	short i;
 
-	cout << "MACC 2016 Virtual Machine Emulator\n" << endl; 
+	cout << "MACC 2016 Virtual Machine Emulator\n" << endl;
 	cout << "Object file name: ";
 	if (filename == NULL) {
 		getline(cin, Source);
 		cout << endl;
 	} else {
-		Source = string(filename);
+		Source = filename;
+		if (Source.find(".obj") == -1) {
+			Source += ".obj";
+		}
 		cout << Source << endl;
 	}
 	Memf.open((Source).data(), ios_base::binary);
 	if (!Memf.is_open())
 	{
-		cout << "\nFile \"" << Source << "\" not found!" 
+		cout << "\nFile \"" << Source << "\" not found!"
 			 << "\nExecution aborted.\n" << endl;
 		cin.get();
 		exit(1);
@@ -1415,7 +1418,7 @@ void Rdmem(char *filename)
 			if (Trace)
 			{
 				if (i % 16 == 0)
-					TraceFile << endl << setw(4) << i << " |"; 
+					TraceFile << endl << setw(4) << i << " |";
 				if (Mem[i] >= 16)
 					TraceFile << setw(4) << short(Mem[i]);
 				else
@@ -1454,8 +1457,8 @@ int main(int argc, char *argv[]) // MACC2 Machine
 		do
 		{
 			oldPc = Pc;
-			FetchWord(Ir);         // fetch the next instruction      
-			Execute();             // execute the current instruction 
+			FetchWord(Ir);         // fetch the next instruction
+			Execute();             // execute the current instruction
 		} while (!StopProgram);
 	}
 
