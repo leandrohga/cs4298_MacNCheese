@@ -238,6 +238,7 @@ Token Scanner::GetNextToken()
 					} else if (c == 'n') {
 						/* \n sequence */
 						/* replace for ascii '\n'(012)*/
+						BufferChar(currentChar);
 						currentChar = NextChar();
 						currentChar = '0';
 						BufferChar(currentChar);
