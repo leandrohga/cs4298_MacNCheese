@@ -8,6 +8,6 @@ decs {
 
 c = "foo";
 
-shout(c);
+shout c;
 
-shout("bar");
+shout "bar";
