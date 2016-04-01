@@ -262,8 +262,6 @@ void CodeGen::ProcessLit(ExprRec& e)
 	case CHEESE:
 		e.sval = scan.tokenBuffer;
 		break;
-	default: /* TODO: Throw an error? */
-		break;
 	}
 }
 
