@@ -1,0 +1,6 @@
+/: 
+Shouting a Cheese literal with \n character at the end
+:/
+
+shout("Literally Shouting Cheese\n");
+
