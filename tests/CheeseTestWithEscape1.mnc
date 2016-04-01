@@ -8,4 +8,4 @@ decs{
 
 testCheese = "This string has a \n in it";
 
-shout(testCheese);
+shout testCheese;
