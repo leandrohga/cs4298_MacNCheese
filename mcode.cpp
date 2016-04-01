@@ -303,3 +303,15 @@ void CodeGen::WriteString()
 	s = "+" + t + "(R14)";
 	Generate("WRST       ", s, "");
 }
+
+void CodeGen::DefineVar(ExprRec& var)
+{
+	/* TODO Start checking variable type */
+	string varname = scan.tokenBuffer;
+	if (LookUp(varname)) {
+		/* TODO FIXME ERROR VARIABLE ALREADY DECLARED */
+	} else { /* variable not declared yet */
+		Enter(varname); /* declare it */
+		/* TODO Assign 0 to the variable, check if SAM does. */
+	}
+}

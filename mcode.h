@@ -35,6 +35,10 @@ struct OpRec { // information about an operator
 	OpKind op; // operator type
 };
 
+enum VarKind {
+	BOOL, INT, FLOAT, CHEESE
+};
+
 enum ExprKind {
 	ID_EXPR, LITERAL_EXPR, TEMP_EXPR
 };
@@ -42,11 +46,12 @@ enum ExprKind {
 struct ExprRec { //information about a constant, variable, or an intermediate (temporary) result
 	ExprKind kind; //operand type
 	string name; //used when kind is ID_EXPR or TEMP_EXPR
+	VarKind var_type; //used when kind is ID_EXPR
 	//used when using a LITERAL_EXPR:
 	int val; /* FIXME */
+	bool bval;
 	int ival;
 	float fval;
-	bool bval;
 	string sval;
 };
 
@@ -97,6 +102,8 @@ public:
 
 	void WriteString();
 	// Produces the assembly code for writing the String.
+
+	void DefineVar(ExprRec& var);
 
 /* _____________________________________________________________________________
 */

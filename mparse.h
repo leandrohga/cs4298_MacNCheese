@@ -54,9 +54,9 @@ private:
 
 	void InitTail();
 
-	void VarDecTail();
+	void VarDecTail(ExprRec& var);
 
-	void VarDecList();
+	void VarDecList(ExprRec& var);
 
 	void DecTail();
 
@@ -70,7 +70,7 @@ private:
 
 	void CheeseType();
 
-	void Type();
+	void Type(ExprRec& var);
 
 	void Literal();
 

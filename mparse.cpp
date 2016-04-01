@@ -76,15 +76,15 @@ void Parser::InitTail()
 	}
 }
 
-void Parser::VarDecTail()
+void Parser::VarDecTail(ExprRec& var)
 {
 	switch (NextToken())
 	{
 	case COMMA:
 		Match(COMMA);
 		Match(ID);
-		// code.DefineVar();
-		VarDecTail();
+		code.DefineVar(var);
+		VarDecTail(var);
 		break;
 	case SEMICOLON:
 		break;
@@ -93,11 +93,11 @@ void Parser::VarDecTail()
 	}
 }
 
-void Parser::VarDecList()
+void Parser::VarDecList(ExprRec& var)
 {
 	Match(ID);
-	// code.DefineVar();
-	VarDecTail();
+	code.DefineVar(var); /*** CODE ***/
+	VarDecTail(var);
 }
 
 void Parser::DecTail()
@@ -121,15 +121,16 @@ void Parser::DecTail()
 
 void Parser::Declaration()
 {
+	ExprRec var;
 	switch (NextToken())
 	{
 	case BOOL_SYM:
 	case CHEESE_SYM:
 	case FLOAT_SYM:
 	case INT_SYM:
-		Type();
+		Type(var);
 		Match(COLON);
-		VarDecList();
+		VarDecList(var);
 		Match(SEMICOLON);
 		break;
 	case HIPHIP_SYM:
@@ -137,8 +138,8 @@ void Parser::Declaration()
 		Match(LSTAPLE);
 		Match(INT_LIT);
 		Match(RSTAPLE);
-		Type();
-		VarDecList();
+//		Type();
+//		VarDecList();
 		Match(SEMICOLON);
 		break;
 	default:
@@ -190,21 +191,25 @@ void Parser::CheeseType()
 	CheeseTypeTail();
 }
 
-void Parser::Type()
+void Parser::Type(ExprRec& var)
 {
 	switch (NextToken())
 	{
 	case BOOL_SYM:
 		Match(BOOL_SYM);
+		var.var_type = BOOL;
 		break;
 	case INT_SYM:
 		Match(INT_SYM);
+		var.var_type = INT;
 		break;
 	case FLOAT_SYM:
 		Match(FLOAT_SYM);
+		var.var_type = FLOAT;
 		break;
 	case CHEESE_SYM:
 		CheeseType();
+		var.var_type = CHEESE;
 		break;
 	default:
 		SyntaxError(NextToken(), "");
@@ -262,6 +267,7 @@ void Parser::FactorTail(ExprRec& result)
 		MultOp();
 		code.ProcessOp(op); /*** CODE ***/
 		Primary(rightOperand);
+		 /*** CODE ***/
 		code.GenInfix(leftOperand, op, rightOperand, result);
 		FactorTail(result);
 		break;
@@ -299,7 +305,7 @@ void Parser::Primary(ExprRec& result)
 		break;
 	case ID:
 		Variable();
-		// code.ProcessVar();
+		//code.ProcessVar(); /*** CODE ***/
 		break;
 	case LBANANA:
 		Match(LBANANA);
@@ -340,6 +346,7 @@ void Parser::ExprTail(ExprRec& result)
 		AddOp();
 		code.ProcessOp(op); /*** CODE ***/
 		Factor(rightOperand);
+		 /*** CODE ***/
 		code.GenInfix(leftOperand, op, rightOperand, result);
 		ExprTail(result);
 		break;
