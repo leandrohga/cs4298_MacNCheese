@@ -4,5 +4,11 @@ Tests loops by printing int value in a range from 1-10
 
 decs{
 	int : i
-
 }
+
+
+for (i=0;i!=10;i++)
+	shout(i);	
+end
+
+shout("End for loop");
