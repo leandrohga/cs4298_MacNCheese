@@ -8,4 +8,4 @@ decs{
 }
 
 x = 20;
-shout(x);
+shout x;
