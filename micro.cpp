@@ -1,5 +1,6 @@
 /**
  * Macc n Cheese Compiler
+ * Compiles .mnc code files into .asm files for the SAM assembler.
  */
 
 #include <iostream>
@@ -35,11 +36,6 @@ string Time();
 
 int main(int argc, char* argv[]) {
 	string sourceName, outName, listName;
-
-	/*cout << "\n"
-		 << " M A C C   N   C H E E S E   C O M P I L E R\n"
-		 << " ___________________________________________\n"
-		 << endl;*/
 
 	//Get the source file; if an argument was passed on the command-line, use it as the source file name
 	if (argc > 1) {
