@@ -58,8 +58,7 @@ public:
 
 /* _____________________________________________________________________________
 */
-	int CountMyChars(const string & countMe);
-	//counts how many chars each word has and add a empty (or two) chars.
+
 	void Assign(const ExprRec & target, const ExprRec & source);
 	// Produces the assembly code for an assignment from Source to Target.
 
@@ -97,7 +96,7 @@ public:
 	// Produces the assembly code for writing the value of OutExpr.
 
 	void WriteString();
-	// Produces the assembly code for writing the value of OutExpr.
+	// Produces the assembly code for writing the String.
 
 /* _____________________________________________________________________________
 */
@@ -117,8 +116,7 @@ private:
 
 	void ExtractExpr(const ExprRec & e, string& s);
 	// Returns an operand representation s for the expression e.
-	void ExtractStr(const ExprRec & e, string& s);
-	// Returns a representation of s
+
 	string ExtractOp(const OpRec& o);
 	// Returns a representation for the operator o.
 
@@ -135,9 +133,6 @@ private:
 	bool LookUp(const string &s);
 	// Returns true if s is in the symbol table; otherwise,
 	// false is returned.
-
-	vector<string> stringsHolder;
-	int stringCounter = 0;
 };
 
 #endif
