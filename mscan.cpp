@@ -39,6 +39,7 @@ Scanner::Scanner()
 	tokenBuffer = "";
 	lineBuffer = "";
 	lineNumber = 0;
+	cheese_size = 0;
 }
 
 // ********************************
@@ -211,6 +212,7 @@ Token Scanner::GetNextToken()
 			/* string literal */
 			BufferChar(currentChar);
 			c = sourceFile.peek();
+			cheese_size = 0;
 			/* while not end of string */
 			while (c != '"') {
 				/* escape sequences */
@@ -228,6 +230,7 @@ Token Scanner::GetNextToken()
 						currentChar = NextChar();
 						BufferChar(currentChar);
 						c = sourceFile.peek();
+						cheese_size += 1;
 					} else if (c == '"') {
 						/* '\"' sequence */
 						/* replace '"' for ':' */
@@ -235,6 +238,7 @@ Token Scanner::GetNextToken()
 						currentChar = NextChar();
 						BufferChar(currentChar);
 						c = sourceFile.peek();
+						cheese_size += 1;
 					} else if (c == 'n') {
 						/* \n sequence */
 						/* replace for ascii '\n'(012)*/
@@ -247,6 +251,7 @@ Token Scanner::GetNextToken()
 						currentChar = '2';
 						BufferChar(currentChar);
 						c = sourceFile.peek();
+						cheese_size += 1;
 					} else if (isdigit(c)) {
 						/* '\ddd' sequence */
 						int ind;
@@ -257,6 +262,7 @@ Token Scanner::GetNextToken()
 							currentChar = NextChar();
 							BufferChar(currentChar);
 							c = sourceFile.peek();
+							cheese_size += 1;
 						}
 					} else {
 						LexicalError(currentChar, to_string(currentChar) + \
@@ -272,11 +278,13 @@ Token Scanner::GetNextToken()
 					BufferChar(currentChar);
 					BufferChar(currentChar);
 					c = sourceFile.peek();
+					cheese_size += 1;
 				} else {
 					/* regular characters */
 					currentChar = NextChar();
 					BufferChar(currentChar);
 					c = sourceFile.peek();
+					cheese_size += 1;
 				}
 			}
 			/* buffer the final '"' */

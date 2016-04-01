@@ -40,9 +40,10 @@ class Scanner
 {
 public:
 
-	string	tokenBuffer, // current token
+	string tokenBuffer, // current token
 			lineBuffer;  // current line
-	int		lineNumber;  // line counter
+	int lineNumber;  // line counter
+	int cheese_size; /* FIXME is it OK to put this here? */
 
 	Scanner();
 	// Initializes the scanner object.

@@ -333,7 +333,7 @@ void CodeGen::WriteString(const ExprRec & outExpr) {
 	str_vect.push_back(s);
 	/* Update counter and Generate ASM */
 	IntToAlpha(str_cnt, t);
-	str_cnt += s.size() - 2;
+	str_cnt += scan.cheese_size;
 	if (str_cnt % 2) {
 		str_cnt++;
 	}
