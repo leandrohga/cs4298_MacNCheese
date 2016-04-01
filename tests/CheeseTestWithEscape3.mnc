@@ -8,4 +8,4 @@ decs{
 
 testCheese = "Testing Mac n Cheese is fun!\n";
 
-shout(testCheese);
+shout testCheese;
