@@ -59,6 +59,7 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s)
 	string t;
 	int k, n;
 
+	/* TODO: check variable type */
 	switch (e.kind) {
 	case ID_EXPR:
 	case TEMP_EXPR:  // operand form: +k(R15)
@@ -202,7 +203,7 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op,
                        const ExprRec & e2, ExprRec& e)
 {
 	string opnd;
-
+	/* TODO: check variable type */
 	if (e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR) {
 		e.kind = LITERAL_EXPR;
 		switch (op.op) {
@@ -247,11 +248,22 @@ void CodeGen::ProcessLit(ExprRec& e)
 {
 	e.kind = LITERAL_EXPR;
 	switch (e.var_type) {
+	case BOOL:
+		/* TODO: check if this works */
+		e.bval = (scan.tokenBuffer == "True");
+		break;
+	case INT:
+		/* TODO: replace for ival */
+		e.val = atoi(scan.tokenBuffer.data());
+		break;
+	case FLOAT:
+		/* TODO: check size of float, is it float or double? */
+		e.fval = atof(scan.tokenBuffer.data());
+		break;
 	case CHEESE:
 		e.sval = scan.tokenBuffer;
 		break;
-	default: /* TODO: check each type of variable properly */
-		e.val = atoi(scan.tokenBuffer.data());
+	default: /* TODO: Throw an error? */
 		break;
 	}
 }
