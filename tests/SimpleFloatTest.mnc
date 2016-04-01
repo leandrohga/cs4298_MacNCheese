@@ -8,40 +8,40 @@ decs {
 
 c = 1.1;
 
-shout(c);
+shout c;
 
-shout("1.1");
+shout "1.1";
 
 
 c = 1.000000000000001;
 
-shout(c);
+shout c;
 
-shout("1.000000000000001");
+shout "1.000000000000001";
 
 c = 0.2023155323001;
 
-shout(c);
+shout c;
 
-shout("0.2023155323001");
+shout "0.2023155323001";
 
 c = 0.0124124312;
 
-shout(c);
+shout c;
 
-shout("0.0124124312");
+shout "0.0124124312";
 
 c = 10.0e+12;
 
-shout(c);
+shout c;
 
-shout("10.0e+12");
+shout "10.0e+12";
 
 c = 10.0e-12;
 
-shout(c);
+shout c;
 
-shout("10.0e-12");
+shout "10.0e-12";
 
 
 c = 10.1E+12;
