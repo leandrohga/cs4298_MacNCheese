@@ -16,7 +16,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <string>
+#include <string.h>
 #include <cstdlib>
 using namespace std;
 

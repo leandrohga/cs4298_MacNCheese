@@ -15,7 +15,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <string>
+#include <string.h>
 #include <vector>
 #include <ctime>
 #include <cstdlib>
