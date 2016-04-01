@@ -1,0 +1,11 @@
+/:
+Test for shouting literals and expressions in the same cheese.
+:/
+
+decs{
+	int : myInt;
+}
+
+myInt = 20;
+
+Shout "Steven's favorite number" , myInt;
