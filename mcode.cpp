@@ -323,9 +323,17 @@ void CodeGen::DefineVar(ExprRec& var)
 	/* TODO Start checking variable type */
 	string varname = scan.tokenBuffer;
 	if (LookUp(varname)) {
-		/* TODO FIXME ERROR VARIABLE ALREADY DECLARED */
+		/* FIXME is this a semantic error? */
+		SemanticError("Variable " + varname + \
+				" was already declared before.");
 	} else { /* variable not declared yet */
 		Enter(varname); /* declare it */
 		/* TODO Assign 0 to the variable, check if SAM does. */
 	}
+}
+
+void CodeGen::SemanticError(string msg) /* FIXME should this be here? */
+{
+	cout << "Semantic Error: " + msg << endl;
+	exit(1); // abort on any semantic error
 }

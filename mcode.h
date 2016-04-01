@@ -140,6 +140,9 @@ private:
 	bool LookUp(const string &s);
 	// Returns true if s is in the symbol table; otherwise,
 	// false is returned.
+
+	void SemanticError(string msg); /* FIXME should this be here? */
+	// Trow a semantic error and stop execution.
 };
 
 #endif
