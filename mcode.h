@@ -95,12 +95,12 @@ public:
 	// Initializes the compiler.
 
 	void Shout(const ExprRec & outExpr);
-	// FIXME
+	// Produces code for outExpr according to its type.
 
 	void WriteExpr(const ExprRec & OutExpr);
 	// Produces the assembly code for writing the value of OutExpr.
 
-	void WriteString();
+	void WriteString(const ExprRec & OutExpr);
 	// Produces the assembly code for writing the String.
 
 	void DefineVar(ExprRec& var);

@@ -297,10 +297,23 @@ void Parser::Primary(ExprRec& result)
 	{
 	case FALSE_SYM:
 	case TRUE_SYM:
+		Literal();
+		result.var_type = BOOL;
+		code.ProcessLit(result); /*** CODE ***/
+		break;
 	case INT_LIT:
+		Literal();
+		result.var_type = INT;
+		code.ProcessLit(result); /*** CODE ***/
+		break;
 	case FLOAT_LIT:
+		Literal();
+		result.var_type = FLOAT;
+		code.ProcessLit(result); /*** CODE ***/
+		break;
 	case CHEESE_LIT:
 		Literal();
+		result.var_type = CHEESE;
 		code.ProcessLit(result); /*** CODE ***/
 		break;
 	case ID:

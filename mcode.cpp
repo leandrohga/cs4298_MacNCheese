@@ -246,7 +246,14 @@ void CodeGen::ProcessId(ExprRec& e)
 void CodeGen::ProcessLit(ExprRec& e)
 {
 	e.kind = LITERAL_EXPR;
-	e.val = atoi(scan.tokenBuffer.data());
+	switch (e.var_type) {
+	case CHEESE:
+		e.sval = scan.tokenBuffer;
+		break;
+	default: /* TODO: check each type of variable properly */
+		e.val = atoi(scan.tokenBuffer.data());
+		break;
+	}
 }
 
 void CodeGen::ProcessOp(OpRec& o)
@@ -279,7 +286,14 @@ void CodeGen::Start()
 
 void CodeGen::Shout(const ExprRec & outExpr)
 {
-	this->WriteExpr(outExpr);
+	switch (outExpr.var_type) {
+	case CHEESE:
+		this->WriteString(outExpr);
+		break;
+	default:
+		this->WriteExpr(outExpr);
+		break;
+	}
 }
 
 void CodeGen::WriteExpr(const ExprRec & outExpr)
@@ -289,11 +303,11 @@ void CodeGen::WriteExpr(const ExprRec & outExpr)
 	Generate("WRI       ", s, "");
 }
 
-void CodeGen::WriteString()
+void CodeGen::WriteString(const ExprRec & outExpr)
 {
 	string s, t;
 	/* Save the string */
-	s = scan.tokenBuffer;
+	s = outExpr.sval;
 	str_vect.push_back(s);
 	/* Update counter and Generate ASM */
 	IntToAlpha(str_cnt, t);
