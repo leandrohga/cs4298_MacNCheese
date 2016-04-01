@@ -71,7 +71,7 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s)
 		s = "+" + t + "(R15)";
 		break;
 	case LITERAL_EXPR:
-		IntToAlpha(e.val, t);
+		IntToAlpha(e.ival, t);
 		s = "#" + t;
 	}
 }
@@ -208,16 +208,16 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op,
 		e.kind = LITERAL_EXPR;
 		switch (op.op) {
 		case PLUS:
-			e.val = e1.val + e2.val;
+			e.ival = e1.ival + e2.ival;
 			break;
 		case MINUS:
-			e.val = e1.val - e2.val;
+			e.ival = e1.ival - e2.ival;
 			break;
 		case MULT:
-			e.val = e1.val * e2.val;
+			e.ival = e1.ival * e2.ival;
 			break;
 		case DIV:
-			e.val = e1.val / e2.val;
+			e.ival = e1.ival / e2.ival;
 			break;
 		}
 	} else {
@@ -253,8 +253,7 @@ void CodeGen::ProcessLit(ExprRec& e)
 		e.bval = (scan.tokenBuffer == "True");
 		break;
 	case INT:
-		/* TODO: replace for ival */
-		e.val = atoi(scan.tokenBuffer.data());
+		e.ival = atoi(scan.tokenBuffer.data());
 		break;
 	case FLOAT:
 		/* TODO: check size of float, is it float or double? */
@@ -311,8 +310,18 @@ void CodeGen::Shout(const ExprRec & outExpr)
 void CodeGen::WriteExpr(const ExprRec & outExpr)
 {
 	string s;
-	ExtractExpr(outExpr, s);
-	Generate("WRI       ", s, "");
+	switch (outExpr.var_type) {
+	case BOOL:
+		/*TODO*/
+		break;
+	case INT:
+		ExtractExpr(outExpr, s);
+		Generate("WRI       ", s, "");
+		break;
+	case FLOAT:
+		/*TODO*/
+		break;
+	}
 }
 
 void CodeGen::WriteString(const ExprRec & outExpr)

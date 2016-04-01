@@ -48,11 +48,10 @@ struct ExprRec { //information about a constant, variable, or an intermediate (t
 	string name; //used when kind is ID_EXPR or TEMP_EXPR
 	VarKind var_type; //used when kind is ID_EXPR
 	//used when using a LITERAL_EXPR:
-	int val; /* FIXME */
-	bool bval;
-	int ival;
-	float fval;
-	string sval;
+	bool bval; //Boolean value
+	int ival; //Integer value
+	float fval; //Float value
+	string sval; //String
 };
 
 class CodeGen {

@@ -262,7 +262,7 @@ void Parser::FactorTail(ExprRec& result)
 	case MULT_OP:
 	case DIV_OP:
 		leftOperand.kind = result.kind;
-		leftOperand.val = result.val;
+		leftOperand.ival = result.ival; /* FIXME TODO check other types */
 		leftOperand.name = result.name;
 		MultOp();
 		code.ProcessOp(op); /*** CODE ***/
@@ -354,7 +354,7 @@ void Parser::ExprTail(ExprRec& result)
 	case PLUS_OP:
 	case MINUS_OP:
 		leftOperand.kind = result.kind;
-		leftOperand.val = result.val;
+		leftOperand.ival = result.ival; /* FIXME TODO check other types */
 		leftOperand.name = result.name;
 		AddOp();
 		code.ProcessOp(op); /*** CODE ***/
