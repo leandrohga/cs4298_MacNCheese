@@ -35,9 +35,9 @@ int main() {
 	  /* print all the files and directories within directory */
 	  while ((ent = readdir (dir)) != NULL) {
 		string a = ent->d_name;
-		cout << a << " " << a.length() << endl;
+		// cout << a << " " << a.length() << endl;
 	  	if(a != "." && a != ".." && a.length() > 4 && a.substr( a.length() - 4 ) == ".mnc") {
-		    printf ("%s\n", ent->d_name);
+		    // printf ("%s\n", ent->d_name);
 		    strcpy(test[i],"./tests/");
 		    strcat(test[i],ent->d_name);
 		    i++;
