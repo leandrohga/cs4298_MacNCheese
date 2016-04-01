@@ -10,8 +10,13 @@ else
     cd tests
     for var in "$@"
     do
+        echo -e "\n\n****** Starting '$var' ******"
+        echo -e "\n*** Compiling '$var.mnc' ***"
         ./micro $var.mnc
+        echo -e "\n*** Assembling '$var.mnc' ***"
         ./sam $var.asm
+        echo -e "\n*** Running '$var.obj' ***"
         ./macc $var.obj
+        echo -e "\n****** Done with '$var' ******"
     done
 fi
