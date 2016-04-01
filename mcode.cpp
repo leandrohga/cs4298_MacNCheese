@@ -288,10 +288,10 @@ void CodeGen::Shout(const ExprRec & outExpr)
 {
 	switch (outExpr.var_type) {
 	case CHEESE:
-		this->WriteString(outExpr);
+		WriteString(outExpr);
 		break;
 	default:
-		this->WriteExpr(outExpr);
+		WriteExpr(outExpr);
 		break;
 	}
 }
