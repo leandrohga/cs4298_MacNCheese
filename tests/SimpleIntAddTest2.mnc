@@ -14,4 +14,4 @@ y = 15;
 
 result = x + y;
 
-shout(result);
+shout result;
