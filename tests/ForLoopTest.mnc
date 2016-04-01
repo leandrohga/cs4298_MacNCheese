@@ -8,7 +8,7 @@ decs{
 
 
 for (i=0;i!=10;i++)
-	shout(i);	
+	shout i;	
 end
 
-shout("End for loop");
+shout "End for loop" ;
