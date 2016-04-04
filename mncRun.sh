@@ -3,20 +3,29 @@ if [ "$1" = "help" ]
 then
     echo "This script automatically builds all of the required executables, compiles the mnc files, assembles the asm files, and runs the obj files."
     echo "Usage: ./mncRun.sh <inputFiles>"
+    echo "       ./mncRun.sh clobber"
+    echo "       ./mncRun.sh help"
     echo "Example: ./mncRun.sh simple shoutTest declarations"
     echo "Note: do not include the .mnc extension, also the files are assumed to be in the tests folder"
+elif [ "$1" = "clobber" ]
+then
+    echo ">>> cd tests"
+    cd tests
+    echo ">>> rm -f *.lis *.lst *.asm *.obj macc sam micro"
+    rm -f *.lis *.lst *.asm *.obj macc sam micro
 else
+    echo ">>> make build"
     make build
+    echo ">>> cd tests"
     cd tests
     for var in "$@"
     do
-        echo -e "\n\n****** Starting '$var' ******"
-        echo -e "\n*** Compiling '$var.mnc' ***"
+        echo ">>> micro $var.mnc"
         ./micro $var.mnc
-        echo -e "\n*** Assembling '$var.mnc' ***"
+        echo ">>> sam $var.mnc"
         ./sam $var.asm
-        echo -e "\n*** Running '$var.obj' ***"
+        echo ">>> macc $var.obj"
         ./macc $var.obj
-        echo -e "\n****** Done with '$var' ******"
     done
 fi
+echo ">>> done"

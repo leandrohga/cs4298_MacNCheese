@@ -191,7 +191,7 @@ void CodeGen::Finish() {
 
 void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2, ExprRec& e) {
 	string opnd;
-	/* TODO: check variable type */
+	/* TODO: check variable type -- should var_type be used for literals? */
 	if (e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR) {
 		e.kind = LITERAL_EXPR;
 		switch (op.op) {
