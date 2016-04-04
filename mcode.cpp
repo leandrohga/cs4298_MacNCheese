@@ -34,8 +34,7 @@ extern Scanner scan; // global Scanner object declared in micro.cpp
 // **  Constructor  **
 // *******************
 
-CodeGen::CodeGen()
-{
+CodeGen::CodeGen() {
 	maxTemp = 0;
 }
 
@@ -43,19 +42,16 @@ CodeGen::CodeGen()
 // ** Private Member Functions  **
 // *******************************
 
-void CodeGen::CheckId(const string & s)
-{
+void CodeGen::CheckId(const string & s) {
 	if (!LookUp(s))  // variable not declared yet
 		Enter(s);
 }
 
-void CodeGen::Enter(const string & s)
-{
+void CodeGen::Enter(const string & s) {
 	symbolTable.push_back(s);
 }
 
-void CodeGen::ExtractExpr(const ExprRec & e, string& s)
-{
+void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
 	string t;
 	int k, n;
 
@@ -76,8 +72,7 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s)
 	}
 }
 
-string CodeGen::ExtractOp(const OpRec & o)
-{
+string CodeGen::ExtractOp(const OpRec & o) {
 	if (o.op == PLUS) {
 		return "IA        ";
 	} else if (o.op == MINUS) {
@@ -89,8 +84,7 @@ string CodeGen::ExtractOp(const OpRec & o)
 	}
 }
 
-void CodeGen::Generate(const string & s1, const string & s2, const string & s3)
-{
+void CodeGen::Generate(const string & s1, const string & s2, const string & s3) {
 	listFile.width(20);
 	listFile << ' ' << s1;
 	outFile << s1;
@@ -106,8 +100,7 @@ void CodeGen::Generate(const string & s1, const string & s2, const string & s3)
 	outFile << endl;
 }
 
-string CodeGen::GetTemp()
-{
+string CodeGen::GetTemp() {
 	string s;
 	static string t;
 
@@ -118,8 +111,7 @@ string CodeGen::GetTemp()
 	return t;
 }
 
-void CodeGen::IntToAlpha(int val, string& str)
-{
+void CodeGen::IntToAlpha(int val, string& str) {
 	int k;
 	char temp;
 
@@ -137,8 +129,7 @@ void CodeGen::IntToAlpha(int val, string& str)
 	}
 }
 
-bool CodeGen::LookUp(const string & s)
-{
+bool CodeGen::LookUp(const string & s) {
 	for (unsigned i = 0; i < symbolTable.size(); i++)
 	if (symbolTable[i] == s)
 		return true;
@@ -150,8 +141,7 @@ bool CodeGen::LookUp(const string & s)
 // ** Public Member Functions  **
 // ******************************
 
-void CodeGen::Assign(const ExprRec & target, const ExprRec & source)
-{
+void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 	string s;
 
 	ExtractExpr(source, s);
@@ -163,8 +153,7 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source)
 vector<string> str_vect;
 int str_cnt = 0;
 
-void CodeGen::Finish()
-{
+void CodeGen::Finish() {
 	string s;
 
 	listFile.width(6);
@@ -199,9 +188,7 @@ void CodeGen::Finish()
 	listFile.close();
 }
 
-void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op,
-                       const ExprRec & e2, ExprRec& e)
-{
+void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2, ExprRec& e) {
 	string opnd;
 	/* TODO: check variable type */
 	if (e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR) {
@@ -232,20 +219,17 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op,
 	}
 }
 
-void CodeGen::NewLine()
-{
+void CodeGen::NewLine() {
 	Generate("WRNL      ", "", "");
 }
 
-void CodeGen::ProcessId(ExprRec& e)
-{
+void CodeGen::ProcessId(ExprRec& e) {
 	CheckId(scan.tokenBuffer);
 	e.kind = ID_EXPR;
 	e.name = scan.tokenBuffer;
 }
 
-void CodeGen::ProcessLit(ExprRec& e)
-{
+void CodeGen::ProcessLit(ExprRec& e) {
 	e.kind = LITERAL_EXPR;
 	switch (e.var_type) {
 	case BOOL:
@@ -265,8 +249,7 @@ void CodeGen::ProcessLit(ExprRec& e)
 	}
 }
 
-void CodeGen::ProcessOp(OpRec& o)
-{
+void CodeGen::ProcessOp(OpRec& o) {
 	string c = scan.tokenBuffer;
 	if (c == "+") {
 		o.op = PLUS;
@@ -279,22 +262,19 @@ void CodeGen::ProcessOp(OpRec& o)
 	}
 }
 
-void CodeGen::ReadId(const ExprRec & inVar)
-{
+void CodeGen::ReadId(const ExprRec & inVar) {
 	string s;
 
 	ExtractExpr(inVar, s);
 	Generate("RDI       ", s, "");
 }
 
-void CodeGen::Start()
-{
+void CodeGen::Start() {
 	Generate("LDA       ", "R15", "VARS");
 	Generate("LDA       ", "R14", "STRS");
 }
 
-void CodeGen::Shout(const ExprRec & outExpr)
-{
+void CodeGen::Shout(const ExprRec & outExpr) {
 	switch (outExpr.var_type) {
 	case CHEESE:
 		WriteString(outExpr);
@@ -305,8 +285,7 @@ void CodeGen::Shout(const ExprRec & outExpr)
 	}
 }
 
-void CodeGen::WriteExpr(const ExprRec & outExpr)
-{
+void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	string s;
 	switch (outExpr.var_type) {
 	case BOOL:
@@ -322,8 +301,7 @@ void CodeGen::WriteExpr(const ExprRec & outExpr)
 	}
 }
 
-void CodeGen::WriteString(const ExprRec & outExpr)
-{
+void CodeGen::WriteString(const ExprRec & outExpr) {
 	string s, t;
 	/* Save the string */
 	s = outExpr.sval;
@@ -337,8 +315,7 @@ void CodeGen::WriteString(const ExprRec & outExpr)
 	Generate("WRST       ", s, "");
 }
 
-void CodeGen::DefineVar(ExprRec& var)
-{
+void CodeGen::DefineVar(ExprRec& var) {
 	/* TODO Start checking variable type */
 	string varname = scan.tokenBuffer;
 	if (LookUp(varname)) {
@@ -351,8 +328,7 @@ void CodeGen::DefineVar(ExprRec& var)
 	}
 }
 
-void CodeGen::SemanticError(string msg) /* FIXME should this be here? */
-{
+void CodeGen::SemanticError(string msg) { /* FIXME should this be here? */
 	cout << "Semantic Error: " + msg << endl;
 	exit(1); // abort on any semantic error
 }
