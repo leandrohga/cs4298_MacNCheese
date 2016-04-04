@@ -277,28 +277,33 @@ void CodeGen::Start() {
 
 void CodeGen::Shout(const ExprRec & outExpr) {
 	switch (outExpr.var_type) {
-	case CHEESE:
-		WriteString(outExpr);
-		break;
-	default:
-		WriteExpr(outExpr);
-		break;
+		case CHEESE:
+			WriteString(outExpr);
+			break;
+		default:
+			WriteExpr(outExpr);
+			break;
 	}
 }
 
 void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	string s;
 	switch (outExpr.var_type) {
-	case BOOL:
-		/*TODO*/
-		break;
-	case INT:
-		ExtractExpr(outExpr, s);
-		Generate("WRI       ", s, "");
-		break;
-	case FLOAT:
-		/*TODO*/
-		break;
+		case BOOL:
+			/*TODO*/
+			//ExtractExpr(outExpr, s);
+			Generate("WRI       ", s, "");
+			break;
+		case INT:
+			ExtractExpr(outExpr, s);
+			Generate("WRI       ", s, "");
+			break;
+		case FLOAT:
+			/*TODO*/
+			break;
+		default:
+			/*TODO*/ //error as there will always be one of the above.
+			//otherwise we will have the warning after compiling that cheese wasnt handle(but it is in previous function)
 	}
 }
 
