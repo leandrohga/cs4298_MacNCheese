@@ -304,6 +304,7 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 		default:
 			/*TODO*/ //error as there will always be one of the above.
 			//otherwise we will have the warning after compiling that cheese wasnt handle(but it is in previous function)
+			break;
 	}
 }
 
