@@ -43,8 +43,9 @@ CodeGen::CodeGen() {
 // *******************************
 
 void CodeGen::CheckId(const string & s) {
-	if (!LookUp(s))  // variable not declared yet
+	if (!LookUp(s)) { // variable not declared yet
 		Enter(s);
+	}
 }
 
 void CodeGen::Enter(const string & s) {
@@ -131,9 +132,9 @@ void CodeGen::IntToAlpha(int val, string& str) {
 
 bool CodeGen::LookUp(const string & s) {
 	for (unsigned i = 0; i < symbolTable.size(); i++)
-	if (symbolTable[i] == s)
+	if (symbolTable[i] == s) {
 		return true;
-
+	}
 	return false;
 }
 
@@ -309,8 +310,9 @@ void CodeGen::WriteString(const ExprRec & outExpr) {
 	/* Update counter and Generate ASM */
 	IntToAlpha(str_cnt, t);
 	str_cnt += s.size() - 2;
-	if (str_cnt % 2)
+	if (str_cnt % 2) {
 		str_cnt++;
+	}
 	s = "+" + t + "(R14)";
 	Generate("WRST       ", s, "");
 }
