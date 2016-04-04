@@ -27,8 +27,7 @@ using namespace std;
 #include "mscan.h"
 #include "mcode.h"
 
-class Parser
-{
+class Parser {
 public:
 
 	Parser();
