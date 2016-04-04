@@ -271,13 +271,23 @@ void Parser::FactorTail(ExprRec& result)
 		code.GenInfix(leftOperand, op, rightOperand, result);
 		FactorTail(result);
 		break;
+	case PLUS_OP:
+	case MINUS_OP:
+		leftOperand.kind = result.kind;
+		leftOperand.ival = result.ival; /* FIXME TODO check other types */
+		leftOperand.name = result.name;
+		AddOp();
+		code.ProcessOp(op);
+		Primary(rightOperand);
+		/*** CODE ***/
+		code.GenInfix(leftOperand, op, rightOperand, result);
+		FactorTail(result);
+		break;
 	case RSTAPLE:
 	case RBANANA:
 	case RMUSTACHE:
 	case SEMICOLON:
 	case COMMA:
-	case PLUS_OP:
-	case MINUS_OP:
 	case LT_OP:
 	case LE_OP:
 	case GT_OP:
