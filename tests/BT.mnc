@@ -1,0 +1,6 @@
+shout false;
+shout False;
+shout FALSE;
+shout true;
+shout True;
+shout TRUE;
