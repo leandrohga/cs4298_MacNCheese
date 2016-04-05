@@ -641,7 +641,7 @@ void Parser::Expression(ExprRec& result) {
 	ExprTail(result);
 }
 
-void Parser::AssignTail() {
+void Parser::AssignTail(ExprRec& result) {
 	switch (NextToken()) {
 	case FALSE_SYM:
 	case TRUE_SYM:
@@ -650,7 +650,7 @@ void Parser::AssignTail() {
 	case INT_LIT:
 	case FLOAT_LIT:
 	case CHEESE_LIT:
-//		Expression();
+		Expression(result);
 		break;
 	case LMUSTACHE:
 		Match(LMUSTACHE);
@@ -690,11 +690,16 @@ void Parser::ListenStmt() {
 
 void Parser::AssignStmt()
 {
-	//Variable();
-	// code.ProcessVar();
+	/* Variable to be assigned a value */
+	ExprRec var;
+	Variable(var);
+	code.ProcessVar(var);
+	/* Equal sign '=' */
 	Match(ASSIGN_OP);
-	AssignTail();
-	// code.Assign();
+	/* Value/Expression to assign to the variable */
+	ExprRec result;
+	AssignTail(result);
+	code.Assign(var, result);
 	Match(SEMICOLON);
 }
 

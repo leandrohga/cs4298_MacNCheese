@@ -155,8 +155,8 @@ bool CodeGen::LookUp(const string & s) {
 // ******************************
 
 void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
+	/* TODO check variable types, add other types */
 	string s;
-
 	ExtractExpr(source, s);
 	Generate("LD        ", "R0", s);
 	ExtractExpr(target, s);
