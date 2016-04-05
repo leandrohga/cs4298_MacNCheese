@@ -35,7 +35,9 @@ Parser::Parser() {
 }
 
 void Parser::SyntaxError(Token t, string msg) {
-	cout << "Syntax Error: " + msg << endl;
+	cout << " *** Syntax Error Detected " << int(t) << " "
+		<< int(savedToken);
+	cout << " *** Error: " + msg << endl;
 	exit(1); // abort on any syntax error
 }
 
