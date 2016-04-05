@@ -236,10 +236,15 @@ void CodeGen::NewLine() {
 	Generate("WRNL      ", "", "");
 }
 
-void CodeGen::ProcessId(ExprRec& e) {
-	CheckId(scan.tokenBuffer);
-	e.kind = ID_EXPR;
-	e.name = scan.tokenBuffer;
+void CodeGen::ProcessVar(ExprRec& e)
+{
+	if (!LookUp(e.name)) { /* variable not declared yet */
+		SemanticError("Variable " + e.name + \
+				" was not declared before usage.");
+	} else {
+		e.kind = ID_EXPR;
+		e.var_type = INT; /* FIXME: this should be retrieve from the symbol table in the codegen */
+	}
 }
 
 void CodeGen::ProcessLit(ExprRec& e) {

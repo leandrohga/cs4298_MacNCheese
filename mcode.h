@@ -75,7 +75,7 @@ public:
 	void NewLine();
 	// Produces the assembly code for starting a new output line.
 
-	void ProcessId(ExprRec& e);
+	void ProcessVar(ExprRec& e);
 	// Declares the identifier in the token buffer and builds a
 	// corresponding semantic record e.
 

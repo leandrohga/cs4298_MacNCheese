@@ -133,7 +133,7 @@ private:
 
 	void AssignTail();
 
-	void Variable();
+	void Variable(ExprRec& var);
 
 	void BreakStmt();
 
