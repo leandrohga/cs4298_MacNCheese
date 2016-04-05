@@ -9,14 +9,15 @@ decs {
 	
 	shout "\nReading and Writing ", "Variables and Constants";
 	shout "\nEnter two integers: ";
-//	listen iVal1, iVal2;
+	listen iVal1, iVal2;
+	shout "\nListened ==> ", iVal1, ",", iVal2;
 	iVal1 = 100 + 123 * 2 - 500 * 1 + 223;
 	iVal2 = (200 - 100) * 3 / 2;
-	shout "\n==> ", iVal1, ",", iVal2;
-	shout "\nEnter two real numbers: ";
+	shout "\nAssigned ==> ", iVal1, ",", iVal2;
+//	shout "\nEnter two real numbers: ";
 //	listen rVal1, rVal2;
-	shout "\n==> ", fVal1, ",", fVal2;
+//	shout "\n==> ", fVal1, ",", fVal2;
 	
-	shout "\nint constants: ", 37, 7805, 685; 
-	shout "\nfloat constants: ", 3.8405, "  ", 3.8405e+2, "  ", 3.8405E-3; 
+//	shout "\nint constants: ", 37, 7805, 685;
+//	shout "\nfloat constants: ", 3.8405, "  ", 3.8405e+2, "  ", 3.8405E-3;
 	shout "\n\n";
