@@ -1,6 +1,15 @@
+
+decs{
+	bool : testBool;
+}
+testBool = false;
+shout testBool;
+testBool = true;
+shout testBool;
 shout false;
 shout False;
 shout FALSE;
 shout true;
 shout True;
 shout TRUE;
+
