@@ -27,8 +27,7 @@ using namespace std;
 #include "mscan.h"
 #include "mcode.h"
 
-class Parser
-{
+class Parser {
 public:
 
 	Parser();
@@ -64,7 +63,7 @@ private:
 
 	void DecList();
 
-	void BoolLit();
+	void BoolLit(ExprRec& var);
 
 	void CheeseTypeTail();
 
@@ -72,7 +71,7 @@ private:
 
 	void Type(ExprRec& var);
 
-	void Literal();
+	void Literal(ExprRec& var);
 
 	void MultOp();
 

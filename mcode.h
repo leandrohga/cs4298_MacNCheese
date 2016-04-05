@@ -123,12 +123,16 @@ private:
 	void ExtractExpr(const ExprRec & e, string& s);
 	// Returns an operand representation s for the expression e.
 
+	string ExtractOpFloat(const OpRec & o);
+	// Returns a representation for the operator o for floats.
+
 	string ExtractOp(const OpRec& o);
-	// Returns a representation for the operator o.
+	// Returns a representation for the operator o for integers.
 
 	void Generate(const string & s1, const string & s2, const string & s3);
 	// Produces the SAM assembly code for one or two operand instructions.
 	// s1 is the opcode; s2 and s3 are operands.
+
 
 	string GetTemp();
 	// Creates a temporary variable and returns its name.

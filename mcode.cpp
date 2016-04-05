@@ -84,6 +84,18 @@ string CodeGen::ExtractOp(const OpRec & o) {
 		return "ID        ";
 	}
 }
+/* TODO: please check this for float + - / *    */
+string CodeGen::ExtractOpFloat(const OpRec & o) {
+	if (o.op == PLUS) {
+		return "FADD        ";
+	} else if (o.op == MINUS) {
+		return "FSUB        ";
+	} else if (o.op == MULT) {
+		return "FMUL        ";
+	} else {
+		return "FDIV        ";
+	}
+}
 
 void CodeGen::Generate(const string & s1, const string & s2, const string & s3) {
 	listFile.width(20);
@@ -191,7 +203,7 @@ void CodeGen::Finish() {
 
 void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2, ExprRec& e) {
 	string opnd;
-	/* TODO: check variable type */
+	/* TODO: check variable type -- should var_type be used for literals? */
 	if (e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR) {
 		e.kind = LITERAL_EXPR;
 		switch (op.op) {
@@ -240,8 +252,8 @@ void CodeGen::ProcessLit(ExprRec& e) {
 	case INT:
 		e.ival = atoi(scan.tokenBuffer.data());
 		break;
-	case FLOAT:
-		/* TODO: check size of float, is it float or double? */
+		case FLOAT:
+		/* TODO: check size of float, is it float or double?  it is double :) */
 		e.fval = atof(scan.tokenBuffer.data());
 		break;
 	case CHEESE:
@@ -277,28 +289,40 @@ void CodeGen::Start() {
 
 void CodeGen::Shout(const ExprRec & outExpr) {
 	switch (outExpr.var_type) {
-	case CHEESE:
-		WriteString(outExpr);
-		break;
-	default:
-		WriteExpr(outExpr);
-		break;
+		case CHEESE:
+			WriteString(outExpr);
+			break;
+		default:
+			WriteExpr(outExpr);
+			break;
 	}
 }
 
 void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	string s;
 	switch (outExpr.var_type) {
-	case BOOL:
-		/*TODO*/
-		break;
-	case INT:
-		ExtractExpr(outExpr, s);
-		Generate("WRI       ", s, "");
-		break;
-	case FLOAT:
-		/*TODO*/
-		break;
+		case BOOL:
+			/*TODO: please check this statement and check if it is
+			 * right how I am vverifying if it is true or false */
+			//ExtractExpr(outExpr, s);
+			cerr << outExpr.bval << endl;
+			if(outExpr.bval){
+				Generate("WRI       ", "bl", "1");
+			}else{
+				Generate("WRI       ", "bl", "0");
+			}
+			break;
+		case INT:
+			ExtractExpr(outExpr, s);
+			Generate("WRI       ", s, "");
+			break;
+		case FLOAT:
+			/*TODO*/
+			break;
+		default:
+			/*TODO*/ //error as there will always be one of the above.
+			//otherwise we will have the warning after compiling that cheese wasnt handle(but it is in previous function)
+			break;
 	}
 }
 
