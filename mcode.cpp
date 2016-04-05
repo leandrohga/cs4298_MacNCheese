@@ -84,6 +84,18 @@ string CodeGen::ExtractOp(const OpRec & o) {
 		return "ID        ";
 	}
 }
+/* TODO: please check this for float + - / *    */
+string CodeGen::ExtractOpFloat(const OpRec & o) {
+	if (o.op == PLUS) {
+		return "FADD        ";
+	} else if (o.op == MINUS) {
+		return "FSUB        ";
+	} else if (o.op == MULT) {
+		return "FMUL        ";
+	} else {
+		return "FDIV        ";
+	}
+}
 
 void CodeGen::Generate(const string & s1, const string & s2, const string & s3) {
 	listFile.width(20);
@@ -240,8 +252,8 @@ void CodeGen::ProcessLit(ExprRec& e) {
 	case INT:
 		e.ival = atoi(scan.tokenBuffer.data());
 		break;
-	case FLOAT:
-		/* TODO: check size of float, is it float or double? */
+		case FLOAT:
+		/* TODO: check size of float, is it float or double?  it is double :) */
 		e.fval = atof(scan.tokenBuffer.data());
 		break;
 	case CHEESE:
