@@ -133,6 +133,7 @@ private:
 	// Produces the SAM assembly code for one or two operand instructions.
 	// s1 is the opcode; s2 and s3 are operands.
 
+
 	string GetTemp();
 	// Creates a temporary variable and returns its name.
 

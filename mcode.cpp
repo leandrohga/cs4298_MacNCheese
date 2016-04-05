@@ -305,6 +305,7 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 			/*TODO: please check this statement and check if it is
 			 * right how I am vverifying if it is true or false */
 			//ExtractExpr(outExpr, s);
+			cerr << outExpr.bval << endl;
 			if(outExpr.bval  == 1){
 				Generate("WRI       ", "bl", "1");
 			}else{

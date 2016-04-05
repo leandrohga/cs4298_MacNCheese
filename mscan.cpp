@@ -171,7 +171,7 @@ Token Scanner::GetNextToken()
 				/* check for a digit after the '.' */
 				if (!isdigit(c)) 
 					LexicalError(currentChar, to_string(c) \
-						+ " Boolean needs a digit" \
+						+ " Float needs a digit" \
 						" after the '.'");
 				BufferChar(currentChar);
 				while (isdigit(c)) {
@@ -186,7 +186,7 @@ Token Scanner::GetNextToken()
 					if (c != '+' && c!= '-') {
 						LexicalError(currentChar, \
 							to_string(c) + \
-							" Boolean needs a "
+							" Float needs a "
 							"'+'/'-' after 'E'");
 					}
 					BufferChar(currentChar);
@@ -195,7 +195,7 @@ Token Scanner::GetNextToken()
 					if (!isdigit(c)) 
 						LexicalError(currentChar, \
 							to_string(c) + \
-							" Boolean needs a " \
+							" Float needs a " \
 							"digit after '+'/'-'");
 					BufferChar(currentChar);
 					while (isdigit(c)) {
