@@ -50,6 +50,14 @@ void Scanner::BufferChar(char c)
 {
 	if (tokenBuffer.length() < ID_STRING_LEN){
 		tokenBuffer += c;
+	} else {
+		cout << endl << " *** Fatal error: token is bigger then "
+			<< "the TokenBuffer." << endl;
+		cout << " *** Error at line " << this->lineNumber << endl;
+		cout << " *** Please consider spliting cheese variables "
+			<< "or recompiling the MaccNCheese compiler "
+			<< "with a bigger TokenBuffer." << endl;
+		exit(1);
 	}
 }
 
