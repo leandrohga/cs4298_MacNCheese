@@ -25,3 +25,4 @@ simpleplusmultparenthesis.mnc -> Test ability to shout a +/- and *
 
 shoutcomplexexp.mnc -> Test ability to shout a + - * /
 		expression including parenthesis.
+declaration_assignment_shout.mnc -> Declares, assigns and shouts integers
