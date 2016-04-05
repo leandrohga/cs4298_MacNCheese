@@ -300,11 +300,16 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 
 void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	string s;
+	int b;
 	switch (outExpr.var_type) {
 		case BOOL:
-			/*TODO*/
+			/*TODO: please check this statement and check if it is
+			 * right how I am vverifying if it is true or false */
 			//ExtractExpr(outExpr, s);
-			Generate("WRI       ", s, "");
+			if(outExpr.bval  == "True"){
+				b=1;
+			}else{b=0;}
+			Generate("WRI       ", 'bl', b);
 			break;
 		case INT:
 			ExtractExpr(outExpr, s);
