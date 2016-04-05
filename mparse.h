@@ -123,7 +123,7 @@ private:
 
 	void VariableTail();
 
-	void VarListTail();
+	void VarListTail(ExprRec& var);
 
 	void VarList();
 

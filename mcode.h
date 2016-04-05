@@ -87,7 +87,7 @@ public:
 	// Produces an operator descriptor O for the operator in the token
 	// buffer.
 
-	void ReadId(const ExprRec & InVar);
+	void Listen(const ExprRec & InVar);
 	// Produces the assembly code for reading a value for InVar.
 
 	void Start();

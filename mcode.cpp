@@ -280,9 +280,9 @@ void CodeGen::ProcessOp(OpRec& o) {
 	}
 }
 
-void CodeGen::ReadId(const ExprRec & inVar) {
+void CodeGen::Listen(const ExprRec & inVar) {
+	/* TODO check variable types, add other types */
 	string s;
-
 	ExtractExpr(inVar, s);
 	Generate("RDI       ", s, "");
 }

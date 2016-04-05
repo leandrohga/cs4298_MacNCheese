@@ -607,14 +607,15 @@ void Parser::VariableTail() {
 	}
 }
 
-void Parser::VarListTail() {
+void Parser::VarListTail(ExprRec& var) {
 	switch (NextToken()) {
 	case COMMA:
 		Match(COMMA);
-		//Variable();
-		// code.ProcessVar();
-		// code.Listen();
-		VarListTail();
+		Variable(var);
+		code.ProcessVar(var); /*** CODE ***/
+		code.Listen(var); /*** CODE ***/
+		/* Recursion for other variables */
+		VarListTail(var);
 		break;
 	case SEMICOLON:
 		break;
@@ -625,10 +626,13 @@ void Parser::VarListTail() {
 
 void Parser::VarList()
 {
-	//Variable();
-	// code.ProcessVar();
-	// code.Listen();
-	VarListTail();
+	ExprRec var;
+	/* Listen to the first variable */
+	Variable(var);
+	code.ProcessVar(var); /*** CODE ***/
+	code.Listen(var); /*** CODE ***/
+	/* Listen for the next variables */
+	VarListTail(var);
 }
 
 void Parser::InitList() {
