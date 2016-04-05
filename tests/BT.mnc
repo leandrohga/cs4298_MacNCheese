@@ -1,11 +1,10 @@
-
 decs{
-	bool : testBool;
+	bool: testBool;
 }
-testBool = false;
-shout testBool;
-testBool = true;
-shout testBool;
+testBool = FALSE;
+//shout testBool;
+//testBool = true;
+//shout testBool;
 shout false;
 shout False;
 shout FALSE;
