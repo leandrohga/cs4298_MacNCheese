@@ -63,7 +63,7 @@ private:
 
 	void DecList();
 
-	void BoolLit();
+	void BoolLit(ExprRec& var);
 
 	void CheeseTypeTail();
 
@@ -71,7 +71,7 @@ private:
 
 	void Type(ExprRec& var);
 
-	void Literal();
+	void Literal(ExprRec& var);
 
 	void MultOp();
 

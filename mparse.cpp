@@ -138,13 +138,17 @@ void Parser::DecList() {
 	DecTail();
 }
 
-void Parser::BoolLit() {
+void Parser::BoolLit(ExprRec& var) {
 	switch (NextToken()) {
 	case FALSE_SYM:
 		Match(FALSE_SYM);
+		var.var_type = BOOL;
+		var.bval = "false";
 		break;
 	case TRUE_SYM:
 		Match(TRUE_SYM);
+		var.var_type = BOOL;
+		var.bval = "true";
 		break;
 	default:
 		SyntaxError(NextToken(), "");
@@ -194,11 +198,11 @@ void Parser::Type(ExprRec& var) {
 	}
 }
 
-void Parser::Literal() {
+void Parser::Literal(ExprRec & var) {
 	switch (NextToken()) {
 	case FALSE_SYM:
 	case TRUE_SYM:
-		BoolLit();
+		BoolLit(var);
 		break;
 	case INT_LIT:
 		Match(INT_LIT);
@@ -277,22 +281,22 @@ void Parser::Primary(ExprRec& result) {
 	switch (NextToken()) {
 	case FALSE_SYM:
 	case TRUE_SYM:
-		Literal();
+		Literal(result);
 		result.var_type = BOOL;
 		code.ProcessLit(result); /*** CODE ***/
 		break;
 	case INT_LIT:
-		Literal();
+		Literal(result);
 		result.var_type = INT;
 		code.ProcessLit(result); /*** CODE ***/
 		break;
 	case FLOAT_LIT:
-		Literal();
+		Literal(result);
 		result.var_type = FLOAT;
 		code.ProcessLit(result); /*** CODE ***/
 		break;
 	case CHEESE_LIT:
-		Literal();
+		Literal(result);
 		result.var_type = CHEESE;
 		code.ProcessLit(result); /*** CODE ***/
 		break;
