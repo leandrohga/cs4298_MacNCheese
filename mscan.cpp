@@ -39,7 +39,7 @@ Scanner::Scanner()
 	tokenBuffer = "";
 	lineBuffer = "";
 	lineNumber = 0;
-	cheese_size = 0;
+	cheese_size = 1; /* Null char */
 }
 
 // ********************************
@@ -220,7 +220,7 @@ Token Scanner::GetNextToken()
 			/* string literal */
 			BufferChar(currentChar);
 			c = sourceFile.peek();
-			cheese_size = 0;
+			cheese_size = 1; /* Null Char */
 			/* while not end of string */
 			while (c != '"') {
 				/* escape sequences */
@@ -241,7 +241,7 @@ Token Scanner::GetNextToken()
 						cheese_size += 1;
 					} else if (c == '"') {
 						/* '\"' sequence */
-						/* replace '"' for ':' */
+						/* replace '\' for ':' */
 						BufferChar(currentChar);
 						currentChar = NextChar();
 						BufferChar(currentChar);
@@ -262,6 +262,9 @@ Token Scanner::GetNextToken()
 						cheese_size += 1;
 					} else if (isdigit(c)) {
 						/* '\ddd' sequence */
+						/* replace '\' for ':' */
+						BufferChar(currentChar);
+
 						int ind;
 						for (ind = 0; ind < 3; ind++) {
 							/* check for 3 digits */
@@ -270,8 +273,8 @@ Token Scanner::GetNextToken()
 							currentChar = NextChar();
 							BufferChar(currentChar);
 							c = sourceFile.peek();
-							cheese_size += 1;
 						}
+						cheese_size += 1;
 					} else {
 						LexicalError(currentChar, to_string(currentChar) + \
 						" was followed by the wrong character -options are \\ or \".");
