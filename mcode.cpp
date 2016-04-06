@@ -42,14 +42,35 @@ CodeGen::CodeGen() {
 // ** Private Member Functions  **
 // *******************************
 
-void CodeGen::CheckId(const string & s) {
-	if (!LookUp(s)) { // variable not declared yet
-		Enter(s);
+void CodeGen::CheckId(ExprRec& var) {
+	if (!LookUp(var.name)) { // variable not declared yet
+		/* FIXME: check variable type */
+		Enter(var);
 	}
 }
 
-void CodeGen::Enter(const string & s) {
-	symbolTable.push_back(s);
+void CodeGen::Enter(ExprRec& var) {
+	/* Create the key and fill it */
+	symbol_node_t variable;
+	variable.name = var.name;
+	variable.type = var.var_type;
+	/* Check variable size */
+	switch (var.var_type) {
+	case BOOL:
+		variable.size = 1; /* 1x8 = 8bits */
+		break;
+	case INT:
+		variable.size = 2; /* 2x8 = 16 bits */
+		break;
+	case FLOAT:
+		variable.size = 4; /* 4x8 = 32 bits */
+		break;
+	default:
+		/* TODO: check what to do. Check for cheese? */
+		break;
+	}
+	/* Add the record to the symbol table */
+	symbolTable.push_back(variable);
 }
 
 void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
@@ -61,9 +82,12 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
 	case ID_EXPR:
 	case TEMP_EXPR:  // operand form: +k(R15)
 		s = e.name;
-		n = 0;
-		while (symbolTable[n] != s) n++;
-		k = 2 * n;  // offset: 2 bytes per variable
+		k = n = 0;
+		while (symbolTable[n].name != s) {
+			n++;
+			k += symbolTable[n].size;
+		}
+		/* FIXME: check what to do for other types */
 		IntToAlpha(k, t);
 		s = "+" + t + "(R15)";
 		break;
@@ -114,13 +138,17 @@ void CodeGen::Generate(const string & s1, const string & s2, const string & s3) 
 }
 
 string CodeGen::GetTemp() {
+	/* FIXME: check what to do for other types */
 	string s;
 	static string t;
 
 	t = "Temp&";
 	IntToAlpha(++maxTemp, s);
 	t += s;
-	CheckId(t);
+	ExprRec var;
+	var.name = t;
+	var.var_type = INT;
+	CheckId(var);
 	return t;
 }
 
@@ -144,7 +172,7 @@ void CodeGen::IntToAlpha(int val, string& str) {
 
 bool CodeGen::LookUp(const string & s) {
 	for (unsigned i = 0; i < symbolTable.size(); i++)
-	if (symbolTable[i] == s) {
+	if (symbolTable[i].name == s) {
 		return true;
 	}
 	return false;
@@ -166,6 +194,14 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 vector<string> str_vect;
 int str_cnt = 0;
 
+int CodeGen::CalcTableSize() {
+	int i, index = 0;
+	for (i = 0; i < symbolTable.size(); i++) {
+		index += symbolTable[i].size;
+	}
+	return index;
+}
+
 void CodeGen::Finish() {
 	string s;
 
@@ -173,7 +209,8 @@ void CodeGen::Finish() {
 	listFile << ++scan.lineNumber << "  " << scan.lineBuffer << endl;
 	Generate("HALT      ", "", "");
 	Generate("LABEL     ", "VARS", "");
-	IntToAlpha(int(symbolTable.size()), s);
+	int table_size = CalcTableSize();
+	IntToAlpha(table_size, s);
 	Generate("SKIP      ", s, "");
 	Generate("LABEL     ", "STRS", "");
 	while (!str_vect.empty()) {
@@ -190,9 +227,12 @@ void CodeGen::Finish() {
 	listFile << " Address      Identifier" << endl;
 	listFile << " --------     --------------------------------"
 		<< endl;
-	for (unsigned i = 0; i < symbolTable.size(); i++) {
+	int i, index = 0;
+	for (i = 0; i < symbolTable.size(); i++) {
 		listFile.width(7);
-		listFile << 2*i << "       " << symbolTable[i] << endl;
+		listFile << index << "       " << symbolTable[i].name
+			<< endl;
+		index += symbolTable[i].size;
 	}
 	listFile << " _____________________________________________"
 		<< endl;
@@ -354,7 +394,8 @@ void CodeGen::DefineVar(ExprRec& var) {
 		SemanticError("Variable " + varname + \
 				" was already declared before.");
 	} else { /* variable not declared yet */
-		Enter(varname); /* declare it */
+		var.name = varname;
+		Enter(var); /* declare it */
 		/* TODO Assign 0 to the variable, check if SAM does. */
 	}
 }
