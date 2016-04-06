@@ -242,8 +242,15 @@ void CodeGen::Finish() {
 }
 
 void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2, ExprRec& e) {
-	string opnd;
-	/* TODO: check variable type -- should var_type be used for literals? */
+
+	if (e1.var_type != e2.var_type) {
+		SemanticError(" mixed-mode arithmetic operations"
+				" are not allowed.");
+	} else if ((e1.var_type != INT) && (e1.var_type != FLOAT)) {
+		SemanticError(" arithmetic opertions are allowed only for"
+				" INTs and FLOATs.");
+	}
+
 	if (e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR) {
 		e.kind = LITERAL_EXPR;
 		switch (op.op) {
@@ -261,6 +268,8 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 			break;
 		}
 	} else {
+		string opnd;
+		/* TODO: check variable type */
 		e.kind = TEMP_EXPR;
 		e.name = GetTemp();
 		ExtractExpr(e1, opnd);
@@ -401,6 +410,6 @@ void CodeGen::DefineVar(ExprRec& var) {
 }
 
 void CodeGen::SemanticError(string msg) { /* FIXME should this be here? */
-	cout << "Semantic Error: " + msg << endl;
+	cout << " *** Semantic Error: " + msg << endl;
 	exit(1); // abort on any semantic error
 }
