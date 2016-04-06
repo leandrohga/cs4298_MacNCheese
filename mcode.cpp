@@ -173,7 +173,7 @@ void CodeGen::Finish() {
 	listFile << ++scan.lineNumber << "  " << scan.lineBuffer << endl;
 	Generate("HALT      ", "", "");
 	Generate("LABEL     ", "VARS", "");
-	IntToAlpha(int(2*(symbolTable.size()+1)), s);
+	IntToAlpha(int(symbolTable.size()), s);
 	Generate("SKIP      ", s, "");
 	Generate("LABEL     ", "STRS", "");
 	while (!str_vect.empty()) {
