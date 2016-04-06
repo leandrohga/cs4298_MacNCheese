@@ -250,24 +250,31 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 		SemanticError(" arithmetic opertions are allowed only for"
 				" INTs and FLOATs.");
 	}
+	/* Result type = operands types */
+	e.var_type = e1.var_type;
 
+	/* Literals */
 	if (e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR) {
 		e.kind = LITERAL_EXPR;
 		switch (op.op) {
 		case PLUS:
 			e.ival = e1.ival + e2.ival;
+			e.fval = e1.fval + e2.fval;
 			break;
 		case MINUS:
 			e.ival = e1.ival - e2.ival;
+			e.fval = e1.fval - e2.fval;
 			break;
 		case MULT:
 			e.ival = e1.ival * e2.ival;
+			e.fval = e1.fval * e2.fval;
 			break;
 		case DIV:
 			e.ival = e1.ival / e2.ival;
+			e.fval = e1.fval / e2.fval;
 			break;
 		}
-	} else {
+	} else { /* Variables */
 		string opnd;
 		/* TODO: check variable type */
 		e.kind = TEMP_EXPR;
@@ -285,6 +292,17 @@ void CodeGen::NewLine() {
 	Generate("WRNL      ", "", "");
 }
 
+int CodeGen::RetrieveVar(const string & s)
+{
+	int i;
+	for (i = 0; i < symbolTable.size(); i++) {
+		if (symbolTable[i].name == s) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 void CodeGen::ProcessVar(ExprRec& e)
 {
 	if (!LookUp(e.name)) { /* variable not declared yet */
@@ -292,7 +310,9 @@ void CodeGen::ProcessVar(ExprRec& e)
 				" was not declared before usage.");
 	} else {
 		e.kind = ID_EXPR;
-		e.var_type = INT; /* FIXME: this should be retrieve from the symbol table in the codegen */
+		/* Retrieve the variable type */
+		int varnum = RetrieveVar(e.name);
+		e.var_type = symbolTable[varnum].type;
 	}
 }
 

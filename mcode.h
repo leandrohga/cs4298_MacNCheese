@@ -119,6 +119,9 @@ private:
 
 	int  maxTemp;     // max temporary allocated so far; initially 0
 
+	int RetrieveVar(const string & s);
+	// Retrieve the variable's (called s) position from the symbol table
+
 	int CalcTableSize();
 	// Calculate the size of the symbol table
 
