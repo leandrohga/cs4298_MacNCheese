@@ -350,10 +350,33 @@ void CodeGen::ProcessOp(OpRec& o) {
 }
 
 void CodeGen::Listen(const ExprRec & inVar) {
-	/* TODO check variable types, add other types */
+	VarKind var_type;
+	/* Check if variable was declared before usage */
+	if (!LookUp(inVar.name)) { /* variable not declared yet */
+		SemanticError("Variable " + inVar.name + \
+				" was not declared before usage.");
+	} else {
+		/* Retrieve the variable type */
+		int varnum = RetrieveVar(inVar.name);
+		var_type = symbolTable[varnum].type;
+	}
+
+	/* Addressing for variable - doesn't depend on type */
 	string s;
 	ExtractExpr(inVar, s);
-	Generate("RDI       ", s, "");
+	/* Check variable type */
+	switch (var_type) {
+	case BOOL: /* TODO: check how to read a bool */
+	case INT:
+		Generate("RDI       ", s, "");
+		break;
+	case FLOAT: /* TODO: check for MnC dd.ddesdd format?? */
+		Generate("RDF       ", s, "");
+		break;
+	case CHEESE: /* TODO: check how to read strings */
+		Generate("RDST      ", s, "");
+		break;
+	}
 }
 
 void CodeGen::Start() {
@@ -391,11 +414,9 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 			Generate("WRI       ", s, "");
 			break;
 		case FLOAT:
-			/*TODO*/
-			break;
-		default:
-			/*TODO*/ //error as there will always be one of the above.
-			//otherwise we will have the warning after compiling that cheese wasnt handle(but it is in previous function)
+			/*TODO FIXME: fix ExtractExpr for the case of LITs */
+			ExtractExpr(outExpr, s);
+			Generate("WRF       ", s, "");
 			break;
 	}
 }

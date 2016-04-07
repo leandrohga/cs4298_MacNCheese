@@ -14,9 +14,9 @@ decs {
 	iVal1 = 100 + 123 * 2 - 500 * 1 + 223;
 	iVal2 = (200 - 100) * 3 / 2;
 	shout "\nAssigned ==> ", iVal1, ",", iVal2;
-//	shout "\nEnter two real numbers: ";
-//	listen rVal1, rVal2;
-//	shout "\n==> ", fVal1, ",", fVal2;
+	shout "\nEnter two real numbers: ";
+	listen fVal1, fVal2;
+	shout "\n==> ", fVal1, ",", fVal2;
 	
 //	shout "\nint constants: ", 37, 7805, 685;
 //	shout "\nfloat constants: ", 3.8405, "  ", 3.8405e+2, "  ", 3.8405E-3;
