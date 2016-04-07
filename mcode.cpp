@@ -87,13 +87,29 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
 			n++;
 			k += symbolTable[n].size;
 		}
-		/* FIXME: check what to do for other types */
 		IntToAlpha(k, t);
 		s = "+" + t + "(R15)";
 		break;
 	case LITERAL_EXPR:
-		IntToAlpha(e.ival, t);
-		s = "#" + t;
+		/* FIXME: check what to do for other types then INT */
+		switch (e.var_type) {
+		case BOOL:
+			/* TODO FIXME*/
+			IntToAlpha(e.bval, t);
+			s = "#" + t;
+			break;
+		case INT:
+			IntToAlpha(e.ival, t);
+			s = "#" + t;
+			break;
+		case FLOAT:
+			/* TODO FIXME */
+			IntToAlpha(e.ival, t);
+			s = "#" + t;
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -399,15 +415,9 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	string s;
 	switch (outExpr.var_type) {
 		case BOOL:
-			/*TODO: please check this statement and check if it is
-			 * right how I am vverifying if it is true or false */
-			//ExtractExpr(outExpr, s);
-			cerr << outExpr.bval << endl;
-			if(outExpr.bval){
-				Generate("WRI       ", "bl", "1");
-			}else{
-				Generate("WRI       ", "bl", "0");
-			}
+			/* TODO: write "True"/"False" instead of 0/1. */
+			ExtractExpr(outExpr, s);
+			Generate("WRI       ", s, "");
 			break;
 		case INT:
 			ExtractExpr(outExpr, s);
