@@ -243,6 +243,7 @@ void Parser::FactorTail(ExprRec& result) {
 		leftOperand.ival = result.ival; /* Only allowed for */
 		leftOperand.fval = result.fval; /* INTs and FLOATs  */
 		leftOperand.name = result.name;
+		leftOperand.var_type = result.var_type;
 		MultOp();
 		code.ProcessOp(op); /*** CODE ***/
 		Primary(rightOperand);
@@ -295,6 +296,7 @@ void Parser::Primary(ExprRec& result) {
 		break;
 	case ID:
 		Variable(result);
+		/* var_type is retrieved from symbol table */
 		code.ProcessVar(result); /*** CODE ***/
 		break;
 	case LBANANA:
@@ -330,6 +332,7 @@ void Parser::ExprTail(ExprRec& result) {
 		leftOperand.ival = result.ival; /* Only allowed for */
 		leftOperand.fval = result.fval; /* INTs and FLOATs  */
 		leftOperand.name = result.name;
+		leftOperand.var_type = result.var_type;
 		AddOp();
 		code.ProcessOp(op); /*** CODE ***/
 		Factor(rightOperand);
