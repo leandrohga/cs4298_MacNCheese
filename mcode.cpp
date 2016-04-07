@@ -431,5 +431,6 @@ void CodeGen::DefineVar(ExprRec& var) {
 
 void CodeGen::SemanticError(string msg) { /* FIXME should this be here? */
 	cout << " *** Semantic Error: " + msg << endl;
+	cout << " *** Error on line " << scan.lineNumber << endl;
 	exit(1); // abort on any semantic error
 }
