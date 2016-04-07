@@ -57,7 +57,7 @@ void CodeGen::Enter(ExprRec& var) {
 	/* Check variable size */
 	switch (var.var_type) {
 	case BOOL:
-		variable.size = 1; /* 1x8 = 8bits */
+		variable.size = 2; /* all operations are 16 bits */
 		break;
 	case INT:
 		variable.size = 2; /* 2x8 = 16 bits */
