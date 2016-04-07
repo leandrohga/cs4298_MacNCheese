@@ -326,8 +326,8 @@ void CodeGen::ProcessLit(ExprRec& e) {
 	case INT:
 		e.ival = atoi(scan.tokenBuffer.data());
 		break;
-		case FLOAT:
-		/* TODO: check size of float, is it float or double?  it is double :) */
+	case FLOAT:
+		/* TODO: check how to scan floats, they are 32bits */
 		e.fval = atof(scan.tokenBuffer.data());
 		break;
 	case CHEESE:
