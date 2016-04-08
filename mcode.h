@@ -55,9 +55,11 @@ struct ExprRec { //information about a constant, variable, or an intermediate (t
 };
 
 struct symbol_node_t { //node used for the symbol table
-	string name;
-	VarKind type;
-	int size;
+	string name; //Name of the variable
+	VarKind type; //Type of the variable
+	int size; //Size of the variable
+	int ival; //Integer value
+	string s_fval; //String representing a float value
 };
 
 class CodeGen {

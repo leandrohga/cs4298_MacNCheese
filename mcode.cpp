@@ -57,12 +57,15 @@ void CodeGen::Enter(ExprRec& var) {
 	switch (var.var_type) {
 	case BOOL:
 		variable.size = 2; /* all operations are 16 bits */
+		variable.ival = 0; /* init with boolean "False" value */
 		break;
 	case INT:
 		variable.size = 2; /* 2x8 = 16 bits */
+		variable.ival = 0; /* init with integer 0 value */
 		break;
 	case FLOAT:
 		variable.size = 4; /* 4x8 = 32 bits */
+		variable.s_fval = "0.0"; /* init with float 0 value */
 		break;
 	default:
 		/* TODO: check what to do. Check for cheese? */
@@ -219,15 +222,26 @@ int CodeGen::CalcTableSize() {
 
 void CodeGen::Finish() {
 	string s;
+	int i, index = 0;
 
 	listFile.width(6);
 	listFile << ++scan.lineNumber << "  " << scan.lineBuffer << endl;
 	Generate("HALT      ", "", "");
 	/* Integers, floats and bools */
 	Generate("LABEL     ", "VARS", "");
-	int table_size = CalcTableSize();
-	IntToAlpha(table_size, s);
-	Generate("SKIP      ", s, "");
+	for (i = 0; i < symbolTable.size(); i++) {
+		switch (symbolTable[i].type) {
+		case BOOL:
+		case INT:
+			IntToAlpha(symbolTable[i].ival, s);
+			Generate("INT       ", s, "");
+			break;
+		case FLOAT:
+			s = symbolTable[i].s_fval;
+			Generate("REAL      ", s, "");
+			break;
+		}
+	}
 	/* Strings */
 	Generate("LABEL     ", "STRS", "");
 	while (!str_vect.empty()) {
@@ -248,7 +262,6 @@ void CodeGen::Finish() {
 	listFile << " Address      Identifier" << endl;
 	listFile << " --------     --------------------------------"
 		<< endl;
-	int i, index = 0;
 	for (i = 0; i < symbolTable.size(); i++) {
 		listFile.width(7);
 		listFile << index << "       " << symbolTable[i].name
@@ -473,7 +486,6 @@ void CodeGen::DefineVar(ExprRec& var) {
 	} else { /* variable not declared yet */
 		var.name = varname;
 		Enter(var); /* declare it */
-		/* TODO Assign 0 to the variable, check if SAM does. */
 	}
 }
 
