@@ -445,6 +445,9 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 			ExtractExpr(outExpr, s);
 			Generate("WRF       ", s, "");
 			break;
+		default:
+			SemanticError("There are no other options besides Bool, Cheese, Int or Float, please check  this out.");
+			break;
 	}
 }
 
