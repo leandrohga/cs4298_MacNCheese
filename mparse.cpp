@@ -35,7 +35,9 @@ Parser::Parser() {
 }
 
 void Parser::SyntaxError(Token t, string msg) {
-	cout << "Syntax Error: " + msg << endl;
+	cout << " *** Syntax Error Detected " << int(t) << " "
+		<< int(savedToken);
+	cout << " *** Error: " + msg << endl;
 	exit(1); // abort on any syntax error
 }
 
@@ -238,24 +240,14 @@ void Parser::FactorTail(ExprRec& result) {
 	case MULT_OP:
 	case DIV_OP:
 		leftOperand.kind = result.kind;
-		leftOperand.ival = result.ival; /* FIXME TODO check other types */
+		leftOperand.ival = result.ival; /* Only allowed for */
+		leftOperand.fval = result.fval; /* INTs and FLOATs  */
 		leftOperand.name = result.name;
+		leftOperand.var_type = result.var_type;
 		MultOp();
 		code.ProcessOp(op); /*** CODE ***/
 		Primary(rightOperand);
 		 /*** CODE ***/
-		code.GenInfix(leftOperand, op, rightOperand, result);
-		FactorTail(result);
-		break;
-	case PLUS_OP:
-	case MINUS_OP:
-		leftOperand.kind = result.kind;
-		leftOperand.ival = result.ival; /* FIXME TODO check other types */
-		leftOperand.name = result.name;
-		AddOp();
-		code.ProcessOp(op);
-		Primary(rightOperand);
-		/*** CODE ***/
 		code.GenInfix(leftOperand, op, rightOperand, result);
 		FactorTail(result);
 		break;
@@ -264,6 +256,8 @@ void Parser::FactorTail(ExprRec& result) {
 	case RMUSTACHE:
 	case SEMICOLON:
 	case COMMA:
+	case PLUS_OP:
+	case MINUS_OP:
 	case LT_OP:
 	case LE_OP:
 	case GT_OP:
@@ -301,8 +295,9 @@ void Parser::Primary(ExprRec& result) {
 		code.ProcessLit(result); /*** CODE ***/
 		break;
 	case ID:
-		Variable();
-		//code.ProcessVar(); /*** CODE ***/
+		Variable(result);
+		/* var_type is retrieved from symbol table */
+		code.ProcessVar(result); /*** CODE ***/
 		break;
 	case LBANANA:
 		Match(LBANANA);
@@ -334,8 +329,10 @@ void Parser::ExprTail(ExprRec& result) {
 	case PLUS_OP:
 	case MINUS_OP:
 		leftOperand.kind = result.kind;
-		leftOperand.ival = result.ival; /* FIXME TODO check other types */
+		leftOperand.ival = result.ival; /* Only allowed for */
+		leftOperand.fval = result.fval; /* INTs and FLOATs  */
 		leftOperand.name = result.name;
+		leftOperand.var_type = result.var_type;
 		AddOp();
 		code.ProcessOp(op); /*** CODE ***/
 		Factor(rightOperand);
@@ -462,8 +459,9 @@ void Parser::CaseList() {
 	CaseListTail();
 }
 
-void Parser::ForAssign() {
-	Variable();
+void Parser::ForAssign()
+{
+	//Variable();
 	// code.ProcessVar();
 	Match(ASSIGN_OP);
 //	Expression();
@@ -616,14 +614,15 @@ void Parser::VariableTail() {
 	}
 }
 
-void Parser::VarListTail() {
+void Parser::VarListTail(ExprRec& var) {
 	switch (NextToken()) {
 	case COMMA:
 		Match(COMMA);
-		Variable();
-		// code.ProcessVar();
-		// code.Listen();
-		VarListTail();
+		Variable(var);
+		code.ProcessVar(var); /*** CODE ***/
+		code.Listen(var); /*** CODE ***/
+		/* Recursion for other variables */
+		VarListTail(var);
 		break;
 	case SEMICOLON:
 		break;
@@ -632,11 +631,15 @@ void Parser::VarListTail() {
 	}
 }
 
-void Parser::VarList() {
-	Variable();
-	// code.ProcessVar();
-	// code.Listen();
-	VarListTail();
+void Parser::VarList()
+{
+	ExprRec var;
+	/* Listen to the first variable */
+	Variable(var);
+	code.ProcessVar(var); /*** CODE ***/
+	code.Listen(var); /*** CODE ***/
+	/* Listen for the next variables */
+	VarListTail(var);
 }
 
 void Parser::InitList() {
@@ -649,7 +652,7 @@ void Parser::Expression(ExprRec& result) {
 	ExprTail(result);
 }
 
-void Parser::AssignTail() {
+void Parser::AssignTail(ExprRec& result) {
 	switch (NextToken()) {
 	case FALSE_SYM:
 	case TRUE_SYM:
@@ -658,7 +661,7 @@ void Parser::AssignTail() {
 	case INT_LIT:
 	case FLOAT_LIT:
 	case CHEESE_LIT:
-//		Expression();
+		Expression(result);
 		break;
 	case LMUSTACHE:
 		Match(LMUSTACHE);
@@ -670,8 +673,10 @@ void Parser::AssignTail() {
 	}
 }
 
-void Parser::Variable() {
+void Parser::Variable(ExprRec& var)
+{
 	Match(ID);
+	var.name = scan.tokenBuffer;
 	VariableTail();
 }
 
@@ -694,12 +699,18 @@ void Parser::ListenStmt() {
 	Match(SEMICOLON);
 }
 
-void Parser::AssignStmt() {
-	Variable();
-	// code.ProcessVar();
+void Parser::AssignStmt()
+{
+	/* Variable to be assigned a value */
+	ExprRec var;
+	Variable(var);
+	code.ProcessVar(var);
+	/* Equal sign '=' */
 	Match(ASSIGN_OP);
-	AssignTail();
-	// code.Assign();
+	/* Value/Expression to assign to the variable */
+	ExprRec result;
+	AssignTail(result);
+	code.Assign(var, result);
 	Match(SEMICOLON);
 }
 

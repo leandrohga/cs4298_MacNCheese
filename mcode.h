@@ -54,6 +54,12 @@ struct ExprRec { //information about a constant, variable, or an intermediate (t
 	string sval; //String
 };
 
+struct symbol_node_t { //node used for the symbol table
+	string name;
+	VarKind type;
+	int size;
+};
+
 class CodeGen {
 public:
 
@@ -75,7 +81,7 @@ public:
 	void NewLine();
 	// Produces the assembly code for starting a new output line.
 
-	void ProcessId(ExprRec& e);
+	void ProcessVar(ExprRec& e);
 	// Declares the identifier in the token buffer and builds a
 	// corresponding semantic record e.
 
@@ -87,7 +93,7 @@ public:
 	// Produces an operator descriptor O for the operator in the token
 	// buffer.
 
-	void ReadId(const ExprRec & InVar);
+	void Listen(const ExprRec & InVar);
 	// Produces the assembly code for reading a value for InVar.
 
 	void Start();
@@ -109,15 +115,21 @@ public:
 
 private:
 
-	vector<string> symbolTable;
+	vector<symbol_node_t> symbolTable;
 
 	int  maxTemp;     // max temporary allocated so far; initially 0
 
-	void CheckId(const string & s);
+	int RetrieveVar(const string & s);
+	// Retrieve the variable's (called s) position from the symbol table
+
+	int CalcTableSize();
+	// Calculate the size of the symbol table
+
+	void CheckId(ExprRec& var);
 	// Declares s as a new variable and enters it into the symbol table when s
 	// is not already in the symbol table.
 
-	void Enter(const string & s);
+	void Enter(ExprRec& var);
 	// Enters s unconditionally into the symbol table.
 
 	void ExtractExpr(const ExprRec & e, string& s);

@@ -3,20 +3,13 @@
 - Update files (make sure no one is working on it at the time)
 	- Rename files accordingly
 	- Update makefile
-- Literal expressions don't follow the order of operations
 
 1. SCANNER
-CHECK IF THE SCANNER IS WORKING
-	- Create test cases and run programs (mnc/microA).
 
 2. PARSER
-- ADAPT THE PARSER TO THE NEW GRAMMAR
-- Only accept otherwise followed by :
 
 3. CODE GENERATION
-- IMPLEMENT ACTION SYMBOLS
-- ASSEMBLY LANGUAGE FOR THE ACTION SYMBOLS
+- Implement action symbols and code generation according to schedule
 
 4. WRITE PROGRAMS IN MAC N CHEESE
-- Added tests for \n in cheese. sprichard DONE.
-- Add tests for \\n,"\n",\3 digit ascii. PENDING
+- Add tests for \\n,"\n",\3 digit ascii.

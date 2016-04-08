@@ -42,14 +42,34 @@ CodeGen::CodeGen() {
 // ** Private Member Functions  **
 // *******************************
 
-void CodeGen::CheckId(const string & s) {
-	if (!LookUp(s)) { // variable not declared yet
-		Enter(s);
+void CodeGen::CheckId(ExprRec& var) {
+	if (!LookUp(var.name)) { // variable not declared yet
+		Enter(var);
 	}
 }
 
-void CodeGen::Enter(const string & s) {
-	symbolTable.push_back(s);
+void CodeGen::Enter(ExprRec& var) {
+	/* Create the key and fill it */
+	symbol_node_t variable;
+	variable.name = var.name;
+	variable.type = var.var_type;
+	/* Check variable size */
+	switch (var.var_type) {
+	case BOOL:
+		variable.size = 2; /* all operations are 16 bits */
+		break;
+	case INT:
+		variable.size = 2; /* 2x8 = 16 bits */
+		break;
+	case FLOAT:
+		variable.size = 4; /* 4x8 = 32 bits */
+		break;
+	default:
+		/* TODO: check what to do. Check for cheese? */
+		break;
+	}
+	/* Add the record to the symbol table */
+	symbolTable.push_back(variable);
 }
 
 void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
@@ -61,15 +81,34 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
 	case ID_EXPR:
 	case TEMP_EXPR:  // operand form: +k(R15)
 		s = e.name;
-		n = 0;
-		while (symbolTable[n] != s) n++;
-		k = 2 * n;  // offset: 2 bytes per variable
+		k = n = 0;
+		while (symbolTable[n].name != s) {
+			n++;
+			k += symbolTable[n].size;
+		}
 		IntToAlpha(k, t);
 		s = "+" + t + "(R15)";
 		break;
 	case LITERAL_EXPR:
-		IntToAlpha(e.ival, t);
-		s = "#" + t;
+		switch (e.var_type) {
+		case BOOL:
+			IntToAlpha(e.bval, t);
+			s = "#" + t;
+			break;
+		case INT:
+			IntToAlpha(e.ival, t);
+			s = "#" + t;
+			break;
+		case FLOAT:
+			/* TODO FIXME Float operations don't allow
+			 * immediate addressing. Check What to do
+			 */
+			IntToAlpha(e.ival, t);
+			s = "#" + t;
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -84,16 +123,16 @@ string CodeGen::ExtractOp(const OpRec & o) {
 		return "ID        ";
 	}
 }
-/* TODO: please check this for float + - / *    */
+
 string CodeGen::ExtractOpFloat(const OpRec & o) {
 	if (o.op == PLUS) {
-		return "FADD        ";
+		return "FA        ";
 	} else if (o.op == MINUS) {
-		return "FSUB        ";
+		return "FS        ";
 	} else if (o.op == MULT) {
-		return "FMUL        ";
+		return "FM        ";
 	} else {
-		return "FDIV        ";
+		return "FD        ";
 	}
 }
 
@@ -114,13 +153,17 @@ void CodeGen::Generate(const string & s1, const string & s2, const string & s3) 
 }
 
 string CodeGen::GetTemp() {
+	/* FIXME: check what to do for other types */
 	string s;
 	static string t;
 
 	t = "Temp&";
 	IntToAlpha(++maxTemp, s);
 	t += s;
-	CheckId(t);
+	ExprRec var;
+	var.name = t;
+	var.var_type = INT;
+	CheckId(var);
 	return t;
 }
 
@@ -144,7 +187,7 @@ void CodeGen::IntToAlpha(int val, string& str) {
 
 bool CodeGen::LookUp(const string & s) {
 	for (unsigned i = 0; i < symbolTable.size(); i++)
-	if (symbolTable[i] == s) {
+	if (symbolTable[i].name == s) {
 		return true;
 	}
 	return false;
@@ -155,8 +198,8 @@ bool CodeGen::LookUp(const string & s) {
 // ******************************
 
 void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
+	/* TODO check variable types, add other types */
 	string s;
-
 	ExtractExpr(source, s);
 	Generate("LD        ", "R0", s);
 	ExtractExpr(target, s);
@@ -166,21 +209,36 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 vector<string> str_vect;
 int str_cnt = 0;
 
+int CodeGen::CalcTableSize() {
+	int i, index = 0;
+	for (i = 0; i < symbolTable.size(); i++) {
+		index += symbolTable[i].size;
+	}
+	return index;
+}
+
 void CodeGen::Finish() {
 	string s;
 
 	listFile.width(6);
 	listFile << ++scan.lineNumber << "  " << scan.lineBuffer << endl;
 	Generate("HALT      ", "", "");
+	/* Integers, floats and bools */
 	Generate("LABEL     ", "VARS", "");
-	IntToAlpha(int(2*(symbolTable.size()+1)), s);
+	int table_size = CalcTableSize();
+	IntToAlpha(table_size, s);
 	Generate("SKIP      ", s, "");
+	/* Strings */
 	Generate("LABEL     ", "STRS", "");
 	while (!str_vect.empty()) {
 		s = str_vect.front();
 		str_vect.erase(str_vect.begin());
 		Generate("STRING    ", s, "");
 	}
+	/* Boolean strings "False" and "True" */
+	Generate("LABEL     ", "BOOL", "");
+	Generate("STRING    ", "\"False\"", "");
+	Generate("STRING    ", "\"True\"", "");
 	outFile.close();
 	listFile << endl << endl;
 	listFile << " _____________________________________________\n";
@@ -190,9 +248,12 @@ void CodeGen::Finish() {
 	listFile << " Address      Identifier" << endl;
 	listFile << " --------     --------------------------------"
 		<< endl;
-	for (unsigned i = 0; i < symbolTable.size(); i++) {
+	int i, index = 0;
+	for (i = 0; i < symbolTable.size(); i++) {
 		listFile.width(7);
-		listFile << 2*i << "       " << symbolTable[i] << endl;
+		listFile << index << "       " << symbolTable[i].name
+			<< endl;
+		index += symbolTable[i].size;
 	}
 	listFile << " _____________________________________________"
 		<< endl;
@@ -202,27 +263,43 @@ void CodeGen::Finish() {
 }
 
 void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2, ExprRec& e) {
-	string opnd;
-	/* TODO: check variable type -- should var_type be used for literals? */
+
+	if (e1.var_type != e2.var_type) {
+		SemanticError("mixed-mode arithmetic operations"
+				" are not allowed.");
+	} else if ((e1.var_type != INT) && (e1.var_type != FLOAT)) {
+		SemanticError("arithmetic opertions are allowed only for"
+				" INTs and FLOATs.");
+	}
+	/* Result type = operands types */
+	e.var_type = e1.var_type;
+
+	/* Literals */
 	if (e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR) {
 		e.kind = LITERAL_EXPR;
 		switch (op.op) {
 		case PLUS:
 			e.ival = e1.ival + e2.ival;
+			e.fval = e1.fval + e2.fval;
 			break;
 		case MINUS:
 			e.ival = e1.ival - e2.ival;
+			e.fval = e1.fval - e2.fval;
 			break;
 		case MULT:
 			e.ival = e1.ival * e2.ival;
+			e.fval = e1.fval * e2.fval;
 			break;
 		case DIV:
 			e.ival = e1.ival / e2.ival;
+			e.fval = e1.fval / e2.fval;
 			break;
 		}
-	} else {
+	} else { /* Variables */
+		string opnd;
+		/* TODO: check variable type */
 		e.kind = TEMP_EXPR;
-		e.name = GetTemp();
+		e.name = GetTemp(); /* FIXME */
 		ExtractExpr(e1, opnd);
 		Generate("LD        ", "R0", opnd);
 		ExtractExpr(e2, opnd);
@@ -236,24 +313,42 @@ void CodeGen::NewLine() {
 	Generate("WRNL      ", "", "");
 }
 
-void CodeGen::ProcessId(ExprRec& e) {
-	CheckId(scan.tokenBuffer);
-	e.kind = ID_EXPR;
-	e.name = scan.tokenBuffer;
+int CodeGen::RetrieveVar(const string & s)
+{
+	int i;
+	for (i = 0; i < symbolTable.size(); i++) {
+		if (symbolTable[i].name == s) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+void CodeGen::ProcessVar(ExprRec& e)
+{
+	if (!LookUp(e.name)) { /* variable not declared yet */
+		SemanticError("variable " + e.name + \
+				" was not declared before usage.");
+	} else {
+		e.kind = ID_EXPR;
+		/* Retrieve the variable type */
+		int varnum = RetrieveVar(e.name);
+		e.var_type = symbolTable[varnum].type;
+	}
 }
 
 void CodeGen::ProcessLit(ExprRec& e) {
 	e.kind = LITERAL_EXPR;
 	switch (e.var_type) {
 	case BOOL:
-		/* TODO: check if this works */
-		e.bval = (scan.tokenBuffer == "True");
+		/* Reserved words are converted to lower in the scanner */
+		e.bval = (scan.tokenBuffer == "true");
 		break;
 	case INT:
 		e.ival = atoi(scan.tokenBuffer.data());
 		break;
-		case FLOAT:
-		/* TODO: check size of float, is it float or double?  it is double :) */
+	case FLOAT:
+		/* TODO: check how to scan floats, they are 32bits */
 		e.fval = atof(scan.tokenBuffer.data());
 		break;
 	case CHEESE:
@@ -275,16 +370,40 @@ void CodeGen::ProcessOp(OpRec& o) {
 	}
 }
 
-void CodeGen::ReadId(const ExprRec & inVar) {
-	string s;
+void CodeGen::Listen(const ExprRec & inVar) {
+	VarKind var_type;
+	/* Check if variable was declared before usage */
+	if (!LookUp(inVar.name)) { /* variable not declared yet */
+		SemanticError("variable " + inVar.name + \
+				" was not declared before usage.");
+	} else {
+		/* Retrieve the variable type */
+		int varnum = RetrieveVar(inVar.name);
+		var_type = symbolTable[varnum].type;
+	}
 
+	/* Addressing for variable - doesn't depend on type */
+	string s;
 	ExtractExpr(inVar, s);
-	Generate("RDI       ", s, "");
+	/* Check variable type */
+	switch (var_type) {
+	case BOOL: /* TODO: check how to read a bool */
+	case INT:
+		Generate("RDI       ", s, "");
+		break;
+	case FLOAT: /* TODO: check for MnC dd.ddesdd format?? */
+		Generate("RDF       ", s, "");
+		break;
+	case CHEESE: /* TODO: check how to read strings */
+		Generate("RDST      ", s, "");
+		break;
+	}
 }
 
 void CodeGen::Start() {
 	Generate("LDA       ", "R15", "VARS");
 	Generate("LDA       ", "R14", "STRS");
+	Generate("LDA       ", "R13", "BOOL");
 }
 
 void CodeGen::Shout(const ExprRec & outExpr) {
@@ -301,27 +420,30 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	string s;
 	switch (outExpr.var_type) {
-		case BOOL:
-			/*TODO: please check this statement and check if it is
-			 * right how I am vverifying if it is true or false */
-			//ExtractExpr(outExpr, s);
-			cerr << outExpr.bval << endl;
-			if(outExpr.bval){
-				Generate("WRI       ", "bl", "1");
-			}else{
-				Generate("WRI       ", "bl", "0");
-			}
+		case BOOL: /* Prints "False" or "True" strings */
+			/* Load variable's address or literal's value */
+			ExtractExpr(outExpr, s);
+			/* Compare variable to 0 */
+			Generate("LD        ", "R0", s);
+			Generate("IC         ", "R0", "#0");
+			/* Jumps consider 4 bytes per instruction */
+			/* skip 2 next instructions if variable is true */
+			Generate("JNE        ", "&8", "");//s);
+			/* String "False" */
+			Generate("WRST       ", "+0(R13)", "");
+			/* skip next instruction */
+			Generate("JMP        ", "&4", "");
+			/* String "True" */
+			Generate("WRST       ", "+6(R13)", "");
 			break;
 		case INT:
 			ExtractExpr(outExpr, s);
 			Generate("WRI       ", s, "");
 			break;
 		case FLOAT:
-			/*TODO*/
-			break;
-		default:
-			/*TODO*/ //error as there will always be one of the above.
-			//otherwise we will have the warning after compiling that cheese wasnt handle(but it is in previous function)
+			/*TODO FIXME: fix ExtractExpr for the case of LITs */
+			ExtractExpr(outExpr, s);
+			Generate("WRF       ", s, "");
 			break;
 	}
 }
@@ -333,7 +455,7 @@ void CodeGen::WriteString(const ExprRec & outExpr) {
 	str_vect.push_back(s);
 	/* Update counter and Generate ASM */
 	IntToAlpha(str_cnt, t);
-	str_cnt += s.size() - 2;
+	str_cnt += scan.cheese_size;
 	if (str_cnt % 2) {
 		str_cnt++;
 	}
@@ -346,15 +468,17 @@ void CodeGen::DefineVar(ExprRec& var) {
 	string varname = scan.tokenBuffer;
 	if (LookUp(varname)) {
 		/* FIXME is this a semantic error? */
-		SemanticError("Variable " + varname + \
+		SemanticError("variable " + varname + \
 				" was already declared before.");
 	} else { /* variable not declared yet */
-		Enter(varname); /* declare it */
+		var.name = varname;
+		Enter(var); /* declare it */
 		/* TODO Assign 0 to the variable, check if SAM does. */
 	}
 }
 
-void CodeGen::SemanticError(string msg) { /* FIXME should this be here? */
-	cout << "Semantic Error: " + msg << endl;
+void CodeGen::SemanticError(string msg) {
+	cout << endl << " *** Semantic Error: " + msg << endl;
+	cout << " *** Error on line " << scan.lineNumber << endl;
 	exit(1); // abort on any semantic error
 }

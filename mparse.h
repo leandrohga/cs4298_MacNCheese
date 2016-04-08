@@ -123,7 +123,7 @@ private:
 
 	void VariableTail();
 
-	void VarListTail();
+	void VarListTail(ExprRec& var);
 
 	void VarList();
 
@@ -131,9 +131,9 @@ private:
 
 	void Expression(ExprRec& result);
 
-	void AssignTail();
+	void AssignTail(ExprRec& result);
 
-	void Variable();
+	void Variable(ExprRec& var);
 
 	void BreakStmt();
 

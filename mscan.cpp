@@ -39,6 +39,7 @@ Scanner::Scanner()
 	tokenBuffer = "";
 	lineBuffer = "";
 	lineNumber = 0;
+	cheese_size = 1; /* Null char */
 }
 
 // ********************************
@@ -49,11 +50,23 @@ void Scanner::BufferChar(char c)
 {
 	if (tokenBuffer.length() < ID_STRING_LEN){
 		tokenBuffer += c;
+	} else {
+		cout << endl << " *** Fatal error: token is bigger then "
+			<< "the TokenBuffer." << endl;
+		cout << " *** Error at line " << this->lineNumber << endl;
+		cout << " *** Please consider spliting cheese variables "
+			<< "or recompiling the MaccNCheese compiler "
+			<< "with a bigger TokenBuffer." << endl;
+		exit(1);
 	}
 }
 
 Token Scanner::CheckReserved()
 {
+	/*
+	 * FIXME this converts variables to lowercase too.
+	 * Was it supposed to do so?
+	 */
 	/* Convert the string to lower case */
 	transform(tokenBuffer.begin(), tokenBuffer.end(), \
 				tokenBuffer.begin(), ::tolower);
@@ -211,6 +224,7 @@ Token Scanner::GetNextToken()
 			/* string literal */
 			BufferChar(currentChar);
 			c = sourceFile.peek();
+			cheese_size = 1; /* Null Char */
 			/* while not end of string */
 			while (c != '"') {
 				/* escape sequences */
@@ -228,13 +242,15 @@ Token Scanner::GetNextToken()
 						currentChar = NextChar();
 						BufferChar(currentChar);
 						c = sourceFile.peek();
+						cheese_size += 1;
 					} else if (c == '"') {
 						/* '\"' sequence */
-						/* replace '"' for ':' */
+						/* replace '\' for ':' */
 						BufferChar(currentChar);
 						currentChar = NextChar();
 						BufferChar(currentChar);
 						c = sourceFile.peek();
+						cheese_size += 1;
 					} else if (c == 'n') {
 						/* \n sequence */
 						/* replace for ascii '\n'(012)*/
@@ -247,8 +263,12 @@ Token Scanner::GetNextToken()
 						currentChar = '2';
 						BufferChar(currentChar);
 						c = sourceFile.peek();
+						cheese_size += 1;
 					} else if (isdigit(c)) {
 						/* '\ddd' sequence */
+						/* replace '\' for ':' */
+						BufferChar(currentChar);
+
 						int ind;
 						for (ind = 0; ind < 3; ind++) {
 							/* check for 3 digits */
@@ -258,6 +278,7 @@ Token Scanner::GetNextToken()
 							BufferChar(currentChar);
 							c = sourceFile.peek();
 						}
+						cheese_size += 1;
 					} else {
 						LexicalError(currentChar, to_string(currentChar) + \
 						" was followed by the wrong character -options are \\ or \".");
@@ -272,11 +293,13 @@ Token Scanner::GetNextToken()
 					BufferChar(currentChar);
 					BufferChar(currentChar);
 					c = sourceFile.peek();
+					cheese_size += 1;
 				} else {
 					/* regular characters */
 					currentChar = NextChar();
 					BufferChar(currentChar);
 					c = sourceFile.peek();
+					cheese_size += 1;
 				}
 			}
 			/* buffer the final '"' */
