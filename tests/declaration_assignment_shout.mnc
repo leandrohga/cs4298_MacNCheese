@@ -12,8 +12,8 @@ decs {
 	shout "\nEnter two boolean values: ";
 	listen bVal1, bVal2;
 	shout "\nListened ==> ", bVal1, ",", bVal2;
-	bVal1 = 1;
-	bVal2 = 0;
+	bVal1 = True;
+	bVal2 = False;
 	shout "\nAssigned ==> ", bVal1, ",", bVal2;
 	shout "\nbool constants: ", True, "  ", False;
 	// INTEGER VALUES

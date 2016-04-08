@@ -63,6 +63,10 @@ void Scanner::BufferChar(char c)
 
 Token Scanner::CheckReserved()
 {
+	/*
+	 * FIXME this converts variables to lowercase too.
+	 * It was not supposed to do so.
+	 */
 	/* Convert the string to lower case */
 	transform(tokenBuffer.begin(), tokenBuffer.end(), \
 				tokenBuffer.begin(), ::tolower);

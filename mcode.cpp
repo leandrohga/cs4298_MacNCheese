@@ -92,7 +92,6 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
 	case LITERAL_EXPR:
 		switch (e.var_type) {
 		case BOOL:
-			/* TODO FIXME Check how to evaluate BOOL literals */
 			IntToAlpha(e.bval, t);
 			s = "#" + t;
 			break;
@@ -342,8 +341,8 @@ void CodeGen::ProcessLit(ExprRec& e) {
 	e.kind = LITERAL_EXPR;
 	switch (e.var_type) {
 	case BOOL:
-		/* TODO: check if this works */
-		e.bval = (scan.tokenBuffer == "True");
+		/* Reserved words are converted to lower in the scanner */
+		e.bval = (scan.tokenBuffer == "true");
 		break;
 	case INT:
 		e.ival = atoi(scan.tokenBuffer.data());
