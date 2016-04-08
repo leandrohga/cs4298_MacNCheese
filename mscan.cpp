@@ -46,15 +46,12 @@ Scanner::Scanner() {
 // ********************************
 
 void Scanner::BufferChar(char c) {
-	if (tokenBuffer.length() < ID_STRING_LEN){
+	if (tokenBuffer.length() < ID_STRING_LEN) {
 		tokenBuffer += c;
 	} else {
-		cout << endl << " *** Fatal error: token is bigger then "
-			<< "the TokenBuffer." << endl;
+		cout << endl << " *** Fatal error: token is bigger then the TokenBuffer." << endl;
 		cout << " *** Error at line " << this->lineNumber << endl;
-		cout << " *** Please consider spliting cheese variables "
-			<< "or recompiling the MaccNCheese compiler "
-			<< "with a bigger TokenBuffer." << endl;
+		cout << " *** Please consider spliting cheese variables or recompiling the MaccNCheese compiler with a bigger TokenBuffer." << endl;
 		exit(1);
 	}
 }
@@ -90,7 +87,6 @@ Token Scanner::CheckReserved() {
 	if ((tokenBuffer) == "then") return THEN_SYM;
 	if ((tokenBuffer) == "true") return TRUE_SYM;
 	if ((tokenBuffer) == "while") return WHILE_SYM;
-
 	return ID;
 }
 
@@ -99,39 +95,56 @@ void Scanner::ClearBuffer() {
 }
 
 void Scanner::LexicalError(char& c) {
-	cout << " *** Lexical Error: '" << c
-		<< "' ignored at position " << int(lineBuffer.size())
-		<< " on line #" << lineNumber + 1 << '.' << endl;
-	listFile << " *** Lexical Error: '" << c
-		<< "' ignored at position " << int(lineBuffer.size())
-		<< " on line #" << lineNumber + 1 << '.' << endl;
-
+	cout << " *** Lexical Error: '"
+        << c
+		<< "' ignored at position "
+        << int(lineBuffer.size())
+		<< " on line #"
+        << lineNumber + 1
+        << '.'
+        << endl;
+	listFile << " *** Lexical Error: '"
+        << c
+		<< "' ignored at position "
+        << int(lineBuffer.size())
+		<< " on line #"
+        << lineNumber + 1
+        << '.' << endl;
 	c = NextChar();
 }
 
 void Scanner::LexicalError(char& c, const string& errorExp) {
-	cout << " *** Lexical Error: '" << c
-		<< "' ignored at position " << int(lineBuffer.size())
-		<< " on line #" << lineNumber + 1 << '.' << '\n'
-		<< errorExp << endl;
-	listFile << " *** Lexical Error: '" << c
-		<< "' ignored at position " << int(lineBuffer.size())
-		<< " on line #" << lineNumber + 1 << '.' << '\n'
-		<< errorExp << endl;
-
+	cout << " *** Lexical Error: '"
+        << c
+		<< "' ignored at position "
+        << int(lineBuffer.size())
+		<< " on line #"
+        << lineNumber + 1
+        << '.'
+        << '\n'
+		<< errorExp
+        << endl;
+	listFile << " *** Lexical Error: '"
+        << c
+		<< "' ignored at position "
+        << int(lineBuffer.size())
+		<< " on line #"
+        << lineNumber + 1
+        << '.'
+        << '\n'
+		<< errorExp
+        << endl;
 	c = NextChar();
 }
 
 char Scanner::NextChar() {
 	char c;
-
 	sourceFile.get(c);
-	if (c == '\n')
-	{
+	if (c == '\n') {
 		listFile.width(6);
 		listFile << ++lineNumber << "  " << lineBuffer << endl;
 		lineBuffer = "";
-	} else{
+	} else {
 		lineBuffer += c;
 	}
 	return c;
@@ -174,10 +187,9 @@ Token Scanner::GetNextToken() {
 				currentChar = NextChar();
 				c = sourceFile.peek();
 				/* check for a digit after the '.' */
-				if (!isdigit(c))
-					LexicalError(currentChar, to_string(c) \
-						+ " Float needs a digit" \
-						" after the '.'");
+				if (!isdigit(c)) {
+					LexicalError(currentChar, to_string(c) + " Float needs a digit after the '.'");
+                }
 				BufferChar(currentChar);
 				while (isdigit(c)) {
 					currentChar = NextChar();
@@ -189,19 +201,14 @@ Token Scanner::GetNextToken() {
 					currentChar = NextChar();
 					c = sourceFile.peek();
 					if (c != '+' && c!= '-') {
-						LexicalError(currentChar, \
-							to_string(c) + \
-							" Float needs a "
-							"'+'/'-' after 'E'");
+						LexicalError(currentChar, to_string(c) + " Float needs a '+'/'-' after 'E'");
 					}
 					BufferChar(currentChar);
 					currentChar = NextChar();
 					c = sourceFile.peek();
-					if (!isdigit(c))
-						LexicalError(currentChar, \
-							to_string(c) + \
-							" Float needs a " \
-							"digit after '+'/'-'");
+					if (!isdigit(c)) {
+						LexicalError(currentChar, to_string(c) + " Float needs a digit after '+'/'-'");
+                    }
 					BufferChar(currentChar);
 					while (isdigit(c)) {
 						currentChar = NextChar();
@@ -260,20 +267,19 @@ Token Scanner::GetNextToken() {
 						/* '\ddd' sequence */
 						/* replace '\' for ':' */
 						BufferChar(currentChar);
-
 						int ind;
 						for (ind = 0; ind < 3; ind++) {
 							/* check for 3 digits */
-							if (!isdigit(c))
+							if (!isdigit(c)) {
 								LexicalError(c, to_string(c) + " received. Expected three digits after \\.");
+                            }
 							currentChar = NextChar();
 							BufferChar(currentChar);
 							c = sourceFile.peek();
 						}
 						cheese_size += 1;
 					} else {
-						LexicalError(currentChar, to_string(currentChar) + \
-						" was followed by the wrong character -options are \\ or \".");
+						LexicalError(currentChar, to_string(currentChar) + " was followed by the wrong character -options are \\ or \".");
 					}
 				} else if (c == ':') {
 					/*
@@ -405,10 +411,8 @@ Token Scanner::GetNextToken() {
 			return MINUS_OP;
 		} else {
 			/* Unrecognized character */
-			LexicalError(currentChar, to_string(c) + \
-					" Unrecognized character");
+			LexicalError(currentChar, to_string(c) + " Unrecognized character");
 		}
 	} /* end while */
-
 	return EOF_SYM;
 }
