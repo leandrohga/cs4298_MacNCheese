@@ -5,14 +5,14 @@
 	                                mscan.h
 
 	                              Version 2007 - 2016
- 
+
 	                           James L. Richards
 	                     Last Update: August 28, 2007
 	                      	   Nelson A Castillo
 	                     Last Update: January 31, 2016
 
-	The routines in this unit are based on those provided in the book 
-	"Crafting A Compiler" by Charles N. Fischer and Richard J. LeBlanc, Jr., 
+	The routines in this unit are based on those provided in the book
+	"Crafting A Compiler" by Charles N. Fischer and Richard J. LeBlanc, Jr.,
 	Benjamin Cummings Publishing Co. (1991).
 
 	See Section 2.2, pp. 25-29.
@@ -34,8 +34,7 @@ extern ofstream outFile, listFile;
 // **  Constructor  **
 // *******************
 
-Scanner::Scanner()
-{
+Scanner::Scanner() {
 	tokenBuffer = "";
 	lineBuffer = "";
 	lineNumber = 0;
@@ -46,8 +45,7 @@ Scanner::Scanner()
 // **  Private Member Functions  **
 // ********************************
 
-void Scanner::BufferChar(char c)
-{
+void Scanner::BufferChar(char c) {
 	if (tokenBuffer.length() < ID_STRING_LEN){
 		tokenBuffer += c;
 	} else {
@@ -61,15 +59,14 @@ void Scanner::BufferChar(char c)
 	}
 }
 
-Token Scanner::CheckReserved()
-{
+Token Scanner::CheckReserved() {
 	/*
 	 * FIXME this converts variables to lowercase too.
 	 * Was it supposed to do so?
+     * - The Macc n Cheese reference (page 2) says variables are case-sensitive
 	 */
 	/* Convert the string to lower case */
-	transform(tokenBuffer.begin(), tokenBuffer.end(), \
-				tokenBuffer.begin(), ::tolower);
+	transform(tokenBuffer.begin(), tokenBuffer.end(), tokenBuffer.begin(), ::tolower);
 	/* Check the converted words */
 	if ((tokenBuffer) == "bool") return BOOL_SYM;
 	if ((tokenBuffer) == "break") return BREAK_SYM;
@@ -97,13 +94,11 @@ Token Scanner::CheckReserved()
 	return ID;
 }
 
-void Scanner::ClearBuffer()
-{
+void Scanner::ClearBuffer() {
 	tokenBuffer = "";
 }
 
-void Scanner::LexicalError(char& c)
-{	
+void Scanner::LexicalError(char& c) {
 	cout << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
 		<< " on line #" << lineNumber + 1 << '.' << endl;
@@ -113,8 +108,8 @@ void Scanner::LexicalError(char& c)
 
 	c = NextChar();
 }
-void Scanner::LexicalError(char& c, const string& errorExp)
-{
+
+void Scanner::LexicalError(char& c, const string& errorExp) {
 	cout << " *** Lexical Error: '" << c
 		<< "' ignored at position " << int(lineBuffer.size())
 		<< " on line #" << lineNumber + 1 << '.' << '\n'
@@ -127,8 +122,7 @@ void Scanner::LexicalError(char& c, const string& errorExp)
 	c = NextChar();
 }
 
-char Scanner::NextChar()
-{
+char Scanner::NextChar() {
 	char c;
 
 	sourceFile.get(c);
@@ -147,14 +141,12 @@ char Scanner::NextChar()
 // **  Public Member Functions  **
 // *******************************
 
-Token Scanner::GetNextToken()
-{
+Token Scanner::GetNextToken() {
 	char currentChar, c;
 
 	ClearBuffer();
 	currentChar = NextChar();
-	while (!sourceFile.eof())
-	{
+	while (!sourceFile.eof()) {
 		if (isspace(currentChar)) {
 			/* do nothing */
 			currentChar = NextChar();
@@ -182,7 +174,7 @@ Token Scanner::GetNextToken()
 				currentChar = NextChar();
 				c = sourceFile.peek();
 				/* check for a digit after the '.' */
-				if (!isdigit(c)) 
+				if (!isdigit(c))
 					LexicalError(currentChar, to_string(c) \
 						+ " Float needs a digit" \
 						" after the '.'");
@@ -205,7 +197,7 @@ Token Scanner::GetNextToken()
 					BufferChar(currentChar);
 					currentChar = NextChar();
 					c = sourceFile.peek();
-					if (!isdigit(c)) 
+					if (!isdigit(c))
 						LexicalError(currentChar, \
 							to_string(c) + \
 							" Float needs a " \
