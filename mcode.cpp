@@ -44,7 +44,6 @@ CodeGen::CodeGen() {
 
 void CodeGen::CheckId(ExprRec& var) {
 	if (!LookUp(var.name)) { // variable not declared yet
-		/* FIXME: check variable type */
 		Enter(var);
 	}
 }
@@ -91,10 +90,9 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
 		s = "+" + t + "(R15)";
 		break;
 	case LITERAL_EXPR:
-		/* FIXME: check what to do for other types then INT */
 		switch (e.var_type) {
 		case BOOL:
-			/* TODO FIXME*/
+			/* TODO FIXME Check how to evaluate BOOL literals */
 			IntToAlpha(e.bval, t);
 			s = "#" + t;
 			break;
@@ -103,7 +101,9 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
 			s = "#" + t;
 			break;
 		case FLOAT:
-			/* TODO FIXME */
+			/* TODO FIXME Float operations don't allow
+			 * immediate addressing. Check What to do
+			 */
 			IntToAlpha(e.ival, t);
 			s = "#" + t;
 			break;
@@ -294,7 +294,7 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 		string opnd;
 		/* TODO: check variable type */
 		e.kind = TEMP_EXPR;
-		e.name = GetTemp();
+		e.name = GetTemp(); /* FIXME */
 		ExtractExpr(e1, opnd);
 		Generate("LD        ", "R0", opnd);
 		ExtractExpr(e2, opnd);
@@ -460,7 +460,7 @@ void CodeGen::DefineVar(ExprRec& var) {
 	}
 }
 
-void CodeGen::SemanticError(string msg) { /* FIXME should this be here? */
+void CodeGen::SemanticError(string msg) {
 	cout << endl << " *** Semantic Error: " + msg << endl;
 	cout << " *** Error on line " << scan.lineNumber << endl;
 	exit(1); // abort on any semantic error
