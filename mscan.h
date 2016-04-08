@@ -37,7 +37,7 @@ enum Token { EOF_SYM, BOOL_SYM, BREAK_SYM, CASE_SYM, CHEESE_SYM, DECS_SYM,
 class Scanner {
 public:
 
-	string tokenBuffer, // current token
+	string tokenBuffer; // current token
 	string lineBuffer; // current line
 	int lineNumber; // line counter
 	int cheese_size; /* FIXME is it OK to put this here? */
