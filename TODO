@@ -12,4 +12,4 @@
 - Implement action symbols and code generation according to schedule
 
 4. WRITE PROGRAMS IN MAC N CHEESE
-- Add tests for "\n",\3 digit ascii.
+- Add tests for \3 digit ascii.
