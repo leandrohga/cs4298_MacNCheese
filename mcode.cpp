@@ -260,10 +260,10 @@ void CodeGen::Finish() {
 void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2, ExprRec& e) {
 
 	if (e1.var_type != e2.var_type) {
-		SemanticError(" mixed-mode arithmetic operations"
+		SemanticError("mixed-mode arithmetic operations"
 				" are not allowed.");
 	} else if ((e1.var_type != INT) && (e1.var_type != FLOAT)) {
-		SemanticError(" arithmetic opertions are allowed only for"
+		SemanticError("arithmetic opertions are allowed only for"
 				" INTs and FLOATs.");
 	}
 	/* Result type = operands types */
@@ -322,7 +322,7 @@ int CodeGen::RetrieveVar(const string & s)
 void CodeGen::ProcessVar(ExprRec& e)
 {
 	if (!LookUp(e.name)) { /* variable not declared yet */
-		SemanticError("Variable " + e.name + \
+		SemanticError("variable " + e.name + \
 				" was not declared before usage.");
 	} else {
 		e.kind = ID_EXPR;
@@ -369,7 +369,7 @@ void CodeGen::Listen(const ExprRec & inVar) {
 	VarKind var_type;
 	/* Check if variable was declared before usage */
 	if (!LookUp(inVar.name)) { /* variable not declared yet */
-		SemanticError("Variable " + inVar.name + \
+		SemanticError("variable " + inVar.name + \
 				" was not declared before usage.");
 	} else {
 		/* Retrieve the variable type */
@@ -451,7 +451,7 @@ void CodeGen::DefineVar(ExprRec& var) {
 	string varname = scan.tokenBuffer;
 	if (LookUp(varname)) {
 		/* FIXME is this a semantic error? */
-		SemanticError("Variable " + varname + \
+		SemanticError("variable " + varname + \
 				" was already declared before.");
 	} else { /* variable not declared yet */
 		var.name = varname;
@@ -461,7 +461,7 @@ void CodeGen::DefineVar(ExprRec& var) {
 }
 
 void CodeGen::SemanticError(string msg) { /* FIXME should this be here? */
-	cout << " *** Semantic Error: " + msg << endl;
+	cout << endl << " *** Semantic Error: " + msg << endl;
 	cout << " *** Error on line " << scan.lineNumber << endl;
 	exit(1); // abort on any semantic error
 }
