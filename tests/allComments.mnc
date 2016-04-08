@@ -7,7 +7,7 @@ Simple Comment Multiline Test 1 tests to check the ability to have comments
 /: this is another
 multiline
 comment
-:) 
+:)
 :/
 //this is another single
 //line comment
@@ -15,11 +15,11 @@ comment
 // a few more
 // single line comments
 
-/: 
+/:
 lets double check that everything will be a comment
 hip hip Array, cheese, int, float, 2 45 int =4 float = 1.e-23
 :/
 
 // int = 2
-// float = 1.e+2 
+// float = 1.e+2
 // yes!

@@ -3,9 +3,9 @@
 // Declarations testing with simple input/output.
 
 DEcs{
-	int m, n, k;
-	real a, b, c;
-	bool b1, b2;
+	int: m, n, k;
+	real: a, b, c;
+	bool: b1, b2;
 }
 
 	shout "Enter 3 integers: ";
@@ -21,7 +21,7 @@ DEcs{
 	shout "a", "b", "c";
 	shout b1, "  ", b2;
 DEcs{
-	int MM, N, katz;
-	real unreal, b, fake;
-	bool  b;
+	int: MM, N, katz;
+	real: unreal, b, fake;
+	bool:  b;
 }

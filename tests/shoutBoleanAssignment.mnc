@@ -2,13 +2,13 @@ decs{
 	bool: testBool;
 }
 testBool = FALSE;
-//shout testBool;
-//testBool = true;
-//shout testBool;
+shout testBool;
+testBool = true;
+shout testBool;
+
 shout false;
 shout False;
 shout FALSE;
 shout true;
 shout True;
 shout TRUE;
-

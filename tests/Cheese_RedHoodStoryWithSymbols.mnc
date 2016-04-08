@@ -3,7 +3,7 @@ Tests the ability to have \n character in the beginning of a cheese
 :/
 
 decs{
-	cheese : testCheese; 
+	cheese : testCheese;
 }
 
 testCheese = "Little Red-Cap [little Red Riding Hood]
