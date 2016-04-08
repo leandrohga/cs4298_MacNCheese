@@ -15,7 +15,7 @@ decs {
 	bVal1 = 1;
 	bVal2 = 0;
 	shout "\nAssigned ==> ", bVal1, ",", bVal2;
-	shout "\nbool constants: ", 1, "  ", 0;
+	shout "\nbool constants: ", True, "  ", False;
 	// INTEGER VALUES
 	shout "\nEnter two integers: ";
 	listen iVal1, iVal2;

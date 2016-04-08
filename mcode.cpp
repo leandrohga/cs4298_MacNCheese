@@ -224,16 +224,22 @@ void CodeGen::Finish() {
 	listFile.width(6);
 	listFile << ++scan.lineNumber << "  " << scan.lineBuffer << endl;
 	Generate("HALT      ", "", "");
+	/* Integers, floats and bools */
 	Generate("LABEL     ", "VARS", "");
 	int table_size = CalcTableSize();
 	IntToAlpha(table_size, s);
 	Generate("SKIP      ", s, "");
+	/* Strings */
 	Generate("LABEL     ", "STRS", "");
 	while (!str_vect.empty()) {
 		s = str_vect.front();
 		str_vect.erase(str_vect.begin());
 		Generate("STRING    ", s, "");
 	}
+	/* Boolean strings "False" and "True" */
+	Generate("LABEL     ", "BOOL", "");
+	Generate("STRING    ", "\"False\"", "");
+	Generate("STRING    ", "\"True\"", "");
 	outFile.close();
 	listFile << endl << endl;
 	listFile << " _____________________________________________\n";
@@ -398,6 +404,7 @@ void CodeGen::Listen(const ExprRec & inVar) {
 void CodeGen::Start() {
 	Generate("LDA       ", "R15", "VARS");
 	Generate("LDA       ", "R14", "STRS");
+	Generate("LDA       ", "R13", "BOOL");
 }
 
 void CodeGen::Shout(const ExprRec & outExpr) {
@@ -414,10 +421,21 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	string s;
 	switch (outExpr.var_type) {
-		case BOOL:
-			/* TODO: write "True"/"False" instead of 0/1. */
+		case BOOL: /* Prints "False" or "True" strings */
+			/* Load variable's address or literal's value */
 			ExtractExpr(outExpr, s);
-			Generate("WRI       ", s, "");
+			/* Compare variable to 0 */
+			Generate("LD        ", "R0", s);
+			Generate("IC         ", "R0", "#0");
+			/* Jumps consider 4 bytes per instruction */
+			/* skip 2 next instructions if variable is true */
+			Generate("JNE        ", "&8", "");//s);
+			/* String "False" */
+			Generate("WRST       ", "+0(R13)", "");
+			/* skip next instruction */
+			Generate("JMP        ", "&4", "");
+			/* String "True" */
+			Generate("WRST       ", "+6(R13)", "");
 			break;
 		case INT:
 			ExtractExpr(outExpr, s);
