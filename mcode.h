@@ -43,6 +43,33 @@ enum ExprKind {
 	ID_EXPR, LITERAL_EXPR, TEMP_EXPR
 };
 
+/* suggested in "cs4298-Info/compiler/Symbol Table Information.doc":
+
+struct SymbolEntry {
+	string variableName;
+	VarKind dataType;
+	int relativeAddress;
+	bool isArray;
+	int arrayLength;
+}
+
+struct OperationRecord {
+	OpKind operator;
+	VarKind resultType;
+}
+
+struct OperandRecord {
+	VarKind dataType;
+	bool isVariable; //maybe use ExprKind instead of bool?
+	string variableName;
+	bool isIndexed;
+	int relativeAddress;
+}
+
+//if using this code, change the symbol table to be a vector<SymbolEntry>
+
+*/
+
 struct ExprRec { //information about a constant, variable, or an intermediate (temporary) result
 	ExprKind kind; //operand type
 	string name; //used when kind is ID_EXPR or TEMP_EXPR
