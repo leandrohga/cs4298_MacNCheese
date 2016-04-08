@@ -6,7 +6,10 @@ then
     echo "       ./mncRun.sh clobber"
     echo "       ./mncRun.sh help"
     echo "Example: ./mncRun.sh simple shoutTest declarations"
-    echo "Note: do not include the .mnc extension, also the files are assumed to be in the tests folder"
+    echo "The clobber option cleans up (removes) the compiled executables."
+    echo "Notes: "
+    echo "    Do not include the .mnc extension."
+    echo "    The input files are assumed to be in the tests folder."
 elif [ "$1" = "clobber" ]
 then
     echo ">>> cd tests"
@@ -22,7 +25,7 @@ else
     do
         echo ">>> micro $var.mnc"
         ./micro $var.mnc
-        echo ">>> sam $var.mnc"
+        echo ">>> sam $var.asm"
         ./sam $var.asm
         echo ">>> macc $var.obj"
         ./macc $var.obj
