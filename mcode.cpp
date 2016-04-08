@@ -124,16 +124,16 @@ string CodeGen::ExtractOp(const OpRec & o) {
 		return "ID        ";
 	}
 }
-/* TODO: please check this for float + - / *    */
+
 string CodeGen::ExtractOpFloat(const OpRec & o) {
 	if (o.op == PLUS) {
-		return "FADD        ";
+		return "FA        ";
 	} else if (o.op == MINUS) {
-		return "FSUB        ";
+		return "FS        ";
 	} else if (o.op == MULT) {
-		return "FMUL        ";
+		return "FM        ";
 	} else {
-		return "FDIV        ";
+		return "FD        ";
 	}
 }
 
