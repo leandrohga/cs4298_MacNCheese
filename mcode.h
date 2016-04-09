@@ -154,10 +154,6 @@ private:
 	int CalcTableSize();
 	// Calculate the size of the symbol table
 
-	void CheckId(ExprRec& var);
-	// Declares s as a new variable and enters it into the symbol table when s
-	// is not already in the symbol table.
-
 	void Enter(ExprRec& var);
 	// Enters s unconditionally into the symbol table.
 
@@ -175,8 +171,8 @@ private:
 	// s1 is the opcode; s2 and s3 are operands.
 
 
-	string GetTemp();
-	// Creates a temporary variable and returns its name.
+	void GetTemp(ExprRec& var);
+	// Creates a temporary variable.
 
 	void IntToAlpha(int val, string& str);
 	// Makes a string representation for a positive integer val.

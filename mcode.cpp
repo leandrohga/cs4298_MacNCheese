@@ -42,12 +42,6 @@ CodeGen::CodeGen() {
 // ** Private Member Functions  **
 // *******************************
 
-void CodeGen::CheckId(ExprRec& var) {
-	if (!LookUp(var.name)) { // variable not declared yet
-		Enter(var);
-	}
-}
-
 void CodeGen::Enter(ExprRec& var) {
 	/* Create the key and fill it */
 	symbol_node_t variable;
@@ -155,19 +149,20 @@ void CodeGen::Generate(const string & s1, const string & s2, const string & s3) 
 	outFile << endl;
 }
 
-string CodeGen::GetTemp() {
-	/* FIXME: check what to do for other types */
+void CodeGen::GetTemp(ExprRec& var) {
 	string s;
 	static string t;
 
 	t = "Temp&";
 	IntToAlpha(++maxTemp, s);
 	t += s;
-	ExprRec var;
 	var.name = t;
-	var.var_type = INT;
-	CheckId(var);
-	return t;
+	if (!LookUp(var.name)) { // variable not declared yet
+		Enter(var);
+	} else {
+		SemanticError("temporary variable " + var.name + \
+				" was already declared before.");
+	}
 }
 
 void CodeGen::IntToAlpha(int val, string& str) {
@@ -312,7 +307,7 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 		string opnd;
 		/* TODO: check variable type */
 		e.kind = TEMP_EXPR;
-		e.name = GetTemp(); /* FIXME */
+		GetTemp(e); /* FIXME */
 		ExtractExpr(e1, opnd);
 		Generate("LD        ", "R0", opnd);
 		ExtractExpr(e2, opnd);
