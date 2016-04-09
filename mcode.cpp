@@ -508,6 +508,6 @@ void CodeGen::DefineVar(ExprRec& var) {
 
 void CodeGen::SemanticError(string msg) {
 	cout << endl << " *** Semantic Error: " + msg << endl;
-	cout << " *** Error on line " << scan.lineNumber << endl;
+	cout << " *** Error on line " << scan.lineNumber + 1 << endl;
 	exit(1); // abort on any semantic error
 }
