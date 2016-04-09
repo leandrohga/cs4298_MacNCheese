@@ -116,6 +116,7 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			s = "+" + t + "(R15)";
 			break;
 		default:
+			/* TODO: check what to do. Check for cheese? */
 			break;
 		}
 	}
@@ -246,6 +247,9 @@ void CodeGen::Finish() {
 		case FLOAT:
 			s = symbolTable[i].s_fval;
 			Generate("REAL      ", s, "");
+			break;
+		default:
+			/* TODO: check what to do. Check for cheese? */
 			break;
 		}
 	}
