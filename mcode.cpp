@@ -405,22 +405,11 @@ void CodeGen::ProcessOp(OpRec& o) {
 }
 
 void CodeGen::Listen(const ExprRec & inVar) {
-	VarKind var_type;
-	/* Check if variable was declared before usage */
-	if (!LookUp(inVar.name)) { /* variable not declared yet */
-		SemanticError("variable " + inVar.name + \
-				" was not declared before usage.");
-	} else {
-		/* Retrieve the variable type */
-		int varnum = RetrieveVar(inVar.name);
-		var_type = symbolTable[varnum].type;
-	}
-
 	/* Addressing for variable - doesn't depend on type */
 	string s;
 	ExtractExpr(inVar, s, 0);
 	/* Check variable type */
-	switch (var_type) {
+	switch (inVar.var_type) {
 	case BOOL: /* TODO: check how to read a bool */
 	case INT:
 		Generate("RDI       ", s, "");
