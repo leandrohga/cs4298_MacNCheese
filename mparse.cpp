@@ -241,7 +241,7 @@ void Parser::FactorTail(ExprRec& result) {
 	case DIV_OP:
 		leftOperand.kind = result.kind;
 		leftOperand.ival = result.ival; /* Only allowed for */
-		leftOperand.fval = result.fval; /* INTs and FLOATs  */
+		leftOperand.s_fval = result.s_fval; /* INTs and FLOATs  */
 		leftOperand.name = result.name;
 		leftOperand.var_type = result.var_type;
 		MultOp();
@@ -330,7 +330,7 @@ void Parser::ExprTail(ExprRec& result) {
 	case MINUS_OP:
 		leftOperand.kind = result.kind;
 		leftOperand.ival = result.ival; /* Only allowed for */
-		leftOperand.fval = result.fval; /* INTs and FLOATs  */
+		leftOperand.s_fval = result.s_fval; /* INTs and FLOATs  */
 		leftOperand.name = result.name;
 		leftOperand.var_type = result.var_type;
 		AddOp();

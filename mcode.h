@@ -77,7 +77,7 @@ struct ExprRec { //information about a constant, variable, or an intermediate (t
 	//used when using a LITERAL_EXPR:
 	bool bval; //Boolean value
 	int ival; //Integer value
-	float fval; //Float value
+	string s_fval; //Float value
 	string sval; //String
 };
 
