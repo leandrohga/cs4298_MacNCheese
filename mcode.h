@@ -75,7 +75,6 @@ struct ExprRec { //information about a constant, variable, or an intermediate (t
 	string name; //used when kind is ID_EXPR or TEMP_EXPR
 	VarKind var_type; //used when kind is ID_EXPR
 	//used when using a LITERAL_EXPR:
-	bool bval; //Boolean value
 	int ival; //Integer value
 	string s_fval; //Float value
 	string sval; //String
@@ -169,7 +168,6 @@ private:
 	void Generate(const string & s1, const string & s2, const string & s3);
 	// Produces the SAM assembly code for one or two operand instructions.
 	// s1 is the opcode; s2 and s3 are operands.
-
 
 	void GetTemp(ExprRec& var);
 	// Creates a temporary variable.
