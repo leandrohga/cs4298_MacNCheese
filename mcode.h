@@ -157,7 +157,7 @@ private:
 	void Enter(ExprRec& var);
 	// Enters s unconditionally into the symbol table.
 
-	void ExtractExpr(const ExprRec & e, string& s);
+	void ExtractExpr(const ExprRec & e, string& s, int offset);
 	// Returns an operand representation s for the expression e.
 
 	string ExtractOpFloat(const OpRec & o);

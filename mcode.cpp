@@ -73,20 +73,20 @@ void CodeGen::Enter(ExprRec& var) {
 	symbolTable.push_back(variable);
 }
 
-void CodeGen::ExtractExpr(const ExprRec & e, string& s) {
+void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 	string t;
 	int k, n;
 
-	/* TODO: check variable type */
 	switch (e.kind) {
 	case ID_EXPR:
 	case TEMP_EXPR:  // operand form: +k(R15)
 		s = e.name;
 		k = n = 0;
 		while (symbolTable[n].name != s) {
-			n++;
 			k += symbolTable[n].size;
+			n++;
 		}
+		k = k + offset; /* add offset bytes to k */
 		IntToAlpha(k, t);
 		s = "+" + t + "(R15)";
 		break;
@@ -202,9 +202,9 @@ bool CodeGen::LookUp(const string & s) {
 void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 	/* TODO check variable types, add other types */
 	string s;
-	ExtractExpr(source, s);
+	ExtractExpr(source, s, 0);
 	Generate("LD        ", "R0", s);
-	ExtractExpr(target, s);
+	ExtractExpr(target, s, 0);
 	Generate("STO       ", "R0", s);
 }
 
@@ -308,11 +308,11 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 		/* TODO: check variable type */
 		e.kind = TEMP_EXPR;
 		GetTemp(e); /* FIXME */
-		ExtractExpr(e1, opnd);
+		ExtractExpr(e1, opnd, 0);
 		Generate("LD        ", "R0", opnd);
-		ExtractExpr(e2, opnd);
+		ExtractExpr(e2, opnd, 0);
 		Generate(ExtractOp(op), "R0", opnd);
-		ExtractExpr(e, opnd);
+		ExtractExpr(e, opnd, 0);
 		Generate("STO       ", "R0", opnd);
 	}
 }
@@ -393,7 +393,7 @@ void CodeGen::Listen(const ExprRec & inVar) {
 
 	/* Addressing for variable - doesn't depend on type */
 	string s;
-	ExtractExpr(inVar, s);
+	ExtractExpr(inVar, s, 0);
 	/* Check variable type */
 	switch (var_type) {
 	case BOOL: /* TODO: check how to read a bool */
@@ -431,7 +431,7 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	switch (outExpr.var_type) {
 		case BOOL: /* Prints "False" or "True" strings */
 			/* Load variable's address or literal's value */
-			ExtractExpr(outExpr, s);
+			ExtractExpr(outExpr, s, 0);
 			/* Compare variable to 0 */
 			Generate("LD        ", "R0", s);
 			Generate("IC         ", "R0", "#0");
@@ -446,12 +446,15 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 			Generate("WRST       ", "+6(R13)", "");
 			break;
 		case INT:
-			ExtractExpr(outExpr, s);
+			ExtractExpr(outExpr, s, 0);
 			Generate("WRI       ", s, "");
 			break;
 		case FLOAT:
-			/*TODO FIXME: fix ExtractExpr for the case of LITs */
-			ExtractExpr(outExpr, s);
+			/* There is no immediate addressing for FLOATs
+			 * so the outExpr must be treated as a TEMP_EXPR
+			 * even for the case of literals */
+			/* Write the FLOAT value */
+			ExtractExpr(outExpr, s, 0);
 			Generate("WRF       ", s, "");
 			break;
 		default:
