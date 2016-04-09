@@ -410,7 +410,10 @@ void CodeGen::Listen(const ExprRec & inVar) {
 	ExtractExpr(inVar, s, 0);
 	/* Check variable type */
 	switch (inVar.var_type) {
-	case BOOL: /* TODO: check how to read a bool */
+	case BOOL:
+		/* Can't read a bool from keyboard */
+		SemanticError(" listening to a BOOL is not supported.");
+		break;
 	case INT:
 		Generate("RDI       ", s, "");
 		break;
