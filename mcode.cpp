@@ -101,11 +101,19 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			s = "#" + t;
 			break;
 		case FLOAT:
-			/* TODO FIXME Float operations don't allow
-			 * immediate addressing. Check What to do
+			/* Float operations don't allow immediate
+			 * addressing. They are treated as TEMP_EXPR.
 			 */
-			IntToAlpha(e.ival, t);
-			s = "#" + t;
+			// operand form: +k(R15)
+			s = e.name;
+			k = n = 0;
+			while (symbolTable[n].name != s) {
+				k += symbolTable[n].size;
+				n++;
+			}
+			k = k + offset; /* add offset bytes to k */
+			IntToAlpha(k, t);
+			s = "+" + t + "(R15)";
 			break;
 		default:
 			break;
@@ -287,7 +295,9 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 	e.var_type = e1.var_type;
 
 	/* Literals */
-	if (e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR) {
+	if ((e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR)
+			&& (e.var_type != FLOAT)) {
+		/* FLOAT literal expressions are calculated at runtime */
 		e.kind = LITERAL_EXPR;
 		switch (op.op) {
 		case PLUS:
@@ -305,15 +315,30 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 		}
 	} else { /* Variables */
 		string opnd;
-		/* TODO: check variable type */
-		e.kind = TEMP_EXPR;
-		GetTemp(e); /* FIXME */
-		ExtractExpr(e1, opnd, 0);
-		Generate("LD        ", "R0", opnd);
-		ExtractExpr(e2, opnd, 0);
-		Generate(ExtractOp(op), "R0", opnd);
-		ExtractExpr(e, opnd, 0);
-		Generate("STO       ", "R0", opnd);
+		GetTemp(e);
+		if (e.var_type == INT) {
+			e.kind = TEMP_EXPR;
+			ExtractExpr(e1, opnd, 0);
+			Generate("LD        ", "R0", opnd);
+			ExtractExpr(e2, opnd, 0);
+			Generate(ExtractOp(op), "R0", opnd);
+			ExtractExpr(e, opnd, 0);
+			Generate("STO       ", "R0", opnd);
+		} else { /* FLOAT */
+			/* Load the 32 bist into registers R0:R1*/
+			ExtractExpr(e1, opnd, 0);
+			Generate("LD        ", "R0", opnd);
+			ExtractExpr(e1, opnd, 2);
+			Generate("LD        ", "R1", opnd);
+			/* 32 bits arithmetic operation */
+			ExtractExpr(e2, opnd, 0);
+			Generate(ExtractOpFloat(op), "R0", opnd);
+			/* Store registers R0:R1 in the memory */
+			ExtractExpr(e, opnd, 0);
+			Generate("STO       ", "R0", opnd);
+			ExtractExpr(e, opnd, 2);
+			Generate("STO       ", "R1", opnd);
+		}
 	}
 }
 
