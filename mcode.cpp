@@ -220,7 +220,7 @@ vector<string> str_vect;
 int str_cnt = 0;
 
 int CodeGen::CalcTableSize() {
-	int i, index = 0;
+	unsigned int i, index = 0;
 	for (i = 0; i < symbolTable.size(); i++) {
 		index += symbolTable[i].size;
 	}
@@ -229,7 +229,7 @@ int CodeGen::CalcTableSize() {
 
 void CodeGen::Finish() {
 	string s;
-	int i, index = 0;
+	unsigned int i;
 
 	listFile.width(6);
 	listFile << ++scan.lineNumber << "  " << scan.lineBuffer << endl;
@@ -269,6 +269,7 @@ void CodeGen::Finish() {
 	listFile << " Address      Identifier" << endl;
 	listFile << " --------     --------------------------------"
 		<< endl;
+	unsigned int index = 0;
 	for (i = 0; i < symbolTable.size(); i++) {
 		listFile.width(7);
 		listFile << index << "       " << symbolTable[i].name
@@ -348,7 +349,7 @@ void CodeGen::NewLine() {
 
 int CodeGen::RetrieveVar(const string & s)
 {
-	int i;
+	unsigned int i;
 	for (i = 0; i < symbolTable.size(); i++) {
 		if (symbolTable[i].name == s) {
 			return i;
