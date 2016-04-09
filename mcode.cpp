@@ -59,7 +59,11 @@ void CodeGen::Enter(ExprRec& var) {
 		break;
 	case FLOAT:
 		variable.size = 4; /* 4x8 = 32 bits */
-		variable.s_fval = "0.0"; /* init with float 0 value */
+		if (var.s_fval.size() > 0) {
+			variable.s_fval = var.s_fval; /* init with float 0 value */
+		} else {
+			variable.s_fval = "0.0"; /* init with float 0 value */
+		}
 		break;
 	default:
 		/* TODO: check what to do. Check for cheese? */
@@ -288,19 +292,15 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 		switch (op.op) {
 		case PLUS:
 			e.ival = e1.ival + e2.ival;
-			e.fval = e1.fval + e2.fval;
 			break;
 		case MINUS:
 			e.ival = e1.ival - e2.ival;
-			e.fval = e1.fval - e2.fval;
 			break;
 		case MULT:
 			e.ival = e1.ival * e2.ival;
-			e.fval = e1.fval * e2.fval;
 			break;
 		case DIV:
 			e.ival = e1.ival / e2.ival;
-			e.fval = e1.fval / e2.fval;
 			break;
 		}
 	} else { /* Variables */
@@ -356,8 +356,9 @@ void CodeGen::ProcessLit(ExprRec& e) {
 		e.ival = atoi(scan.tokenBuffer.data());
 		break;
 	case FLOAT:
-		/* TODO: check how to scan floats, they are 32bits */
-		e.fval = atof(scan.tokenBuffer.data());
+		/* Create a temporary variable */
+		GetTemp(e);
+		e.s_fval = scan.tokenBuffer;
 		break;
 	case CHEESE:
 		e.sval = scan.tokenBuffer;
