@@ -425,7 +425,7 @@ void CodeGen::Listen(const ExprRec & inVar) {
 	case INT:
 		Generate("RDI       ", s, "");
 		break;
-	case FLOAT: /* TODO: check for MnC dd.ddesdd format?? */
+	case FLOAT:
 		Generate("RDF       ", s, "");
 		break;
 	case CHEESE: /* TODO: check how to read strings */
@@ -501,10 +501,8 @@ void CodeGen::WriteString(const ExprRec & outExpr) {
 }
 
 void CodeGen::DefineVar(ExprRec& var) {
-	/* TODO Start checking variable type */
 	string varname = scan.tokenBuffer;
 	if (LookUp(varname)) {
-		/* FIXME is this a semantic error? */
 		SemanticError("variable " + varname + \
 				" was already declared before.");
 	} else { /* variable not declared yet */

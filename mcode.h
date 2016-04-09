@@ -154,7 +154,7 @@ private:
 	// Returns true if s is in the symbol table; otherwise,
 	// false is returned.
 
-	void SemanticError(string msg); /* FIXME should this be here? */
+	void SemanticError(string msg);
 	// Trow a semantic error and stop execution.
 };
 
