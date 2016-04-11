@@ -1,0 +1,18 @@
+/:
+This program tests a simple if statement.
+Expected output: "Success! Done."
+:/
+decs {
+	int: x;
+}
+x = 5;
+
+if (x == 5)
+	shout "Success!"
+end
+
+if (x == 6)
+	shout "Failure!"
+end
+
+shout "Done."

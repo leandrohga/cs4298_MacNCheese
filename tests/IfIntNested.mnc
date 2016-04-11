@@ -1,0 +1,22 @@
+/:
+This program tests nested if statements.
+:/
+decs {
+	int x;
+}
+shout "Enter an integer";
+listen x;
+if (x > 5)
+	if (x < 10) 
+		shout "Greater than 5, less than 10.";
+	else
+		shout "Greater than 10.";
+	end
+else
+	if (x < 0)
+		shout "Negative!";
+	else
+		shout "Less than 5, greater than 0.";
+	end
+end
+shout "Done."
