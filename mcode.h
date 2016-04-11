@@ -23,6 +23,7 @@
 
 #include <string>
 #include <vector>
+#include <stack>
 using namespace std;
 
 #include "mscan.h"
@@ -190,7 +191,7 @@ private:
 
 	void IfThen();
 
-	void IfEsle();
+	void IfElse();
 
 	void IfEnd();
 

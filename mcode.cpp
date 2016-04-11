@@ -543,13 +543,17 @@ unsigned int CodeGen::NextControlStatementID() {
 void CodeGen::IfThen() {
 	unsigned int id = NextControlStatementID();
 	controlStatementLabels.push("IFEND" + to_string(id));
+	/* TODO generate the code for the start of an if-statement (should test the condition and jump to the else label if false) */
 }
 
 void CodeGen::IfElse() {
 	string topLabel = controlStatementLabels.top();
 	string elseLabel = "IFELSE" + topLabel.substr(5, topLabel.length() - 5);
+	/* TODO generate the code for the else statement should have a JMP to the end label and have an else label after that */
 }
 
 void CodeGen::IfEnd() {
-	string endLabel = controlStatementLabels.pop();
+	string endLabel = controlStatementLabels.top();
+	controlStatementLabels.pop();
+	/* TODO generate the end label */
 }
