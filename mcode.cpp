@@ -517,7 +517,7 @@ void CodeGen::SemanticError(string msg) {
 	exit(1); // abort on any semantic error
 }
 
-void CodeGen::NextControlStatementID() {
+unsigned int CodeGen::NextControlStatementID() {
 	static unsigned int nextID = 0;
 	return nextID++;
 }
