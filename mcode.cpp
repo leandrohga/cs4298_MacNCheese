@@ -386,9 +386,9 @@ void CodeGen::ProcessLit(ExprRec& e) {
 		e.ival = atoi(scan.tokenBuffer.data());
 		break;
 	case FLOAT:
+		e.s_fval = scan.tokenBuffer;
 		/* Create a temporary variable */
 		GetTemp(e);
-		e.s_fval = scan.tokenBuffer;
 		break;
 	case CHEESE:
 		e.sval = scan.tokenBuffer;
