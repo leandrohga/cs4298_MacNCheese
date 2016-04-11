@@ -209,14 +209,33 @@ bool CodeGen::LookUp(const string & s) {
 // ******************************
 
 void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
-	/* TODO check variable types, add other types */
 	string s;
-	ExtractExpr(source, s, 0);
-	Generate("LD        ", "R0", s);
-	ExtractExpr(target, s, 0);
-	Generate("STO       ", "R0", s);
-}
 
+	switch (target.var_type) {
+	case BOOL:
+	case INT:
+		ExtractExpr(source, s, 0);
+		Generate("LD        ", "R0", s);
+		ExtractExpr(target, s, 0);
+		Generate("STO       ", "R0", s);
+		break;
+	case FLOAT:
+		/* Load the 32 bist into registers R0:R1*/
+		ExtractExpr(source, s, 0);
+		Generate("LD        ", "R0", s);
+		ExtractExpr(source, s, 2);
+		Generate("LD        ", "R1", s);
+		/* Store registers R0:R1 in the memory */
+		ExtractExpr(target, s, 0);
+		Generate("STO       ", "R0", s);
+		ExtractExpr(target, s, 2);
+		Generate("STO       ", "R1", s);
+		break;
+	default:
+		/* TODO: check for cheeses? */
+		break;
+	}
+}
 vector<string> str_vect;
 int str_cnt = 0;
 
