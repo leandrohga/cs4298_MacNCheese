@@ -144,6 +144,8 @@ public:
 private:
 
 	vector<symbol_node_t> symbolTable;
+	stack<string> controlStatementLabels; //See Marty's control statement document (bottom of the last page)
+	unsigned int lastControlStatementID = 0;
 
 	int  maxTemp;     // max temporary allocated so far; initially 0
 
@@ -185,6 +187,12 @@ private:
 	unsigned int NextControlStatementID();
 	// Return the next integer that has not been used as a control statement ID
 	// See StructuredStatementCodeGeneratation.doc
+
+	void IfThen();
+
+	void IfEsle();
+
+	void IfEnd();
 
 };
 

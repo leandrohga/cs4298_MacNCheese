@@ -518,6 +518,19 @@ void CodeGen::SemanticError(string msg) {
 }
 
 unsigned int CodeGen::NextControlStatementID() {
-	static unsigned int nextID = 0;
-	return nextID++;
+	return lastControlStatementID++;
+}
+
+void CodeGen::IfThen() {
+	unsigned int id = NextControlStatementID();
+	controlStatementLabels.push("IFEND" + to_string(id));
+}
+
+void CodeGen::IfElse() {
+	string topLabel = controlStatementLabels.top();
+	string elseLabel = "IFELSE" + topLabel.substr(5, topLabel.length() - 5);
+}
+
+void CodeGen::IfEnd() {
+	string endLabel = controlStatementLabels.pop();
 }
