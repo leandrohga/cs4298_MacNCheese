@@ -518,5 +518,6 @@ void CodeGen::SemanticError(string msg) {
 }
 
 void CodeGen::NextControlStatementID() {
-	
+	static unsigned int nextID = 0;
+	return nextID++;
 }
