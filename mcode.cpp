@@ -516,3 +516,7 @@ void CodeGen::SemanticError(string msg) {
 	cout << " *** Error on line " << scan.lineNumber + 1 << endl;
 	exit(1); // abort on any semantic error
 }
+
+void CodeGen::NextControlStatementID() {
+	
+}
