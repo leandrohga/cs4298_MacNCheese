@@ -468,7 +468,7 @@ void Parser::ElseClause() {
 	switch (NextToken()) {
 	case ELSE_SYM:
 		Match(ELSE_SYM);
-		// code.IfElse();
+		code.IfElse();
 		StmtList();
 		break;
 	case END_SYM:

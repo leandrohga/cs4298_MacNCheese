@@ -595,9 +595,6 @@ void CodeGen::CheckNStoreCondition(const OpRec & op, const ExprRec & result) {
 	Generate("JMP       ", "&4", ""); /* Skip the next instruction */
 	Generate("LD        ", "R0", "#1"); /* Loat 1-True into R0 */
 	Generate("STO       ", "R0", opnd); /* Store R0 into output variable */
-
-	/* FIXME: for test purposes only */
-	WriteExpr(result); /* TODO remove this live after testing if */
 }
 
 void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
@@ -658,9 +655,6 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 		ExtractExpr(e, opnd, 0);
 		/* Store R0 into output variable */
 		Generate("STO       ", "R0", opnd);
-		
-		/* FIXME: for test purposes only */
-		WriteExpr(e); /* TODO remove this live after testing if */
 	} else { /* Variables */
 		if (e1.var_type == INT) {/* INT */
 			/* Load the 16 bits into register R0 */
@@ -695,18 +689,25 @@ unsigned int CodeGen::NextControlStatementID() {
 void CodeGen::IfThen(const ExprRec& bool_cond) {
 	unsigned int id = NextControlStatementID();
 	controlStatementLabels.push("IFEND" + to_string(id));
-	/* TODO add the else statement */
+	string elseLabel = "IFELSE" + to_string(id);
 	string cond_addr;
 	ExtractExpr(bool_cond, cond_addr, 0);
+	/* Load bool value (from a condition) */
 	Generate("LD        ", "R0", cond_addr);
+	/* Check the bool value */
 	Generate("IC        ", "R0", "#0");
-	Generate("JEQ       ", ("IFEND" + to_string(id)), "");
+	/* Jump to else case the bool value is False */
+	Generate("JEQ       ", elseLabel, "");
 }
 
 void CodeGen::IfElse() {
-	string topLabel = controlStatementLabels.top();
-	string elseLabel = "IFELSE" + topLabel.substr(5, topLabel.length() - 5);
-	/* TODO generate the code for the else statement should have a JMP to the end label and have an else label after that */
+	/* FIXME the else is mandatory by now. Find a way to make it optional */
+	string endLabel = controlStatementLabels.top(); /* Topper one */
+	string elseLabel = "IFELSE" + endLabel.substr(5, endLabel.length() - 5);
+	/* Jump to the end label */
+	Generate("JMP       ", endLabel, "");
+	/* Create an else label */
+	Generate("LABEL     ", elseLabel, "");
 }
 
 void CodeGen::IfEnd() {
