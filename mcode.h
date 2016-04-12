@@ -142,7 +142,7 @@ public:
 	void SetCondition(const ExprRec & e1, const OpRec & op,
 			const ExprRec & e2, ExprRec & e);
 
-	void IfThen();
+	void IfThen(const ExprRec & bool_cond);
 
 	void IfElse();
 

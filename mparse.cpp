@@ -556,11 +556,11 @@ void Parser::IfStmt() {
 	Match(LBANANA);
 	Condition(result);
 	Match(RBANANA);
-	// code.IfThen();
+	code.IfThen(result);
 	StmtList();
 	ElseClause();
 	Match(END_SYM);
-	// code.IfEnd();
+	code.IfEnd();
 }
 
 void Parser::ItemListTail(ExprRec& expr) {

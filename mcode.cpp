@@ -692,10 +692,15 @@ unsigned int CodeGen::NextControlStatementID() {
 	return lastControlStatementID++;
 }
 
-void CodeGen::IfThen() {
+void CodeGen::IfThen(const ExprRec& bool_cond) {
 	unsigned int id = NextControlStatementID();
 	controlStatementLabels.push("IFEND" + to_string(id));
-	/* TODO generate the code for the start of an if-statement (should test the condition and jump to the else label if false) */
+	/* TODO add the else statement */
+	string cond_addr;
+	ExtractExpr(bool_cond, cond_addr, 0);
+	Generate("LD        ", "R0", cond_addr);
+	Generate("IC        ", "R0", "#0");
+	Generate("JEQ       ", ("IFEND" + to_string(id)), "");
 }
 
 void CodeGen::IfElse() {
@@ -707,5 +712,6 @@ void CodeGen::IfElse() {
 void CodeGen::IfEnd() {
 	string endLabel = controlStatementLabels.top();
 	controlStatementLabels.pop();
-	/* TODO generate the end label */
+	/* Generate the end label */
+	Generate("LABEL     ", endLabel, "");
 }
