@@ -12,3 +12,13 @@ if (x == 1)
 else
 	shout x, " does not equal 1";
 end
+if (1 == 1)
+	shout "1 equals 1";
+else
+	shout "1 does not equal 1";
+end
+if (2 == 1)
+	shout "2 equals 1";
+else
+	shout "2 does not equal 1";
+end

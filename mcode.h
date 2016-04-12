@@ -139,6 +139,9 @@ public:
 
 	void DefineVar(ExprRec& var);
 
+	void SetCondition(const ExprRec & e1, const OpRec & op,
+			const ExprRec & e2, ExprRec & e);
+
 /* _____________________________________________________________________________
 */
 
@@ -188,6 +191,8 @@ private:
 	unsigned int NextControlStatementID();
 	// Return the next integer that has not been used as a control statement ID
 	// See StructuredStatementCodeGeneratation.doc
+
+	void CheckNStoreCondition(const OpRec & op, const ExprRec & result);
 
 	void IfThen();
 

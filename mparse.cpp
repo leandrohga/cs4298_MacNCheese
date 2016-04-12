@@ -387,7 +387,7 @@ void Parser::RelOp() {
 	}
 }
 
-void Parser::CondTail() {
+void Parser::CondTail(OpRec& op, ExprRec& e) {
 	switch (NextToken()) {
 	case LT_OP:
 	case LE_OP:
@@ -397,8 +397,8 @@ void Parser::CondTail() {
 	case EQ_OP2:
 	case NE_OP:
 		RelOp();
-		// code.ProcessOp();
-//		Expression();
+		code.ProcessOp(op);
+		Expression(e);
 		break;
 	case RBANANA:
 	case SEMICOLON:
@@ -478,10 +478,13 @@ void Parser::ElseClause() {
 	}
 }
 
-void Parser::Condition() {
-//	Expression();
-	CondTail();
-	// code.SetCondition();
+void Parser::Condition(ExprRec& result) {
+	ExprRec leftOperand, rightOperand;
+	OpRec op;
+
+	Expression(leftOperand);
+	CondTail(op, rightOperand);
+	code.SetCondition(leftOperand, op, rightOperand, result);
 }
 
 void Parser::VarDecs() {
@@ -512,7 +515,7 @@ void Parser::ForStmt() {
 	Match(LBANANA);
 	ForAssign();
 	Match(SEMICOLON);
-	Condition();
+//	Condition();
 	// code.ForBegin();
 	Match(SEMICOLON);
 	ForAssign();
@@ -526,7 +529,7 @@ void Parser::ForStmt() {
 void Parser::WhileStmt() {
 	Match(WHILE_SYM);
 	Match(LBANANA);
-	Condition();
+//	Condition();
 	Match(RBANANA);
 	// code.WhileBegin();
 	StmtList();
@@ -540,16 +543,18 @@ void Parser::LoopStmt() {
 	StmtList();
 	Match(UNTIL_SYM);
 	Match(LBANANA);
-	Condition();
+//	Condition();
 	Match(RBANANA);
 	// code.LoopEnd();
 	Match(SEMICOLON);
 }
 
 void Parser::IfStmt() {
+	ExprRec result;
+
 	Match(IF_SYM);
 	Match(LBANANA);
-	Condition();
+	Condition(result);
 	Match(RBANANA);
 	// code.IfThen();
 	StmtList();

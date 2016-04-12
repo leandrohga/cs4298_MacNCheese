@@ -556,6 +556,138 @@ void CodeGen::SemanticError(string msg) {
 	exit(1); // abort on any semantic error
 }
 
+void CodeGen::CheckNStoreCondition(const OpRec & op, const ExprRec & result) {
+	/* Do the comparison */
+	switch (op.op) {
+	case LT:
+		/* Skip 2 instruction case Less Then */
+		Generate("JLT       ", "&8", "");
+		break;
+	case LE:
+		/* Skip 2 instruction case Less or Equal */
+		Generate("JLE       ", "&8", "");
+		break;
+	case GT:
+		/* Skip 2 instruction case Greater Then */
+		Generate("JGT       ", "&8", "");
+		break;
+	case GE:
+		/* Skip 2 instruction case Greater or Equal */
+		Generate("JGE       ", "&8", "");
+		break;
+	case EQ:
+		/* Skip 2 instruction case Equal */
+		Generate("JEQ       ", "&8", "");
+		break;
+	case NE:
+		/* Skip 2 instruction case Not Equal */
+		Generate("JNE       ", "&8", "");
+		break;
+	default:
+		/* Nothing to do */
+		/* Maybe an error? */
+		break;
+	}
+	/* Store the results */
+	string opnd;
+	ExtractExpr(result, opnd, 0); /* Extract output variable address */
+	Generate("LD        ", "R0", "#0"); /* Load 0-False into R0 */
+	Generate("JMP       ", "&4", ""); /* Skip the next instruction */
+	Generate("LD        ", "R0", "#1"); /* Loat 1-True into R0 */
+	Generate("STO       ", "R0", opnd); /* Store R0 into output variable */
+
+	/* FIXME: for test purposes only */
+	WriteExpr(result); /* TODO remove this live after testing if */
+}
+
+void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
+		const ExprRec & e2, ExprRec & e) {
+	if (e1.var_type != e2.var_type) {
+		SemanticError("mixed-mode relational operations"
+				" are not allowed.");
+	} else if ((e1.var_type != INT) && (e1.var_type != FLOAT)) {
+		/* FIXME TODO Add support to cheese and bools */
+		SemanticError("relational opertions are allowed only for"
+				" INTs and FLOATs.");
+	}
+	/* Result type = BOOL */
+	e.var_type = BOOL;
+	e.kind = TEMP_EXPR; /* Result is always a temp variable */
+	GetTemp(e);
+	string opnd;
+
+	/* Literals */
+	if ((e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR)
+			&& (e.var_type != FLOAT)) {
+		/* FLOAT literal expressions are calculated at runtime */
+		switch (op.op) {
+		case LT: //LESS THEN
+			e.ival = (e1.ival < e2.ival);
+			break;
+		case LE: //LESS OR EQUAL
+			e.ival = (e1.ival <= e2.ival);
+			break;
+		case GT: //GREATER THEN
+			e.ival = (e1.ival > e2.ival);
+			break;
+		case GE: //GREATER OR EQUAL
+			e.ival = (e1.ival >= e2.ival);
+			break;
+		case EQ: //EQUAL
+			e.ival = (e1.ival == e2.ival);
+			break;
+		case NE: //NOT EQUAL
+			e.ival = (e1.ival != e2.ival);
+			break;
+		default:
+			/*
+			 * There is nothing to be done here.
+			 * Maybe an error?
+			 */
+			break;
+		}
+		/* Evaluate result and store it */
+		if (e.ival) {
+			/* Load 1-True into R0 */
+			Generate("LD        ", "R0", "#1");
+		} else {
+			/* Load 0-False into R0 */
+			Generate("LD        ", "R0", "#0");
+		}
+		/* Extract output variable address */
+		ExtractExpr(e, opnd, 0);
+		/* Store R0 into output variable */
+		Generate("STO       ", "R0", opnd);
+		
+		/* FIXME: for test purposes only */
+		WriteExpr(e); /* TODO remove this live after testing if */
+	} else { /* Variables */
+		if (e1.var_type == INT) {/* INT */
+			/* Load the 16 bits into register R0 */
+			ExtractExpr(e1, opnd, 0);
+			Generate("LD        ", "R0", opnd);
+			/* 16 bits Int comparison */
+			ExtractExpr(e2, opnd, 0);
+			Generate("IC        ", "R0", opnd);
+			/* Store the boolean result in the memory
+			 * according to the operation */
+			CheckNStoreCondition(op, e);
+		} else { /* FLOAT */
+			/* Load the 32 bits into registers R0:R1 */
+			ExtractExpr(e1, opnd, 0);
+			Generate("LD        ", "R0", opnd);
+			ExtractExpr(e1, opnd, 2);
+			Generate("LD        ", "R1", opnd);
+			/* 32 bits Float comparison */
+			ExtractExpr(e2, opnd, 0);
+			Generate("FC        ", "R0", opnd);
+			/* Store the boolean result in the memory
+			 * according to the operation */
+			CheckNStoreCondition(op, e);
+		}
+	}
+}
+
 unsigned int CodeGen::NextControlStatementID() {
 	return lastControlStatementID++;
 }

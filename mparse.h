@@ -87,7 +87,7 @@ private:
 
 	void RelOp();
 
-	void CondTail();
+	void CondTail(OpRec& op, ExprRec& e);
 
 	void IntListTail();
 
@@ -103,7 +103,7 @@ private:
 
 	void ElseClause();
 
-	void Condition();
+	void Condition(ExprRec& result);
 
 	void VarDecs();
 
