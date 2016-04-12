@@ -498,7 +498,7 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 			Generate("IC         ", "R0", "#0");
 			/* Jumps consider 4 bytes per instruction */
 			/* skip 2 next instructions if variable is true */
-			Generate("JNE        ", "&8", "");//s);
+			Generate("JNE        ", "&8", "");
 			/* String "False" */
 			Generate("WRST       ", "+0(R13)", "");
 			/* skip next instruction */
