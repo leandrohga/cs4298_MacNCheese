@@ -336,6 +336,12 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 		case DIV:
 			e.ival = e1.ival / e2.ival;
 			break;
+		default:
+			/*
+			 * There is nothing to be done here.
+			 * Maybe an error?
+			 */
+			break;
 		}
 	} else { /* Variables */
 		string opnd;
@@ -423,8 +429,22 @@ void CodeGen::ProcessOp(OpRec& o) {
 		o.op = MINUS;
 	} else if (c == "*") {
 		o.op = MULT;
-	} else {
+	} else if (c == "/") {
 		o.op = DIV;
+	} else if (c == "<") {
+		o.op = LT;
+	} else if (c == "<=") {
+		o.op = LE;
+	} else if (c == ">") {
+		o.op = GT;
+	} else if (c == ">=") {
+		o.op = GE;
+	} else if (c == "==") {
+		o.op = EQ;
+	} else if (c == "!!") {
+		o.op = EQ;
+	} else if (c == "!=") {
+		o.op = NE;
 	}
 }
 
