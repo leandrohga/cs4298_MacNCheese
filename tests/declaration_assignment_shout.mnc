@@ -9,13 +9,15 @@ decs {
 }
 	shout "\nReading and Writing ", "Variables and Constants";
 	// BOOL VALUES
-	shout "\nEnter two boolean values: ";
+	shout "\nBoolean values: ";
 	shout "\nInitialized ==> ", bVal1, ",", bVal2;
 	bVal1 = True;
 	bVal2 = False;
 	shout "\nAssigned ==> ", bVal1, ",", bVal2;
 	shout "\nbool constants: ", False, "  ", True;
 	// INTEGER VALUES
+	shout "\nInteger values: ";
+	shout "\nInitialized ==> ", iVal1, ",", iVal2;
 	shout "\nEnter two integers: ";
 	listen iVal1, iVal2;
 	shout "\nListened ==> ", iVal1, ",", iVal2;
@@ -26,6 +28,8 @@ decs {
 	iVal1 = 2 * iVal1;
 	shout "\niVal1 was multiplied by 2 ==> ", iVal1;
 	// REAL VALUES
+	shout "\nFloat values: ";
+	shout "\nInitialized ==> ", fVal1, ",", fVal2;
 	shout "\nEnter two real numbers: ";
 	listen fVal1, fVal2;
 	shout "\nListened ==> ", fVal1, ",", fVal2;
