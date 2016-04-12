@@ -263,7 +263,7 @@ void Parser::FactorTail(ExprRec& result) {
 	case NE_OP:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "Unknown FactorTail Symbol.");
 	}
 }
 
@@ -301,7 +301,7 @@ void Parser::Primary(ExprRec& result) {
 		Match(RBANANA);
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "Unknown Primary Symbol");
 	}
 }
 
@@ -350,7 +350,7 @@ void Parser::ExprTail(ExprRec& result) {
 	case NE_OP:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "Unknown ExpressionTail Symbol.");
 	}
 }
 
@@ -731,7 +731,7 @@ void Parser::StructStmt() {
 		VarDecs();
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "Unknown structured statement.");
 	}
 }
 
