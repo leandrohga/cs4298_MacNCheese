@@ -142,6 +142,12 @@ public:
 	void SetCondition(const ExprRec & e1, const OpRec & op,
 			const ExprRec & e2, ExprRec & e);
 
+	void IfThen();
+
+	void IfElse();
+
+	void IfEnd();
+
 /* _____________________________________________________________________________
 */
 
@@ -193,12 +199,6 @@ private:
 	// See StructuredStatementCodeGeneratation.doc
 
 	void CheckNStoreCondition(const OpRec & op, const ExprRec & result);
-
-	void IfThen();
-
-	void IfElse();
-
-	void IfEnd();
 
 };
 
