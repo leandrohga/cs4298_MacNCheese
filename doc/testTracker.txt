@@ -1,0 +1,28 @@
+Test Tracker
+This document is for keeping track of what has be tested, and any errors that have occurred.
+
+File Name 			Status
+shout8			-> 	DONE
+shoutAddMultiply 	->	DONE
+shoutCheeseAssignment  ->	ERROR: NO OBJECT CODE FILE WAS GENERATED.
+shoutAddition		->	DONE
+shoutAOperations	->	DONE
+shoutBolean		-> 	DONE
+shoutBoleanAssignment	->	DONE
+shoutBoolCheeseIntFloat->	ERROR: 	NO OBJECT CODE FILE WAS GENERATED.
+					WARNING -- Text follows instruction on line 5
+
+test2SlashN		->	ERROR: 	NO OBJECT CODE FILE WAS GENERATED.
+					SAM source file name: test2SlashN.asm
+					WARNING -- BOOL Undefined
+   					WARNING -- STRS Undefined
+   					WARNING -- VARS Undefined
+
+WhileDoForIf		->	ERROR:  Error on line 26
+					SAM source file name: WhileDoForIf.asm
+   					WARNING -- BOOL Undefined
+   					WARNING -- STRS Undefined
+   					WARNING -- VARS Undefined
+shoutIntFloat		->	DONE
+shoutIntAssign		->	DONE
+
