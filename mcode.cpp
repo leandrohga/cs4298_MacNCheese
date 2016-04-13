@@ -688,10 +688,22 @@ unsigned int CodeGen::NextControlStatementID() {
 	return lastControlStatementID++;
 }
 
+/*
+How the controlStatementLabels stack works for if-statements:
+	IfThen()
+		Puts an IFEND label on the stack, then puts an IFELSE label on the stack
+	IfElse()
+		Pops the IFELSE label off the stack
+	IfEnd()
+		Looks at the top of the stack
+		If the top item was an IFELSE label, pop it
+		Pop the IFEND label
+*/
 void CodeGen::IfThen(const ExprRec& bool_cond) {
 	unsigned int id = NextControlStatementID();
 	controlStatementLabels.push("IFEND" + to_string(id));
 	string elseLabel = "IFELSE" + to_string(id);
+	controlStatementLabels.push(elseLabel);
 	string cond_addr;
 	ExtractExpr(bool_cond, cond_addr, 0);
 	/* Load bool value (from a condition) */
@@ -703,9 +715,9 @@ void CodeGen::IfThen(const ExprRec& bool_cond) {
 }
 
 void CodeGen::IfElse() {
-	/* FIXME the else is mandatory by now. Find a way to make it optional */
-	string endLabel = controlStatementLabels.top(); /* Topper one */
-	string elseLabel = "IFELSE" + endLabel.substr(5, endLabel.length() - 5);
+	string elseLabel = controlStatementLabels.top();
+	controlStatementLabels.pop();
+	string endLabel = controlStatementLabels.top();
 	/* Jump to the end label */
 	Generate("JMP       ", endLabel, "");
 	/* Create an else label */
@@ -713,7 +725,16 @@ void CodeGen::IfElse() {
 }
 
 void CodeGen::IfEnd() {
-	string endLabel = controlStatementLabels.top();
+	string endLabel;
+	string unknownLabel = controlStatementLabels.top();
+	if (unknownLabel.find("IFELSE") != string::npos) {
+		controlStatementLabels.pop();
+		Generate("LABEL     ", unknownLabel, "");
+		endLabel = controlStatementLabels.top();
+		Generate("JMP       ", endLabel, "");
+	} else {
+		endLabel = unknownLabel;
+	}
 	controlStatementLabels.pop();
 	/* Generate the end label */
 	Generate("LABEL     ", endLabel, "");

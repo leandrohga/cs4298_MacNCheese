@@ -1,0 +1,27 @@
+/:
+Test of nested if-statement
+Expected output: 3 4 6 7 9 10
+:/
+
+shout "Expected: 3 4 6 7 9 10";
+if (1 != 1)
+	shout "1";
+	if (1 < 2)
+		shout "2";
+	end
+else
+	shout "3";
+	if (1 < 2)
+		shout "4";
+		if (1 != 1)
+			shout "5";
+		else
+			shout "6";
+		end
+		shout "7";
+	else
+		shout "8";
+	end
+	shout "9";
+end
+shout "10";
