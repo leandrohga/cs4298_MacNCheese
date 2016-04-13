@@ -1,0 +1,6 @@
+/:
+Test missing semi-colon error.
+:/
+
+shout "foo"
+shout "bar";

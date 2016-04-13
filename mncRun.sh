@@ -25,10 +25,16 @@ else
         else
             echo ">>> micro $var.mnc"
             ./micro $var.mnc
-            echo ">>> sam $var.asm"
-            ./sam $var.asm
-            echo ">>> macc $var.obj"
-            ./macc $var.obj
+            if [ $? == 0 ]
+            then
+                echo ">>> sam $var.asm"
+                ./sam $var.asm
+                if [ $? == 0 ]
+                then
+                    echo ">>> macc $var.obj"
+                    ./macc $var.obj
+                fi
+            fi
         fi
     done
 fi

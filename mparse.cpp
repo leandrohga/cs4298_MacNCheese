@@ -263,7 +263,7 @@ void Parser::FactorTail(ExprRec& result) {
 	case NE_OP:
 		break;
 	default:
-		SyntaxError(NextToken(), "Unknown FactorTail Symbol.");
+		SyntaxError(NextToken(), "Unknown FactorTail Symbol.\n* This error is sometimes caused by a missing semicolon.");
 	}
 }
 
