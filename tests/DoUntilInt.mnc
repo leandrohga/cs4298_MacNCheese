@@ -1,0 +1,13 @@
+/:
+This program tests an if statement whose condition checks the equality of an integer.
+Requirements: integer shout, listen, and conditionals; shout cheese literals
+:/
+decs {
+	int: x, y;
+}
+shout "Enter an integer: ";
+listen y;
+do
+	shout "x is equal ", x;
+	x = x + 1;
+until (x < y);

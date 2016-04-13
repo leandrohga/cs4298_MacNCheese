@@ -538,14 +538,16 @@ void Parser::WhileStmt() {
 }
 
 void Parser::LoopStmt() {
+	ExprRec result;
+
 	Match(DO_SYM);
-	// code.LoopBegin();
+	code.LoopBegin();
 	StmtList();
 	Match(UNTIL_SYM);
 	Match(LBANANA);
-//	Condition();
+	Condition(result);
 	Match(RBANANA);
-	// code.LoopEnd();
+	code.LoopEnd(result);
 	Match(SEMICOLON);
 }
 

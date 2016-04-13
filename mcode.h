@@ -148,6 +148,10 @@ public:
 
 	void IfEnd();
 
+	void LoopBegin();
+
+	void LoopEnd(const ExprRec& bool_cond);
+
 /* _____________________________________________________________________________
 */
 

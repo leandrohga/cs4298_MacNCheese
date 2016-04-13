@@ -716,3 +716,28 @@ void CodeGen::IfEnd() {
 	/* Generate the end label */
 	Generate("LABEL     ", endLabel, "");
 }
+
+void CodeGen::LoopBegin() {
+	/* Generate the label for the do until statement */
+	unsigned int id = NextControlStatementID();
+	string doutLabel = "DOUTL" + to_string(id);
+	controlStatementLabels.push(doutLabel);
+	/* Generate the do until label */
+	Generate("LABEL     ", doutLabel, "");
+}
+
+void CodeGen::LoopEnd(const ExprRec& bool_cond) {
+	/* Read and pop the label */
+	string doutLabel = controlStatementLabels.top();
+	controlStatementLabels.pop();
+	/* Check the condition */
+	string cond_addr;
+	ExtractExpr(bool_cond, cond_addr, 0);
+	/* Load bool value (from a condition) */
+	Generate("LD        ", "R0", cond_addr);
+	/* Check the bool value */
+	Generate("IC        ", "R0", "#0");
+	/* Jump to Do case the bool value is True */
+	/* TODO check meaning of until */
+	Generate("JNE       ", doutLabel, "");
+}
