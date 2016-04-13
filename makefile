@@ -34,7 +34,7 @@ scan_all_file: mscan.cpp testtofile.cpp
 	$(CXX) $(FLAGS) mscan.cpp testtofile.cpp -o scan_all_file
 
 clobber:
-	rm -f *.o *.exe *.lis *.obj core micro
+	rm -f *.o *.exe *.lis *.lst *.obj core micro scan_test test_all
 
 clean: clobber
 	rm -f *.asm *.lst scan_test
