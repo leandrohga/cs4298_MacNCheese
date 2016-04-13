@@ -688,7 +688,7 @@ void Parser::Variable(ExprRec& var)
 
 void Parser::BreakStmt() {
 	Match(BREAK_SYM);
-	// code.Break();
+	code.Break();
 	Match(SEMICOLON);
 }
 

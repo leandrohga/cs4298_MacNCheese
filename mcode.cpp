@@ -776,3 +776,22 @@ void CodeGen::WhileEnd() {
 	/* Generate the whlend label */
 	Generate("LABEL     ", whlendLabel, "");
 }
+
+void CodeGen::Break() {
+	/* Copy the stack */
+	stack<string> fakeStack = controlStatementLabels;
+	/* Find the end of the most inner loop */
+	string endLabel = fakeStack.top();
+	/* while not a loop label */
+	int end = endLabel.find("IF", 0);
+	while (end == 0) {
+		if (fakeStack.size() == 0) {
+			SemanticError("break statement is not inside a loop");
+		}
+		fakeStack.pop();
+		endLabel = fakeStack.top();
+		end = endLabel.find("IF", 0);
+	}
+	/* Jump to the end label */
+	Generate("JMP       ", endLabel, "");
+}
