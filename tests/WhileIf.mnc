@@ -1,0 +1,18 @@
+/:
+Test of an if-statement inside a do-until loop
+:/
+
+decs {
+	int: i;
+}
+
+i = 1;
+while (i < 10)
+	if (i == 5)
+		shout "Done.";
+		break;
+	else
+		shout i;
+	end
+	i = i + 1;
+end

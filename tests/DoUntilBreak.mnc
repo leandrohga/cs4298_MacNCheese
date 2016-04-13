@@ -1,0 +1,17 @@
+/:
+Do until break
+:/
+
+decs {
+	int: i;
+}
+
+shout "Expected: 1 2 3 4 5";
+i = 1;
+do
+	shout i;
+	if (i == 5)
+		break;
+	end
+	i = i + 1;
+until (i == 10);

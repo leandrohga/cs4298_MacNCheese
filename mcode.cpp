@@ -747,10 +747,14 @@ void CodeGen::LoopBegin() {
 	controlStatementLabels.push(doutLabel);
 	/* Generate the do until label */
 	Generate("LABEL     ", doutLabel, "");
+	/* Push do until end label (for the break statement to work) */
+	controlStatementLabels.push("DOUTLEND" + to_string(id));
 }
 
 void CodeGen::LoopEnd(const ExprRec& bool_cond) {
 	/* Read and pop the label */
+	string doutEndLabel = controlStatementLabels.top();
+	controlStatementLabels.pop();
 	string doutLabel = controlStatementLabels.top();
 	controlStatementLabels.pop();
 	/* Check the condition */
@@ -762,6 +766,8 @@ void CodeGen::LoopEnd(const ExprRec& bool_cond) {
 	Generate("IC        ", "R0", "#0");
 	/* Jump to Do case the bool value is False */
 	Generate("JEQ       ", doutLabel, "");
+	/* Provide an end label for the break statement */
+	Generate("LABEL     ", doutEndLabel, "");
 }
 
 void CodeGen::WhileTag() {
