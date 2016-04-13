@@ -527,14 +527,17 @@ void Parser::ForStmt() {
 }
 
 void Parser::WhileStmt() {
+	ExprRec result;
+
 	Match(WHILE_SYM);
 	Match(LBANANA);
-//	Condition();
+	code.WhileTag(); /* FIXME? that is a new action symbol */
+	Condition(result);
 	Match(RBANANA);
-	// code.WhileBegin();
+	code.WhileBegin(result);
 	StmtList();
 	Match(END_SYM);
-	// code.WhileEnd();
+	code.WhileEnd();
 }
 
 void Parser::LoopStmt() {

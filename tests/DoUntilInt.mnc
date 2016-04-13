@@ -10,4 +10,4 @@ listen y;
 do
 	shout "x is equal ", x;
 	x = x + 1;
-until (x < y);
+until (x >= y);

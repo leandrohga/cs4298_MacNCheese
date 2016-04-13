@@ -737,7 +737,42 @@ void CodeGen::LoopEnd(const ExprRec& bool_cond) {
 	Generate("LD        ", "R0", cond_addr);
 	/* Check the bool value */
 	Generate("IC        ", "R0", "#0");
-	/* Jump to Do case the bool value is True */
-	/* TODO check meaning of until */
-	Generate("JNE       ", doutLabel, "");
+	/* Jump to Do case the bool value is False */
+	Generate("JEQ       ", doutLabel, "");
+}
+
+void CodeGen::WhileTag() {
+	/* Generate the label for the (end of) while statement */
+	unsigned int id = NextControlStatementID();
+	string whlendLabel = "WHLEND" + to_string(id);
+	controlStatementLabels.push(whlendLabel);
+	/* Generate the whlbeg label */
+	string whlbegLabel = "WHLBEG" + to_string(id);
+	Generate("LABEL     ", whlbegLabel, "");
+}
+
+void CodeGen::WhileBegin(const ExprRec& bool_cond) {
+	/* Read the end label */
+	string whlendLabel = controlStatementLabels.top();
+	/* Check condition */
+	string cond_addr;
+	ExtractExpr(bool_cond, cond_addr, 0);
+	/* Load bool value (from a condition) */
+	Generate("LD        ", "R0", cond_addr);
+	/* Check the bool value */
+	Generate("IC        ", "R0", "#0");
+	/* Jump to end of While statement case the bool value is False */
+	Generate("JEQ       ", whlendLabel, "");
+}
+
+void CodeGen::WhileEnd() {
+	/* Read and pop the end label */
+	string whlendLabel = controlStatementLabels.top();
+	controlStatementLabels.pop();
+	/* Recreate begin label */
+	string whlbegLabel = "WHLBEG" + whlendLabel.substr(6, whlendLabel.length() - 6);
+	/* Generate a Jump to the whlbegin label */
+	Generate("JMP       ", whlbegLabel, "");
+	/* Generate the whlend label */
+	Generate("LABEL     ", whlendLabel, "");
 }

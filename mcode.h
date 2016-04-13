@@ -152,6 +152,12 @@ public:
 
 	void LoopEnd(const ExprRec& bool_cond);
 
+	void WhileTag();
+
+	void WhileBegin(const ExprRec& bool_cond);
+
+	void WhileEnd();
+
 /* _____________________________________________________________________________
 */
 
