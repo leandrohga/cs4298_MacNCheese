@@ -15,3 +15,5 @@ tests/*.asm
 tests/*.lis
 tests/*.obj
 tests/trace.txt
+
+testtofile.cpp
