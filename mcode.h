@@ -87,6 +87,7 @@ struct symbol_node_t { //node used for the symbol table
 	int size; //Size of the variable
 	int ival; //Integer value
 	string s_fval; //String representing a float value
+	string sval; //String representing a float value
 };
 
 class CodeGen {

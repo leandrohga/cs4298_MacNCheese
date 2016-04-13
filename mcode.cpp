@@ -268,6 +268,8 @@ void CodeGen::Finish() {
 			Generate("REAL      ", s, "");
 			break;
 		default:
+			s = symbolTable[i].sval;
+			Generate("STRING    ", s, "");
 			/* TODO: check what to do. Check for cheese? */
 			break;
 		}
