@@ -66,7 +66,8 @@ void CodeGen::Enter(ExprRec& var) {
 		}
 		break;
 	default:
-			variable.sval = var.sval;
+		variable.size = 1024; /* 4x8 = 32 bits */
+		variable.sval = var.sval;
 			//Added this into the mcode.h before now here :)
 		/* TODO please check: check what to do. Check for cheese? */
 		break;
@@ -224,7 +225,7 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		Generate("STO       ", "R0", s);
 		break;
 	case FLOAT:
-		/* Load the 32 bist into registers R0:R1*/
+		/* Load the 32 bits into registers R0:R1*/
 		ExtractExpr(source, s, 0);
 		Generate("LD        ", "R0", s);
 		ExtractExpr(source, s, 2);
