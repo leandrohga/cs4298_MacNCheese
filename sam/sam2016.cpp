@@ -1889,6 +1889,9 @@ int main(int argc, char *argv[])
 	{
 		cout << "   ERRORS/WARNINGS IN ASSEMBLY CODE." << endl;
 		cout << "   NO OBJECT CODE FILE WAS GENERATED." << endl;
+		ListFile.close();
+		InFile.close();
+		exit(1);
 	}
 
 	ListFile.close();
