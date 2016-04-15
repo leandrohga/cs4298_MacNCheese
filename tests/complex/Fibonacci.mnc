@@ -1,0 +1,32 @@
+/:
+Fibonacci in Macc n Cheese
+Based on the program here goo.gl/8dg9Jk
+:/
+
+decs {
+	int: n; //number of terms to print
+	int: c; //loop counter
+	int: next, first, second;
+}
+
+shout "Enter the number of terms: ";
+listen n;
+shout "Running program for ", n, " terms.";
+
+first = 0;
+second = 1;
+
+c = 0;
+while (c < n)
+	if (c <= 1)
+		next = c;
+	else
+		next = first + second;
+		first = second;
+		second = next;
+	end
+	shout next;
+	c = c + 1;
+end
+
+shout "Done.";

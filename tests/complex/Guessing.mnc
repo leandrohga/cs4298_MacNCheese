@@ -1,0 +1,30 @@
+/:
+Guess a Number
+:/
+
+decs {
+	int: n, g, l;
+}
+
+n = 612;
+g = 0;
+
+shout "Try to get the number I'm thinking of. It will be greater than 0.";
+while (n != g)
+	shout "Make a guess.";
+	l = g;
+	listen g;
+	if (g != 0)
+		if (g > 612 && g - 612 < l - 612)
+			shout "You're getting closer!";
+		else
+			if (g < 612 && 612 - g < 612 - l)
+				shout "You're getting closer!";
+			end
+		end
+	else
+		shout "That's an interesting first guess.";
+	end
+end
+
+shout "Correct! The number was ", n, ".";

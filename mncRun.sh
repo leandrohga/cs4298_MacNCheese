@@ -22,6 +22,9 @@ else
         then
             echo ">>> rm -f *.lis *.lst *.asm *.obj macc sam micro"
             rm -f *.lis *.lst *.asm *.obj macc sam micro
+            cd complex
+            rm -f *.lis *.lst *.asm *.obj macc sam micro
+            cd ..
         else
             echo ">>> micro $var.mnc"
             ./micro $var.mnc

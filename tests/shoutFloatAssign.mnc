@@ -1,5 +1,5 @@
 /:
-Simple String Test
+Simple Float Test
 :/
 
 decs {
@@ -7,51 +7,14 @@ decs {
 }
 
 c = 1.1;
-
-shout c;
-
-shout "1.1";
-
+shout c, " = 1.1";
 
 c = 1.000000000000001;
-
-shout c;
-
-shout "1.000000000000001";
+shout c, " = 1.000000000000001";
 
 c = 0.2023155323001;
-
-shout c;
-
-shout "0.2023155323001";
+shout c, " = 0.2023155323001";
 
 c = 0.0124124312;
+shout c, " = 0.0124124312";
 
-shout c;
-
-shout "0.0124124312";
-
-c = 10.0e+12;
-
-shout c;
-
-shout "10.0e+12";
-
-c = 10.0e-12;
-
-shout c;
-
-shout "10.0e-12";
-
-
-c = 10.1E+12;
-
-shout(c);
-
-shout("10.1E+12");
-
-c = 10.1E-12;
-
-shout(c);
-
-shout("10.1E-12");
