@@ -66,8 +66,9 @@ void CodeGen::Enter(ExprRec& var) {
 		}
 		break;
 	default:
-			variable.sval = var.sval; //Added this into the mcode.h before now here :)
-		/* TODO: check what to do. Check for cheese? */
+			variable.sval = var.sval;
+			//Added this into the mcode.h before now here :)
+		/* TODO please check: check what to do. Check for cheese? */
 		break;
 	}
 	/* Add the record to the symbol table */
@@ -102,6 +103,7 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			s = "#" + t;
 			break;
 		case FLOAT:
+		case CHEESE:
 			/* Float operations don't allow immediate
 			 * addressing. They are treated as TEMP_EXPR.
 			 */
@@ -117,7 +119,8 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			s = "+" + t + "(R15)";
 			break;
 		default:
-			/* TODO: check what to do. Check for cheese? */
+			SemanticError("This type of literal doesn\'t exist");
+			/* TODO: Please check this out too. check what to do. Check for cheese? */
 			break;
 		}
 	}
