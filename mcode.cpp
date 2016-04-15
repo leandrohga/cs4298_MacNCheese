@@ -66,6 +66,7 @@ void CodeGen::Enter(ExprRec& var) {
 		}
 		break;
 	default:
+			variable.sval = var.sval; //Added this into the mcode.h before now here :)
 		/* TODO: check what to do. Check for cheese? */
 		break;
 	}
