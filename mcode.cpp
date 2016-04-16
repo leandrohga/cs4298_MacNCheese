@@ -73,7 +73,7 @@ void CodeGen::Enter(ExprRec& var) {
 		break;
 	default:
 		SemanticError("This variable type doesn\'t exist");
-		/* making the default an error, I dont think antone would reach this point but... just because.
+		/* making the default an error, I dont think antone would reach this point but... just because. */
 		break;
 	}
 	/* Add the record to the symbol table */
