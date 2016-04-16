@@ -65,11 +65,15 @@ void CodeGen::Enter(ExprRec& var) {
 			variable.s_fval = "0.0"; /* init with float 0 value */
 		}
 		break;
-	default:
+	case CHEESE:
 		variable.size = 1024; /* 4x8 = 32 bits */
 		variable.sval = var.sval;
-			//Added this into the mcode.h before now here :)
+		//Added this into the mcode.h before now here :)
 		/* TODO please check: check what to do. Check for cheese? */
+		break;
+	default:
+		SemanticError("This variable type doesn\'t exist");
+		/* making the default an error, I dont think antone would reach this point but... just because.
 		break;
 	}
 	/* Add the record to the symbol table */
@@ -103,8 +107,11 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			IntToAlpha(e.ival, t);
 			s = "#" + t;
 			break;
-		case FLOAT:
 		case CHEESE:
+			t = "\""+e.sval;
+			s = "#" + t;
+			break;
+		case FLOAT:
 			/* Float operations don't allow immediate
 			 * addressing. They are treated as TEMP_EXPR.
 			 */
