@@ -3,7 +3,6 @@ Simple String Test 1 tests for the ability to print a cheese to the console
 this test should fail due to the bananas in the shout statement.
 :/
 
-
 decs{
 	cheese : testCheese;
 }
