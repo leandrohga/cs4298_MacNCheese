@@ -1,0 +1,13 @@
+/:
+Test the ability to have \n character somewhere in a cheese
+:/
+
+decs{
+	cheese : testCheese;
+}
+
+shout "Enter a sentence: ";
+
+listen testCheese;
+
+shout testCheese;
