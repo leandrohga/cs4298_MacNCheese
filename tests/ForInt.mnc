@@ -1,0 +1,27 @@
+decs {
+    int: i;
+}
+//For1
+shout "for (i = 0; i < 3; i = i + 1)";
+for (i = 0; i < 3; i = i + 1)
+    shout i;
+end
+
+//For2
+shout "for (i = 6; i <= 16; i = i + 2)";
+for (i = 6; i <= 16; i = i + 2)
+    shout i;
+end
+
+//For3
+shout "for (i = 3; i > 0; i = i - 1)";
+for (i = 3; i > 0; i = i - 1)
+    shout i;
+end
+
+//For4
+shout "for (i = 16; i >= 6; i = i - 2)";
+for (i = 16; i >= 6; i = i - 2)
+    shout i;
+end
+
