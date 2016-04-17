@@ -161,6 +161,16 @@ public:
 
 	void Break();
 
+	void ForTag();
+
+	void ForAssign(const ExprRec & target, const ExprRec & source);
+
+	void ForBegin(const ExprRec& bool_cond);
+
+	void ForUpdate();
+
+	void ForEnd();
+
 /* _____________________________________________________________________________
 */
 

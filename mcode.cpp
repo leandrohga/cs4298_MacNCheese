@@ -829,3 +829,70 @@ void CodeGen::Break() {
 	/* Jump to the end label */
 	Generate("JMP       ", endLabel, "");
 }
+
+void CodeGen::ForTag() {
+	/* Generate the strings for the labels */
+	unsigned int id = NextControlStatementID();
+	string fortestLabel = "FORTST" + to_string(id);
+	/* End label and stack */
+	string forendLabel = "FOREND" + to_string(id);
+	/* Push end label to the stack */
+	controlStatementLabels.push(forendLabel);
+	/* Generate code for fortest Label */
+	Generate("LABEL     ", fortestLabel, "");
+}
+
+void CodeGen::ForAssign(const ExprRec & target, const ExprRec & source) {
+	Assign(target, source);
+}
+
+void CodeGen::ForBegin(const ExprRec& bool_cond) {
+	/* Read the end label */
+	string forendLabel = controlStatementLabels.top();
+	/* Recreate for body label */
+	string forbodyLabel = "FORBDY" + forendLabel.substr(6, forendLabel.length() - 6);
+
+	/* Check condition */
+	string cond_addr;
+	ExtractExpr(bool_cond, cond_addr, 0);
+	/* Load bool value (from a condition) */
+	Generate("LD        ", "R0", cond_addr);
+	/* Check the bool value */
+	Generate("IC        ", "R0", "#0");
+	/* Jump to FORBDY case the bool value is True */
+	Generate("JNE       ", forbodyLabel, "");
+	/* Jump to FOREND case the bool value is False */
+	Generate("JMP       ", forendLabel, "");
+
+	/* Update */
+	string forupdLabel = "FORUPD" + forendLabel.substr(6, forendLabel.length() - 6);
+	/* For update Label */
+	Generate("LABEL     ", forupdLabel, "");
+}
+
+void CodeGen::ForUpdate() {
+	/* Read the end label */
+	string forendLabel = controlStatementLabels.top();
+	/* Recreate for test label */
+	string fortestLabel = "FORTST" + forendLabel.substr(6, forendLabel.length() - 6);
+	/* Recreate for body label */
+	string forbodyLabel = "FORBDY" + forendLabel.substr(6, forendLabel.length() - 6);
+
+	/* Jump to for test */
+	Generate("JMP       ", fortestLabel, "");
+	/* Generate the for body label */
+	Generate("LABEL     ", forbodyLabel, "");
+}
+
+void CodeGen::ForEnd() {
+	/* Read and pop the end label */
+	string forendLabel = controlStatementLabels.top();
+	controlStatementLabels.pop();
+	/* Recreate for update label */
+	string forupdLabel = "FORUPD" + forendLabel.substr(6, forendLabel.length() - 6);
+
+	/* Jump to for test */
+	Generate("JMP       ", forupdLabel, "");
+	/* Generate the for body label */
+	Generate("LABEL     ", forendLabel, "");
+}

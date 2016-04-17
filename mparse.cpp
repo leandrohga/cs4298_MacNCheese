@@ -457,11 +457,16 @@ void Parser::CaseList() {
 
 void Parser::ForAssign()
 {
-	//Variable();
-	// code.ProcessVar();
+	/* Variable to be assigned a value */
+	ExprRec var;
+	Variable(var);
+	code.ProcessVar(var);
+	/* Equal sign '=' */
 	Match(ASSIGN_OP);
-//	Expression();
-	// code.ForAssign();
+	/* Value/Expression to assign to the variable */
+	ExprRec result;
+	Expression(result);
+	code.ForAssign(var, result);
 }
 
 void Parser::ElseClause() {
@@ -511,19 +516,24 @@ void Parser::SelectStmt() {
 }
 
 void Parser::ForStmt() {
+	/* Assignment */
 	Match(FOR_SYM);
 	Match(LBANANA);
 	ForAssign();
 	Match(SEMICOLON);
-//	Condition();
-	// code.ForBegin();
+	/* Condition */
+	ExprRec result;
+	code.ForTag(); /* TODO that is a new action symbol - add to grammar */
+	Condition(result);
+	code.ForBegin(result);
 	Match(SEMICOLON);
+	/* Increment variable */
 	ForAssign();
-	// code.ForUpdate();
+	code.ForUpdate();
 	Match(RBANANA);
 	StmtList();
 	Match(END_SYM);
-	// code.ForEnd();
+	code.ForEnd();
 }
 
 void Parser::WhileStmt() {
@@ -531,7 +541,7 @@ void Parser::WhileStmt() {
 
 	Match(WHILE_SYM);
 	Match(LBANANA);
-	code.WhileTag(); /* FIXME? that is a new action symbol */
+	code.WhileTag(); /* TODO that is a new action symbol - add to grammar */
 	Condition(result);
 	Match(RBANANA);
 	code.WhileBegin(result);
