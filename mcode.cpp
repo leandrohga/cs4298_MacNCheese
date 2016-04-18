@@ -378,10 +378,9 @@ void CodeGen::Finish() {
 			s = symbolTable[i].s_fval;
 			Generate("REAL      ", s, "");
 			break;
-		default:
+		case CHEESE:
 			s = symbolTable[i].sval;
 			Generate("STRING    ", s, "");
-			/* TODO: check what to do. Check for cheese? */
 			break;
 		}
 	}
