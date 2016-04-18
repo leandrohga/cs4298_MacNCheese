@@ -104,14 +104,12 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			IntToAlpha(e.ival, t);
 			s = "#" + t;
 			break;
-		case CHEESE:
-			s = e.sval; /* FIXME */
-			break;
 		case FLOAT:
-			/* Float operations don't allow immediate
+		case CHEESE:
+			/* Float and Cheese operations don't allow immediate
 			 * addressing. They are treated as TEMP_EXPR.
 			 */
-			// operand form: +k(R15)
+			/* operand form: +k(R15) */
 			s = e.name;
 			k = n = 0;
 			while (symbolTable[n].name != s) {
