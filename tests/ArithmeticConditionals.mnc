@@ -1,0 +1,16 @@
+/:
+Test of using arithmetic expressions inside a conditional.
+:/
+
+decs {
+	int: x, y;
+}
+
+x = 0;
+y = 10;
+while (x * 2 < y - 2)
+	shout x, " * 2 < ", y, " - 2";
+	x = x + 1;
+end
+shout x, " * 2 >= ", y, " - 2";
+shout "Done.";

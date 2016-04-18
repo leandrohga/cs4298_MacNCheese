@@ -1,0 +1,17 @@
+/:
+This is a test of using negative number inside a conditional statement.
+Macc n Cheese does not allow for negative literals, so you cannot perform a check like "1 < -1".
+However, you can work around this with something like "1 < 0 - 1".
+:/
+
+if (1 < 0 - 1)
+	shout "Error.";
+else
+	shout "Success.";
+end
+
+if (0 - 1 < 1)
+	shout "Success.";
+else
+	shout "Error.";
+end

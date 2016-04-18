@@ -3,28 +3,37 @@ Guess a Number
 :/
 
 decs {
-	int: n, g, l;
+	int: number, guess, delta, tries;
 }
 
-n = 612;
-g = 0;
+number = 612;
+guess = 0;
 
-shout "Try to get the number I'm thinking of. It will be greater than 0.";
-while (n != g)
-	shout "Make a guess.";
-	l = g;
-	listen g;
-	if (g != 0)
-		if (g > 612 && g - 612 < l - 612)
-			shout "You're getting closer!";
+shout "Try to get the number I'm thinking of. It will be greater than 0. You have 10 tries.";
+while (tries < 10)
+	shout "What is your guess?";
+	listen guess;
+	delta = guess - number;
+	if (guess > 0)
+		if (delta == 0)
+			shout "Correct! The number was ", number, ".";
+			break;
 		else
-			if (g < 612 && 612 - g < 612 - l)
-				shout "You're getting closer!";
+			if (delta + 10 < 0)
+				shout "Too low!";
+			else
+				if (delta - 10 > 0)
+					shout "Too high!";
+				else
+					shout "Wow, you're getting close!";
+				end
 			end
 		end
 	else
-		shout "That's an interesting first guess.";
+		shout "The number must be greater than 0.";
 	end
+	tries = tries + 1;
 end
-
-shout "Correct! The number was ", n, ".";
+if (tries >= 10)
+	shout "You ran out of guesses!";
+end
