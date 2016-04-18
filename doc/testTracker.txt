@@ -33,6 +33,16 @@ DoIfUntil		->	DONE
 DoUntilBreak		->	DONE: WARNING
 				 -- Name too long, only 7 characters used on line 20
    				 -- Name too long, only 7 characters used on line 39
+DoUntilInt		->	DONE
+ErrorDoubleDecs		->	DONE
+				 -- Error on line 7
+ErrorMissingSemiColon ->	DONE
+				 --Error on line 6
+errorRealNotFloat	->	DONE
+				 --Error on line 6
+ForInt			->	DONE
+forLoop			->	ERROR
+				 --Error on line 14
 
 
 

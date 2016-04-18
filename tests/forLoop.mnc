@@ -3,7 +3,7 @@ Tests loops by printing int value in a range from 1-10
 ;/
 
 decs{
-	int: i
+	int: i;
 }
 
 
