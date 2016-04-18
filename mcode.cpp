@@ -243,9 +243,37 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		ExtractExpr(target, s, 2);
 		Generate("STO       ", "R1", s);
 		break;
-	default:
+	case CHEESE: /* 1024 bits max in ascii if I am
+		not wrong 1 char = 1 bit
+		reference demo7 in sam folder */
+		// we have to check the size of the cheese (1024)
+		// and check the size of the string getting in
+		// and cut it if is longer and register enough
+		// space for the shorter one.
+		// source is right side of assignment
+
+		// check for variables
+
+
+		ExtractExpr(target, s, 0);
+		Generate("LD        ", "R0", s);
+		ExtractExpr(source, s, 0);
+		int maxLength = 1024;
+		if(maxLength>s.length()){
+			maxLength = s.length();
+		}
+		for(int i=0; i < maxLength; i++){
+			char x = s[i];
+			Generate("STO        ", "R0", x);
+		}
 		/* TODO: check for cheeses? */
+		/* i am here */
 		break;
+
+	default:
+		SemanticError("This can't be assigned >> " + s);
+		break;
+
 	}
 }
 vector<string> str_vect;
