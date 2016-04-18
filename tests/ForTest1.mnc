@@ -1,0 +1,16 @@
+/:
+Test of the for statement using a break to exit early.
+:/
+
+decs {
+	int: x, y;
+}
+
+for (x = 0; x < 10; x = x + 1)
+	shout "Do you want to exit early? (1 = yes, 0 = no)";
+	listen y;
+	if (y == 1)
+		break;
+	end
+	shout "The next number is ", x, ".";
+end
