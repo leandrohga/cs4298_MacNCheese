@@ -26,3 +26,19 @@ WhileDoForIf		->	ERROR:  Error on line 26
 shoutIntFloat		->	DONE
 shoutIntAssign		->	DONE
 
+decsWrong		->	DONE
+				 -Compiler catches error on line 7
+
+DoIfUntil		->	DONE
+DoUntilBreak		->	DONE: WARNING
+				 -- Name too long, only 7 characters used on line 20
+   				 -- Name too long, only 7 characters used on line 39
+
+
+
+
+Complex Tests
+Fibonacci		->	DONE
+Guessing		->	NOT COMPLETE
+
+
