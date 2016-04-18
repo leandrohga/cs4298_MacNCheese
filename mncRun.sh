@@ -20,10 +20,10 @@ else
     do
         if [ "$var" = "clobber" ]
         then
-            echo ">>> rm -f *.lis *.lst *.asm *.obj macc sam micro"
-            rm -f *.lis *.lst *.asm *.obj macc sam micro
+            echo ">>> rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro"
+            rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
             cd complex
-            rm -f *.lis *.lst *.asm *.obj macc sam micro
+            rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
             cd ..
         else
             echo ">>> micro $var.mnc"
