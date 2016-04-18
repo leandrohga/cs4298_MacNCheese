@@ -38,7 +38,7 @@ Scanner::Scanner() {
 	tokenBuffer = "";
 	lineBuffer = "";
 	lineNumber = 0;
-	cheese_size = 1024; /*?? Null char */
+	cheese_size = 1; /* Null char */
 }
 
 // ********************************

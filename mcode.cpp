@@ -351,10 +351,7 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 			e.ival = e1.ival / e2.ival;
 			break;
 		default:
-			/*
-			 * There is nothing to be done here.
-			 * Maybe an error?
-			 */
+			SemanticError("This operator is not supported");
 			break;
 		}
 	} else { /* Variables */
@@ -545,6 +542,7 @@ void CodeGen::WriteString(const ExprRec & outExpr) {
 	str_vect.push_back(s);
 	/* Update counter and Generate ASM */
 	IntToAlpha(str_cnt, t);
+
 	str_cnt += scan.cheese_size;
 	if (str_cnt % 2) {
 		str_cnt++;
