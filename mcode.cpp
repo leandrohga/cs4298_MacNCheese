@@ -68,6 +68,7 @@ void CodeGen::Enter(ExprRec& var) {
 	case CHEESE:
 		variable.size = 1024; /* 4x8 = 32 bits */
 		variable.sval = var.sval;
+		cerr << variable.sval << " " << variable.size ;
 		//Added this into the mcode.h before now here :)
 		/* TODO please check: check what to do. Check for cheese? */
 		break;
