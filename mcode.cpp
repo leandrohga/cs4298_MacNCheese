@@ -108,8 +108,7 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			s = "#" + t;
 			break;
 		case CHEESE:
-			t = "\""+e.sval;
-			s = "#" + t;
+			s = e.sval;
 			break;
 		case FLOAT:
 			/* Float operations don't allow immediate
@@ -265,15 +264,54 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		for(int i=0; i < maxLength; i++){
 			t.push_back( s[i] );
 		}
-			if(maxLength % 2 != 1){
-				maxLength +=4;
-				t = t+" $\"";
-			}
-			else{
-				maxLength +=3;
-				t = t+"$\"";
-			}
-		Generate("STO        ", "R0", t);
+		// I will check on it as this needs to look kinda like the following
+		// WRST BSU
+		// WRNL
+		// CLR  R8
+		// LDA  R13,BSU2
+
+		// LDA  R4,BSU
+		// LD   R5,#7
+		// BKT  R4,BSU2
+		// STO  R8,+7(R13)
+
+		// WRST BSU2
+		// WRNL
+
+		// IA   R4,#8
+		// LD   R5,#5
+		// BKT  R4,BSU2
+		// STO  R8,+5(R13)
+
+		// WRST BSU2
+		// WRNL
+
+		// IA   R4,#6
+		// LD   R5,#10
+		// BKT  R4,BSU2
+		// STO  R8,+10(R13)
+
+		// WRST BSU2
+		// WRNL
+
+		// HALT
+
+		// % Data
+		// % ----
+		// LABEL BSU
+		// STRING "Bemidji State University"
+		// LABEL BSU2
+		// SKIP 30
+
+		if(maxLength % 2 != 1){
+			maxLength +=2;
+			t = "\"" + t + " $\"";
+		}
+		else{
+			maxLength +=1;
+			t = "\"" + t + "$\"";
+		}
+		Generate("STO       ", "R0", t);
 		Generate("JMP        ", "&"+(to_string(maxLength)), "");
 		/* TODO: check for cheeses? */
 		/* i am here */
