@@ -221,7 +221,9 @@ Token Scanner::GetNextToken() {
 			return INT_LIT;
 		} else if (currentChar == '"') {
 			/* string literal */
-			BufferChar(currentChar);
+			//we wont add the quote to the buffer
+			//as this will give us problems at mcode
+			// BufferChar(currentChar);
 			c = sourceFile.peek();
 			cheese_size = 1; /* Null Char */
 			/* while not end of string */
@@ -302,7 +304,7 @@ Token Scanner::GetNextToken() {
 			}
 			/* buffer the final '"' */
 			currentChar = NextChar();
-			BufferChar(currentChar);
+			// BufferChar(currentChar);
 			return CHEESE_LIT;
 		} else if (currentChar == '(') {
 			BufferChar(currentChar);
