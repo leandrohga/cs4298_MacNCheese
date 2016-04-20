@@ -1,0 +1,26 @@
+// declarations.mnc
+//
+// Declarations testing with simple input/output.
+
+DEcs{
+	int m, n, k;
+	float a, b, c;
+	bool b1, b2;
+}
+
+	shout "Enter 3 integers: ";
+	listen m, n , k;
+	shout m, n, k;
+	shout "\n\n";
+	shout "Enter 3 real numbers: ";
+	listen a, b, c;
+	shout a, b, c;
+	shout "\n\n";
+	shout 99, 2345, 10;
+	shout 3.2, 1e3, 222.55;
+	shout "a", "b", "c";
+	shout b1, "  ", b2;
+DEcs{
+	int MM, N, katz;
+	float unreal,  fake;
+}

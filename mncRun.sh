@@ -25,6 +25,9 @@ else
             cd complex
             rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
             cd ..
+            cd betaTests
+            rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
+            cd ..
         else
             echo ">>> micro $var.mnc"
             ./micro $var.mnc

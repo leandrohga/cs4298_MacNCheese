@@ -1,0 +1,22 @@
+/:  HipHipArrayofCheese.mnc 
+
+    Using Hiphips of cheese in assignment and shout statements.
+:/
+decs {
+	hiphip[4] cheese[3] schools;
+	hiphip[26] cheese[1] letters;
+	hiphip[6] cheese[10] colors;
+	
+}
+	
+	schools = {"BSU", "UMM", "UND", "UMD"}
+	letters = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+	colors = {"red", "orange", "yellow", "green", "blue", "purple"}
+	shout schools;
+	shout letters;
+	shout colors;
+
+	schools[3] ="NDSU";
+	shout "Make sure the last one is NDS", schools;
+
+

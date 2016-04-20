@@ -1,0 +1,26 @@
+//  Loop01.mnc
+//
+//  Simple loops.
+
+decs{
+	int n, k;
+}
+	shout "Enter a positive integer upper limit for counting: ";
+	listen n;
+	shout "";
+	k = 1;
+	shout "Forward: ";
+	do
+		shout k;
+		k:= k + 1;
+	until (k > n);
+	shout ""; shout "";
+	
+	k = n;
+	shout "Backward: ";
+	do
+		shout k;
+		k = k - 1;
+	until (k == 0);
+
+	shout ""; shout "";

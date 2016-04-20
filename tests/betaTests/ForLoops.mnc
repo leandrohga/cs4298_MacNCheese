@@ -1,0 +1,22 @@
+//  ForLoop01.mnc
+//
+//  Simple for loops.
+
+decs{
+	int n, k;
+}
+	shout "Enter a positive integer upper limit for counting: ";
+	listen n;
+	shout "";
+	shout "Forward: ";
+	for ( k = 1; k <= n; k = k + 1) 
+		shout k;
+	end
+
+	shout "\n";
+	shout "Backward: ";
+	for (k = n; k >= 1; k = k - 1)
+		shout k;
+	end
+	shout "\n";
+	

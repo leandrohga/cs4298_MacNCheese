@@ -1,0 +1,32 @@
+// Assign01.mnc
+// 
+// Simple variables and input/output.
+
+decs {	int:  x, y;
+	float: a, b;
+	cheese: c, d;
+	}
+
+   shout "Enter an integer: ";
+   listen x;
+   shout x, "\n";
+   y = x;
+   shout y, "\n";
+   x = 17;
+   shout x, "\n\n";
+   
+   shout "Enter a real number: ";
+   listen a;
+   shout a, "\n";
+   b = a;
+   shout b, "\n";
+   a = 26.03;
+   shout a, "\n\n";
+   
+   shout "Enter a character: ";
+   listen c;
+   shout c, "\n";
+   d = c;
+   shout d, "\n";
+   c = "$";
+   shout c, "\n\n";

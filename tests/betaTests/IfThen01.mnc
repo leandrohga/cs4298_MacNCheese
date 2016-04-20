@@ -1,0 +1,19 @@
+//  IfThen01.mnc
+//
+//  Tests simple if statements (no else clauses).
+
+decs{
+	int: n, m;
+	}
+	
+
+	shout "Enter two integers: ";
+	listen n, m;
+	if (n > m )
+		shout n, " is greater than ", m, "\n";
+	end
+	if (m > n)
+		shout m, " is greater than ", n, "\n";
+	end
+	shout "\n";
+

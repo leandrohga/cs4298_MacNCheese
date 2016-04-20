@@ -1,0 +1,27 @@
+/:  NestedWhiles.mnc
+  
+    While loops nested four levels deep.
+:/
+decs{
+	int i, j, k,  m;
+}
+	i = 7;
+	while (i <= 9)
+		j = 1;
+		while (j <= 10-i)
+			k = 1;
+			while (k <= 5)
+				m = 1;
+				while (m <= 9)
+					shout 1000*i + 100*j + 10*k + m;
+					m = m + 1;
+				end
+				shout "";
+				k = k + 1;
+			end
+			shout "";
+			j = j + 1;
+		end
+		i = i + 1;
+	end
+end

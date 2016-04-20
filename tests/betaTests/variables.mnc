@@ -1,0 +1,21 @@
+// variables01.mnc
+//
+// Variables, constants, and input/output.
+
+decs{
+	int:  iVal1, iVal2;
+	float: rVal1, rVal2;
+}
+	
+	shout "\nReading and Writing Variables and Constants";
+	shout "\nEnter two integers: ";
+	listen iVal1, iVal2;
+	shout "\n==> ", iVal1, ',', iVal2;
+	
+	shout "\nEnter two real numbers: ";
+	listen rVal1, rVal2;
+	shout "\n==> ", rVal1, ',', rVal2;
+	
+	shout "\nint constants: ", 37, 7805, 685; 
+	shout "\nreal constants: ", 3.8405, "  ", 3.8405e+2, "  ", 3.8405E-3; 
+	shout "\n\n";

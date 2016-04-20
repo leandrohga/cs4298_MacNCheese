@@ -1,0 +1,5 @@
+//  simple.mnc
+//
+//  One of the simplest MNC programs possible.
+
+shout 8;

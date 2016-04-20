@@ -1,0 +1,28 @@
+//  StringCompare.mnc
+//
+//  Tests cheese comparisons and cheese i/o.
+
+decs{
+	cheese[10] word1;
+	cheese[10] word2;
+	cheese[40] str1, str2;
+}
+	word1 = "perfect";
+	word2 = "permanent";
+	shout word1;
+	shout word2;
+	if (word1 < word2)
+		shout "\"", word1 , "\" < \"", word2, "\""
+	else
+		shout "\"", word1 , "\" >= \"", word2, "\""
+	end
+	shout "\nEnter two strings to be compared\n";
+	shout "First string: ";
+	listen str1;
+	shout "Second string: ";
+	listen str2;
+	if (str1 < str2)
+		shout "\"" str1 , "\" < \"", str2, "\""
+	else
+		shout "\"" str1 , "\" >= \"", str2, "\""
+	end

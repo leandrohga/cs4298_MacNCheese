@@ -1,0 +1,22 @@
+// Assign03.mnc
+//
+// Variable initialization and assignments.
+
+decs {
+   int n, m, k, x;
+   float a, b, c, d;
+}
+
+   n = 5; m = 7; k = 4;
+   a = 2.5; b = 3.1; c = 4.0;
+
+   x = k * (n + m);
+   shout x;
+   x = 4 * (n + m);
+   shout x;
+   shout (n + m) * k;
+   d = c * (a - b);
+   shout d;
+   shout 400.0e-2 ;
+   d = 0.4e1 * (a - b);
+   shout d;

@@ -1,0 +1,18 @@
+/: Assign04.mnc
+
+  Various arithmetic expressions.
+:/ 
+
+decs{
+   int num1, num2, num3, num4;
+   int result;
+}
+
+
+   shout "Enter 4 integers: ";
+   listen num1, num2, num3, num4;
+   result = ((num1 - 3) * (num2 + num3))/ num4;
+   write "\n((num1 - 3) * (num2 + num3))/ num4 = ", result;
+   result = (num2 + num4 * num1 / 3) - num3;
+   shout "\n(num2 + num4 * num1 / 3) - num3 = ", result;
+

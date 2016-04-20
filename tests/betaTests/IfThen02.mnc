@@ -1,0 +1,17 @@
+/:  IfThen02.mnc
+
+    Tests a simple if statement with an else clause.
+:/
+
+decs{
+	int n, m;
+}	
+
+	shout "Enter two integers: ";
+	listen n, m;
+	if (n > m )
+		shout n, " is greater than ", m, "\n";
+	else
+		shout n, " is less than or equal to ", m, "\n";
+	end
+	shout "\n";

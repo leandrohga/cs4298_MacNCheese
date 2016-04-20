@@ -1,0 +1,25 @@
+//  HipHipAsnFloat.mnc
+
+//  Tests real array indexing in expressions and assignment statements.
+
+decs {
+	hiphip[6] float x;
+	float k;
+}
+	x = {3.2, 72.5, 1.9e+3, 2.8e-2, 4.5E+4, 0}
+
+	shout "x[0] = ", x[0];
+	shout "x[1] = ", x[1];
+	shout "x[2] = ", x[2];
+	shout "x[3] = ", x[3];
+	shout "x[4] = ", x[4];
+	shout "x[5] = ", x[5];
+
+	shout "k = ";
+	listen k;
+	x[0] = 2.0*k + 0.5; shout "x[0] = ", x[0];
+	x[1] = x[0] + 1.2; shout "x[1] = ", x[1];
+	x[2] = x[1] + x[0]; shout "x[2] = ", x[2];
+	x[3] = x[2] + x[1]; shout "x[3] = ", x[3];
+	x[4] = x[3] + x[2]; shout "x[4] = ", x[4];
+	x[5] = x[4] + x[3]; shout "x[5] = ", x[5];

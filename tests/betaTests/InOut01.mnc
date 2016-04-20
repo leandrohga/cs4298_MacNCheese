@@ -1,0 +1,15 @@
+// InOut01.mnc
+// 
+// Input/output testing.
+
+decs{
+	int   x0, x1;
+	float  y0, y1; }
+	
+	shout "\n\n", 1, " \"start\" ", 8.5, "*";
+	shout "\n\nEnter two integers: ";
+	read x0, x1;
+	shout x1, x0;
+	shout "\nEnter two real numbers: ";
+	read y0, y1;
+	shout y1, " ", y0;

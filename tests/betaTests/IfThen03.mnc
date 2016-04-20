@@ -1,0 +1,20 @@
+//  IfThen03.dvl
+
+//  Tests nested if statement with else clauses.
+
+decs{
+	int n, m;	
+}
+	shout "Enter two integers: ";
+	listen n, m;
+	if (n > m)
+		shout n, " is greater than ", m, "\n";
+	else 
+		if (n < m)
+			shout n, " is less than ", m, "\n";
+		else
+			shout n, " is equal to ", m, "\n";
+		end
+	end
+	shout "\n";
+

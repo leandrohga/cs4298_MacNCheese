@@ -1,0 +1,18 @@
+//  HipHipAsgInt.mnc
+
+//  Tests int array indexing in expressions and assignment statements.
+
+decs{
+	hiphip[6] int: x;
+	int k;
+}	
+
+	shout "k = ";
+	listen k;
+	x[0] = 2*k-1; shout "x[0] = ", x[0], "\n";
+	x[1] = x[0] + 10; shout "x[1] = ", x[1], "\n";
+	x[2] = x[1] + x[0]; shout "x[2] = ", x[2], "\n";
+	x[3] = x[2] + x[1]; shout "x[3] = ", x[3], "\n";
+	x[4] = x[3] + x[2]; shout "x[4] = ", x[4], "\n";
+	x[5] = x[4] + x[3]; shout "x[5] = ", x[5], "\n";
+	shout "\n";

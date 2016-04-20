@@ -1,0 +1,35 @@
+//  VarInit.mnc
+//
+//  Tests variable initializations for simple variables (no arrays).
+
+decs{
+	int n, m, k;
+	float x, y, z, w;
+}	
+	n = 5; 
+	m = 3; 
+	k = 2 * (n + 2 * m);
+	x = 4.0;
+	y = 2.3;
+	z = 0.5*(x + y);
+	w = n - x;
+decs{
+	float p;
+	bool b1, b2, b3;
+}	
+	p = (w + 10) / k;
+	b1 = true; 
+	b2 = false;
+	b3 = b1;
+
+	shout "n = ", n;
+	shout "m = ", m;
+	shout "k = ", k;
+	shout "x = ", x;
+	shout "y = ", y;
+	shout "z = ", z;
+	shout "w = ", w;
+	shout "p = ", p;
+	shout "b1 = ", b1;
+	shout "b2 = ", b2;
+	shout "b3 = ", b3;

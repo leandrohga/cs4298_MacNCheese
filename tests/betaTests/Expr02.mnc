@@ -1,0 +1,29 @@
+/: Expr02.mnc
+
+   Real expressions
+:/
+decs {
+	float: a, b, c, d;
+}	
+
+	a = 5.0; b = 7.0; c = 8.0; d = 12.0;
+	Shout a, b, c, d;
+	
+	sHout a - b + c * d;
+	shOut (a - b + c) * d;
+	shoUt (a - (b + c)) * d;
+	shouT ((a - b) + c) * d;
+	
+	SHout d / b - c * d;
+	shOUt d / (b - c) * d;
+	ShouT d / (b - c * d);
+	SHOut (d / b - c) * d;
+	
+	ShoUT b * 5.0 + d / 2.0 * a - c;
+	sHOUt b * ((5.0 + d / 2.0 * a) - c);
+	SHOuT b * (5.0 + d )/ (2.0 * a - c);
+	SHoUT (b * 5.0 + d) / ((2.0 * a) - c);
+	
+	ShOUT 20.0 * 6.0 - 45.0 + 50.0 / 2.0;
+	SHOUT ((20.0 * 6.0) - (45.0 + 50.0)) / 2.0;
+

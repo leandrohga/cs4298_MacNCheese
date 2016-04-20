@@ -1,0 +1,24 @@
+/:  StringInit.mnc
+:/
+/:  Tests string initialization and assignment.
+:/
+
+decs{
+	cheese name[10];
+	cheese place[10];
+	cheese name2[6];
+	cheese name3[10];
+	cheese sport[20]; }
+
+	name = "Steven";
+	place = "Bemidji";
+	name2 = name;
+
+	shout name;
+	shout place;
+	shout name2;
+	name3 = "baseball";
+	shout name3;
+	sport = name3;
+	shout name, " from ", place, " loves ", sport;
+

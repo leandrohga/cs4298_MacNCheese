@@ -1,0 +1,26 @@
+//  While01.mnc
+//
+//  Simple while loops.
+
+decs{
+	int n, k;
+}
+	shout "Enter a positive integer upper limit for counting: ";
+	listen n;
+	shout "";
+	k = 1;
+	shout "Forward: ";
+	while (k <= n)
+		shout k;
+		k = k + 1;
+	end
+
+	shout "\n";
+	k = n;
+	shout "Backward: ";
+	while (k >= 1)
+		shout k;
+		k = k - 1;
+	end
+	shout "\n";
+	
