@@ -1,4 +1,19 @@
 #!/bin/bash
+function process {
+    echo ">>> micro $1.mnc"
+    ./micro $1.mnc
+    if [ $? == 0 ]
+    then
+        echo ">>> sam $1.asm"
+        ./sam $1.asm
+        if [ $? == 0 ]
+        then
+            echo ">>> macc $1.obj"
+            ./macc $1.obj
+        fi
+    fi
+    return $?
+}
 if [ "$1" = "help" ]
 then
     echo "This script automatically builds all of the required executables, compiles the mnc files, assembles the asm files, and runs the obj files."
@@ -24,22 +39,26 @@ else
             rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
             cd complex
             rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
-            cd ..
-            cd betaTests
+            cd ../betaTests
             rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
             cd ..
-        else
-            echo ">>> micro $var.mnc"
-            ./micro $var.mnc
-            if [ $? == 0 ]
-            then
-                echo ">>> sam $var.asm"
-                ./sam $var.asm
-                if [ $? == 0 ]
+        elif [ -d "$var" ]
+        then
+            for file in $var/*.mnc
+            do
+                process "${file%.*}"
+                if [ $? != 0 ]
                 then
-                    echo ">>> macc $var.obj"
-                    ./macc $var.obj
+                    echo ">>> Processing failure ($?), terminating script"
+                    exit $?
                 fi
+            done
+        else
+            process "$var"
+            if [ $? != 0 ]
+            then
+                echo ">>> Processing failure ($?), terminating script"
+                exit $?
             fi
         fi
     done
