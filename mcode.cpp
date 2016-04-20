@@ -222,7 +222,8 @@ bool CodeGen::LookUp(const string & s) {
 
 void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 	string s;
-
+	string t;
+	int maxLength = 1024;
 	switch (target.var_type) {
 	case BOOL:
 	case INT:
@@ -258,14 +259,22 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		ExtractExpr(target, s, 0);
 		Generate("LD        ", "R0", s);
 		ExtractExpr(source, s, 0);
-		int maxLength = 1024;
-		if(maxLength>s.length()){
+		if(maxLength > s.length()){
 			maxLength = s.length();
 		}
 		for(int i=0; i < maxLength; i++){
-			char x = s[i];
-			Generate("STO        ", "R0", x);
+			t.push_back( s[i] );
 		}
+			if(maxLength % 2 != 1){
+				maxLength +=4;
+				t = t+" $\"";
+			}
+			else{
+				maxLength +=3;
+				t = t+"$\"";
+			}
+		Generate("STO        ", "R0", t);
+		Generate("JMP        ", "&"+(to_string(maxLength)), "");
 		/* TODO: check for cheeses? */
 		/* i am here */
 		break;
