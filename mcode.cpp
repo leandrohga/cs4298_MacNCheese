@@ -224,6 +224,8 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 	string t;
 	string x;
 	int maxLength = 1024;
+	int singleWordLength = 0;
+	string theWord = "";
 	switch (target.var_type) {
 	case BOOL:
 	case INT:
@@ -303,35 +305,40 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		for(int i=0; i < maxLength; i++){ //we go through each char and we make the string be of the correct size (or intended size)
 			x.push_back( s[i] );
 		}
-		if(maxLength % 2 != 1){ //we check for the length if this is even we need to add to chars, an empty char and the end of string
-			maxLength +=2;
-			x = "\"" + x + " $\"";
-		} else { // if it is odd we just add 1, the end of line
+		if(maxLength % 2 != 0){ //we check for the length if this is even we need to add to chars, an empty char and the end of string
 			maxLength +=1;
-			x = "\"" + x + "$\"";
+			// x = "\"" + x + " $\"";
+		// } else { // if it is odd we just add 1, the end of line
+		// 	maxLength +=1;
+			// x = "\"" + x + "$\"";
 		}
-		int singleWordLength = 0;
-		string theWord = "";
-		for(int i = 0; i < x.length(), i++){
-			singleWordLength++;
-			theWord.push_back( x[i] );
-			if(x[i] == " " || x[i] == ' ' || i == (x.length()-1)){
+		// for(int i = 0; i < x.length(); i++){
+		// 	singleWordLength++;
+		// 	theWord.push_back( x[i] );
+		// 	if(x[i] == ' ' || i == (x.length()-1)){
 
-				// WRST BSU2
-				// WRNL
+		// 		// WRST BSU2
+		// 		// WRNL
 
-				// Generate("LD        ", "R0", t);
-				Generate("WRST       ", t, "");
-				Generate("WRNL       ", "", "");
-				Generate("STO       ", "R0", theWord);
-				Generate("JMP        ", "&"+(to_string(singleWordLength)), "");
+		// 		// Generate("LD        ", "R0", t);
+		// 		theWord = "\"" + theWord + "\"";
+		// 		Generate("LD        ", "R0", t);
+		// 		// Generate("WRST       ", t, "");
+		// 		// Generate("WRNL       ", "", "");
+		// 		Generate("STO       ", "R0", theWord);
+		// 		Generate("JMP        ", "&"+(to_string(singleWordLength)), "");
 
-				int singleWordLength = 0;
-				string theWord = "";
-			}
+		// 		singleWordLength = 0;
+		// 		theWord = "";
+		// 	}
+		// 	Generate("STRING       ", "\"" + x + "\"");
+
+			// Generate("WRST       ", "\"" + x + "\"", "");
+			Generate("STO       ", "R0", "\"" + x + "\"");
+			Generate("JMP        ", "&"+(to_string(maxLength)), "");
 			/* TODO: check for cheeses? */
 			/* i am here */
-		}
+		// }
 		break;
 
 	default:
