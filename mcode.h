@@ -45,15 +45,6 @@ enum ExprKind {
 };
 
 /* suggested in "cs4298-Info/compiler/Symbol Table Information.doc":
-
-struct SymbolEntry {
-	string variableName;
-	VarKind dataType;
-	int relativeAddress;
-	bool isArray;
-	int arrayLength;
-}
-
 struct OperationRecord {
 	OpKind operator;
 	VarKind resultType;
@@ -66,9 +57,6 @@ struct OperandRecord {
 	bool isIndexed;
 	int relativeAddress;
 }
-
-//if using this code, change the symbol table to be a vector<SymbolEntry>
-
 */
 
 struct ExprRec { //information about a constant, variable, or an intermediate (temporary) result
@@ -81,13 +69,16 @@ struct ExprRec { //information about a constant, variable, or an intermediate (t
 	string sval; //String
 };
 
-struct symbol_node_t { //node used for the symbol table
+struct SymbolEntry { //Entry used for the symbol table
 	string name; //Name of the variable
 	VarKind type; //Type of the variable
 	int size; //Size of the variable
 	int ival; //Integer value
 	string s_fval; //String representing a float value
 	string sval; //String representing a float value
+	int relativeAddress; //TODO: Relative address of the variable
+	bool isArray; //TODO: is it an array?
+	int arrayLength; //TODO: size of the array
 };
 
 class CodeGen {
@@ -176,7 +167,7 @@ public:
 
 private:
 
-	vector<symbol_node_t> symbolTable;
+	vector<SymbolEntry> symbolTable;
 	stack<string> controlStatementLabels; //See Marty's control statement document (bottom of the last page)
 	unsigned int lastControlStatementID = 0;
 

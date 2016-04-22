@@ -44,7 +44,7 @@ CodeGen::CodeGen() {
 
 void CodeGen::Enter(ExprRec& var) {
 	/* Create the key and fill it */
-	symbol_node_t variable;
+	SymbolEntry variable;
 	variable.name = var.name;
 	variable.type = var.var_type;
 	/* Check variable size */
