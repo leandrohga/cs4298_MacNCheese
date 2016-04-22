@@ -315,27 +315,46 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		for(int i = 0; i < x.length(); i++){
 			singleWordLength++;
 			theWord.push_back( x[i] );
-			if(x[i] == ' ' || i == (x.length()-1)){
+			if(singleWordLength % 2 != 1 || i == (x.length()-1)){
 
 		// 		// WRST BSU2
 		// 		// WRNL
 
 				// Generate("LD        ", "R0", t);
 				theWord = "\"" + theWord + "\"";
-				Generate("LD        ", "R0", t);
-				// Generate("WRST       ", t, "");
-				// Generate("WRNL       ", "", "");
-				Generate("STO       ", "R0", theWord);
-				Generate("JMP        ", "&"+(to_string(singleWordLength)), "");
 
-				singleWordLength = 0;
+
+				Generate("WRST       ", t, "");
+
+				Generate("WRNL       ", "", "");
+
+				Generate("LDA       ", "R0", "#2");
+				Generate("LD       ", "R", "#2");
+				Generate("BKT       ", "R0", s);
+		// WRST BSU2
+		// WRNL
+
+		// IA   R4,#6
+		// LD   R5,#10
+		// BKT  R4,BSU2
+		// STO  R8,+10(R13)
+
+				// Generate("WRST       ", t, "");
+				// Generate("STO       ", "R0", "\"" + x + "\"");
+				// Generate("IA        ", "R0", "#2");
+				// Generate("BKT       ", "R0", t);
+				// Generate("JMP       ", "R0", "#"+(to_string(singleWordLength))+"(R15)");
+				// Generate("STO       ", "R0", theWord);
+				// Generate("JMP        ", "&"+(to_string(singleWordLength)), "");
+
+				// singleWordLength = 0;
 				theWord = "";
 			}
 		// 	Generate("STRING       ", "\"" + x + "\"");
 
 			// Generate("WRST       ", "\"" + x + "\"", "");
-			Generate("STO       ", "R0", "\"" + x + "\"");
-			Generate("JMP        ", "&"+(to_string(maxLength)), "");
+			// Generate("STO       ", "R0", "\"" + x + "\"");
+			// Generate("JMP        ", "&"+(to_string(maxLength)), "");
 			/* TODO: check for cheeses? */
 			/* i am here */
 		}
