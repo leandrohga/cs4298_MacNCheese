@@ -53,7 +53,7 @@ else
                 process "${file%.*}"
                 checkTerminate $?
             done
-        elif [ -f "$var" ]
+        elif [ -f "$var.mnc" ]
         then
             process "$var"
             checkTerminate $?
