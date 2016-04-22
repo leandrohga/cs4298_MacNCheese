@@ -3,9 +3,9 @@
 //  Tests cheese comparisons and cheese i/o.
 
 decs{
-	cheese[10] word1;
-	cheese[10] word2;
-	cheese[40] str1, str2;
+	cheese[10]: word1;
+	cheese[10]: word2;
+	cheese[40]: str1, str2;
 }
 	word1 = "perfect";
 	word2 = "permanent";

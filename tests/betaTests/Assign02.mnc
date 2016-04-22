@@ -4,9 +4,9 @@
 :/ 
 
 decs{
-	int  x;
-	float y, z;
-	int  n;
+	int:  x;
+	float: y, z;
+	int:  n;
 	}
 
 	x = (3 + 5) * 4;

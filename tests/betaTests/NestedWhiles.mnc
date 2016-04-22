@@ -3,7 +3,7 @@
     While loops nested four levels deep.
 :/
 decs{
-	int i, j, k,  m;
+	int:i, j, k,  m;
 }
 	i = 7;
 	while (i <= 9)

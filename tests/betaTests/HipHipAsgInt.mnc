@@ -4,7 +4,7 @@
 
 decs{
 	hiphip[6] int: x;
-	int k;
+	int: k;
 }	
 
 	shout "k = ";

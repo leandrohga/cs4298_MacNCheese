@@ -4,11 +4,11 @@
 :/
 
 decs{
-	cheese name[10];
-	cheese place[10];
-	cheese name2[6];
-	cheese name3[10];
-	cheese sport[20]; }
+	cheese[10]: name;
+	cheese[10]: place;
+	cheese[10]: name2;
+	cheese[10]: name3;
+	cheese[10]: sport; }
 
 	name = "Steven";
 	place = "Bemidji";

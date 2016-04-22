@@ -3,9 +3,9 @@
 // Declarations testing with simple input/output.
 
 DEcs{
-	int m, n, k;
-	float a, b, c;
-	bool b1, b2;
+	int: m, n, k;
+	float: a, b, c;
+	bool: b1, b2;
 }
 
 	shout "Enter 3 integers: ";

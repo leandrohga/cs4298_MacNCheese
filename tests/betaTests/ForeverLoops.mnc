@@ -3,8 +3,8 @@
 //  Uses bool constants and variables as conditions.
 
 decs{
-	int i;
-	bool cond1, cond2;
+	int: i;
+	bool: cond1, cond2;
 }
 	cond1 = true; cond2 = false;
 	shout "\nwhile true do ... end\n";

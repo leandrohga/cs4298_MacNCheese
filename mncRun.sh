@@ -2,11 +2,11 @@
 function process {
     echo ">>> micro $1.mnc"
     ./micro $1.mnc
-    if [ $? == 0 ]
+    if [ $? -eq 0 ]
     then
         echo ">>> sam $1.asm"
         ./sam $1.asm
-        if [ $? == 0 ]
+        if [ $? -eq 0 ]
         then
             echo ">>> macc $1.obj"
             ./macc $1.obj
@@ -14,7 +14,7 @@ function process {
     fi
     return $?
 }
-if [ "$1" = "help" ]
+if [ "$1" -eq "help" ]
 then
     echo "This script automatically builds all of the required executables, compiles the mnc files, assembles the asm files, and runs the obj files."
     echo "Usage: ./mncRun.sh <inputFiles>              Compile and run the input files."
@@ -33,7 +33,7 @@ else
     cd tests
     for var in "$@"
     do
-        if [ "$var" = "clobber" ]
+        if [ "$var" -eq "clobber" ]
         then
             echo ">>> rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro"
             rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
@@ -47,7 +47,7 @@ else
             for file in $var/*.mnc
             do
                 process "${file%.*}"
-                if [ $? != 0 ]
+                if [ $? -ne 0 ]
                 then
                     echo ">>> Processing failure ($?), terminating script"
                     exit $?
@@ -55,7 +55,7 @@ else
             done
         else
             process "$var"
-            if [ $? != 0 ]
+            if [ $? -ne 0 ]
             then
                 echo ">>> Processing failure ($?), terminating script"
                 exit $?

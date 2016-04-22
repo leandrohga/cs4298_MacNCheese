@@ -1,0 +1,79 @@
+
+   SAM 2016 Assembler Listing
+
+   April 22, 2016 at 8:16 A.M.
+   SOURCE FILE: betaTests/IfThen02.asm
+
+        LN    LC
+         0     0: LDA       R15,VARS
+         1     4: LDA       R14,STRS
+         2     8: LDA       R13,BOOL
+         3     C: WRST       +0(R14)
+         4    10: WRNL      
+         5    12: RDI       +0(R15)
+         6    16: RDI       +2(R15)
+         7    1A: LD        R0,+0(R15)
+         8    1E: IC        R0,+2(R15)
+         9    22: JGT       &8
+        10    26: LD        R0,#0
+        11    2A: JMP       &4
+        12    2E: LD        R0,#1
+        13    32: STO       R0,+4(R15)
+        14    36: LD        R0,+4(R15)
+        15    3A: IC        R0,#0
+        16    3E: JEQ       IFELSE0
+        17    42: WRI       +0(R15)
+        18    46: WRST       +22(R14)
+        19    4A: WRI       +2(R15)
+        20    4E: WRST       +40(R14)
+        21    52: WRNL      
+        22    54: JMP       IFEND0
+        23    58: LABEL     IFELSE0
+        24    58: WRI       +0(R15)
+        25    5C: WRST       +42(R14)
+        26    60: WRI       +2(R15)
+        27    64: WRST       +70(R14)
+        28    68: WRNL      
+        29    6A: LABEL     IFEND0
+        30    6A: WRST       +72(R14)
+        31    6E: WRNL      
+        32    70: HALT      
+        33    72: LABEL     VARS
+        34    72: INT       0
+        35    74: INT       0
+        36    76: INT       0
+        37    78: LABEL     STRS
+        38    78: STRING    Enter two integers:: 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 38
+
+   WARNING -- Text follows instruction on line 38
+STRING     is greater than 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 38
+
+   WARNING -- Text follows instruction on line 38
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 38
+
+   WARNING -- Text follows instruction on line 38
+STRING     is less than or equal to 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 38
+
+   WARNING -- Text follows instruction on line 38
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 38
+
+   WARNING -- Text follows instruction on line 38
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 38
+
+   WARNING -- Text follows instruction on line 38
+LABEL     BOOL
+        39    78: STRING    "False"
+        40    7E: STRING    "True"
+

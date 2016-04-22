@@ -1,0 +1,334 @@
+
+   SAM 2016 Assembler Listing
+
+   April 22, 2016 at 8:16 A.M.
+   SOURCE FILE: betaTests/StringInit.asm
+
+        LN    LC
+         0     0: LDA       R15,VARS
+         1     4: LDA       R14,STRS
+         2     8: LDA       R13,BOOL
+         3     C: STO       R0,"Steven"
+
+   ERROR -- Improperly Formed General Address detected on line 3
+
+   WARNING -- Text follows instruction on line 3
+JMP        &6
+         4    10: STO       R0,"Steven"
+
+   ERROR -- Improperly Formed General Address detected on line 4
+
+   WARNING -- Text follows instruction on line 4
+JMP        &6
+         5    14: STO       R0,"Steven"
+
+   ERROR -- Improperly Formed General Address detected on line 5
+
+   WARNING -- Text follows instruction on line 5
+JMP        &6
+         6    18: STO       R0,"Steven"
+
+   ERROR -- Improperly Formed General Address detected on line 6
+
+   WARNING -- Text follows instruction on line 6
+JMP        &6
+         7    1C: STO       R0,"Steven"
+
+   ERROR -- Improperly Formed General Address detected on line 7
+
+   WARNING -- Text follows instruction on line 7
+JMP        &6
+         8    20: LD        R0,+0(R15)
+         9    24: STO       R0,"Steven"
+
+   ERROR -- Improperly Formed General Address detected on line 9
+
+   WARNING -- Text follows instruction on line 9
+JMP        &6
+        10    28: STO       R0,"Steven"
+
+   ERROR -- Improperly Formed General Address detected on line 10
+
+   WARNING -- Text follows instruction on line 10
+JMP        &6
+        11    2C: STO       R0,"Bemidji"
+
+   ERROR -- Improperly Formed General Address detected on line 11
+
+   WARNING -- Text follows instruction on line 11
+JMP        &8
+        12    30: STO       R0,"Bemidji"
+
+   ERROR -- Improperly Formed General Address detected on line 12
+
+   WARNING -- Text follows instruction on line 12
+JMP        &8
+        13    34: STO       R0,"Bemidji"
+
+   ERROR -- Improperly Formed General Address detected on line 13
+
+   WARNING -- Text follows instruction on line 13
+JMP        &8
+        14    38: STO       R0,"Bemidji"
+
+   ERROR -- Improperly Formed General Address detected on line 14
+
+   WARNING -- Text follows instruction on line 14
+JMP        &8
+        15    3C: STO       R0,"Bemidji"
+
+   ERROR -- Improperly Formed General Address detected on line 15
+
+   WARNING -- Text follows instruction on line 15
+JMP        &8
+        16    40: STO       R0,"Bemidji"
+
+   ERROR -- Improperly Formed General Address detected on line 16
+
+   WARNING -- Text follows instruction on line 16
+JMP        &8
+        17    44: LD        R0,+1024(R15)
+        18    48: STO       R0,"Bemidji"
+
+   ERROR -- Improperly Formed General Address detected on line 18
+
+   WARNING -- Text follows instruction on line 18
+JMP        &7
+        19    4C: STO       R0,"Bemidji"
+
+   ERROR -- Improperly Formed General Address detected on line 19
+
+   WARNING -- Text follows instruction on line 19
+JMP        &8
+        20    50: STO       R0,"+0(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 20
+
+   WARNING -- Text follows instruction on line 20
+JMP        &8
+        21    54: STO       R0,"+0(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 21
+
+   WARNING -- Text follows instruction on line 21
+JMP        &8
+        22    58: STO       R0,"+0(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 22
+
+   WARNING -- Text follows instruction on line 22
+JMP        &8
+        23    5C: STO       R0,"+0(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 23
+
+   WARNING -- Text follows instruction on line 23
+JMP        &8
+        24    60: STO       R0,"+0(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 24
+
+   WARNING -- Text follows instruction on line 24
+JMP        &8
+        25    64: STO       R0,"+0(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 25
+
+   WARNING -- Text follows instruction on line 25
+JMP        &8
+        26    68: LD        R0,+2048(R15)
+        27    6C: STO       R0,"+0(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 27
+
+   WARNING -- Text follows instruction on line 27
+JMP        &7
+        28    70: STO       R0,"+0(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 28
+
+   WARNING -- Text follows instruction on line 28
+JMP        &8
+        29    74: WRST       +0(R14)
+        30    78: WRNL      
+        31    7A: WRST       +8(R14)
+        32    7E: WRNL      
+        33    80: WRST       +16(R14)
+        34    84: WRNL      
+        35    86: STO       R0,"baseball"
+
+   ERROR -- Improperly Formed General Address detected on line 35
+
+   WARNING -- Text follows instruction on line 35
+JMP        &8
+        36    8A: STO       R0,"baseball"
+
+   ERROR -- Improperly Formed General Address detected on line 36
+
+   WARNING -- Text follows instruction on line 36
+JMP        &8
+        37    8E: STO       R0,"baseball"
+
+   ERROR -- Improperly Formed General Address detected on line 37
+
+   WARNING -- Text follows instruction on line 37
+JMP        &8
+        38    92: STO       R0,"baseball"
+
+   ERROR -- Improperly Formed General Address detected on line 38
+
+   WARNING -- Text follows instruction on line 38
+JMP        &8
+        39    96: STO       R0,"baseball"
+
+   ERROR -- Improperly Formed General Address detected on line 39
+
+   WARNING -- Text follows instruction on line 39
+JMP        &8
+        40    9A: STO       R0,"baseball"
+
+   ERROR -- Improperly Formed General Address detected on line 40
+
+   WARNING -- Text follows instruction on line 40
+JMP        &8
+        41    9E: STO       R0,"baseball"
+
+   ERROR -- Improperly Formed General Address detected on line 41
+
+   WARNING -- Text follows instruction on line 41
+JMP        &8
+        42    A2: LD        R0,+3072(R15)
+        43    A6: STO       R0,"baseball"
+
+   ERROR -- Improperly Formed General Address detected on line 43
+
+   WARNING -- Text follows instruction on line 43
+JMP        &8
+        44    AA: STO       R0,"baseball"
+
+   ERROR -- Improperly Formed General Address detected on line 44
+
+   WARNING -- Text follows instruction on line 44
+JMP        &8
+        45    AE: WRST       +24(R14)
+        46    B2: WRNL      
+        47    B4: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 47
+
+   WARNING -- Text follows instruction on line 47
+JMP        &10
+        48    B8: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 48
+
+   WARNING -- Text follows instruction on line 48
+JMP        &10
+        49    BC: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 49
+
+   WARNING -- Text follows instruction on line 49
+JMP        &10
+        50    C0: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 50
+
+   WARNING -- Text follows instruction on line 50
+JMP        &10
+        51    C4: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 51
+
+   WARNING -- Text follows instruction on line 51
+JMP        &10
+        52    C8: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 52
+
+   WARNING -- Text follows instruction on line 52
+JMP        &10
+        53    CC: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 53
+
+   WARNING -- Text follows instruction on line 53
+JMP        &10
+        54    D0: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 54
+
+   WARNING -- Text follows instruction on line 54
+JMP        &10
+        55    D4: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 55
+
+   WARNING -- Text follows instruction on line 55
+JMP        &10
+        56    D8: LD        R0,+4096(R15)
+        57    DC: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 57
+
+   WARNING -- Text follows instruction on line 57
+JMP        &10
+        58    E0: STO       R0,"+3072(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 58
+
+   WARNING -- Text follows instruction on line 58
+JMP        &10
+        59    E4: WRST       +34(R14)
+        60    E8: WRST       +44(R14)
+        61    EC: WRST       +52(R14)
+        62    F0: WRST       +60(R14)
+        63    F4: WRST       +68(R14)
+        64    F8: WRNL      
+        65    FA: HALT      
+        66    FC: LABEL     VARS
+        67    FC: STRING    ""
+        68    FE: STRING    ""
+        69   100: STRING    ""
+        70   102: STRING    ""
+        71   104: STRING    ""
+        72   106: LABEL     STRS
+        73   106: STRING    
+   ERROR -- Improper String Directive -- Missing " detected on line 73
+
+        74   106: STRING    
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+        75   106: STRING    
+   ERROR -- Improper String Directive -- Missing " detected on line 75
+
+        76   106: STRING    
+   ERROR -- Improper String Directive -- Missing " detected on line 76
+
+        77   106: STRING    
+   ERROR -- Improper String Directive -- Missing " detected on line 77
+
+        78   106: STRING     from 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 78
+
+   WARNING -- Text follows instruction on line 78
+STRING     from 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 78
+
+   WARNING -- Text follows instruction on line 78
+STRING     loves 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 78
+
+   WARNING -- Text follows instruction on line 78
+STRING     loves 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 78
+
+   WARNING -- Text follows instruction on line 78
+LABEL     BOOL
+        79   106: STRING    "False"
+        80   10C: STRING    "True"
+

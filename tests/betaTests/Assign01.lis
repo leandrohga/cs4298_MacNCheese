@@ -1,0 +1,209 @@
+
+   SAM 2016 Assembler Listing
+
+   April 22, 2016 at 8:16 A.M.
+   SOURCE FILE: betaTests/Assign01.asm
+
+        LN    LC
+         0     0: LDA       R15,VARS
+         1     4: LDA       R14,STRS
+         2     8: LDA       R13,BOOL
+         3     C: WRST       +0(R14)
+         4    10: WRNL      
+         5    12: RDI       +0(R15)
+         6    16: WRI       +0(R15)
+         7    1A: WRST       +20(R14)
+         8    1E: WRNL      
+         9    20: LD        R0,+0(R15)
+        10    24: STO       R0,+2(R15)
+        11    28: WRI       +2(R15)
+        12    2C: WRST       +22(R14)
+        13    30: WRNL      
+        14    32: LD        R0,#17
+        15    36: STO       R0,+0(R15)
+        16    3A: WRI       +0(R15)
+        17    3E: WRST       +24(R14)
+        18    42: WRNL      
+        19    44: WRST       +28(R14)
+        20    48: WRNL      
+        21    4A: RDF       +4(R15)
+        22    4E: WRF       +4(R15)
+        23    52: WRST       +50(R14)
+        24    56: WRNL      
+        25    58: LD        R0,+4(R15)
+        26    5C: LD        R1,+6(R15)
+        27    60: STO       R0,+8(R15)
+        28    64: STO       R1,+10(R15)
+        29    68: WRF       +8(R15)
+        30    6C: WRST       +52(R14)
+        31    70: WRNL      
+        32    72: LD        R0,+2060(R15)
+        33    76: LD        R1,+2062(R15)
+        34    7A: STO       R0,+4(R15)
+        35    7E: STO       R1,+6(R15)
+        36    82: WRF       +4(R15)
+        37    86: WRST       +54(R14)
+        38    8A: WRNL      
+        39    8C: WRST       +58(R14)
+        40    90: WRNL      
+        41    92: RDST      +12(R15)
+        42    96: WRST       +78(R14)
+        43    9A: WRST       +98(R14)
+        44    9E: WRNL      
+        45    A0: STO       R0,"+12(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 45
+
+   WARNING -- Text follows instruction on line 45
+JMP        &8
+        46    A4: STO       R0,"+12(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 46
+
+   WARNING -- Text follows instruction on line 46
+JMP        &8
+        47    A8: STO       R0,"+12(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 47
+
+   WARNING -- Text follows instruction on line 47
+JMP        &8
+        48    AC: STO       R0,"+12(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 48
+
+   WARNING -- Text follows instruction on line 48
+JMP        &8
+        49    B0: STO       R0,"+12(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 49
+
+   WARNING -- Text follows instruction on line 49
+JMP        &8
+        50    B4: STO       R0,"+12(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 50
+
+   WARNING -- Text follows instruction on line 50
+JMP        &8
+        51    B8: STO       R0,"+12(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 51
+
+   WARNING -- Text follows instruction on line 51
+JMP        &8
+        52    BC: LD        R0,+1036(R15)
+        53    C0: STO       R0,"+12(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 53
+
+   WARNING -- Text follows instruction on line 53
+JMP        &8
+        54    C4: STO       R0,"+12(R15)"
+
+   ERROR -- Improperly Formed General Address detected on line 54
+
+   WARNING -- Text follows instruction on line 54
+JMP        &8
+        55    C8: WRST       +100(R14)
+        56    CC: WRST       +102(R14)
+        57    D0: WRNL      
+        58    D2: LD        R0,+12(R15)
+        59    D6: STO       R0,"$"
+
+   ERROR -- Improperly Formed General Address detected on line 59
+
+   WARNING -- Text follows instruction on line 59
+JMP        &1
+        60    DA: STO       R0,"$"
+
+   ERROR -- Improperly Formed General Address detected on line 60
+
+   WARNING -- Text follows instruction on line 60
+JMP        &2
+        61    DE: WRST       +104(R14)
+        62    E2: WRST       +106(R14)
+        63    E6: WRNL      
+        64    E8: HALT      
+        65    EA: LABEL     VARS
+        66    EA: INT       0
+        67    EC: INT       0
+        68    EE: REAL      0.0
+        69    F2: REAL      0.0
+        70    F6: STRING    ""
+        71    F8: STRING    ""
+        72    FA: REAL      26.03
+        73    FE: LABEL     STRS
+        74    FE: STRING    Enter an integer:: 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+   WARNING -- Text follows instruction on line 74
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+   WARNING -- Text follows instruction on line 74
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+   WARNING -- Text follows instruction on line 74
+STRING    :012:012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+   WARNING -- Text follows instruction on line 74
+STRING    Enter a real number:: 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+   WARNING -- Text follows instruction on line 74
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+   WARNING -- Text follows instruction on line 74
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+   WARNING -- Text follows instruction on line 74
+STRING    :012:012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+   WARNING -- Text follows instruction on line 74
+STRING    Enter a character:: 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+   WARNING -- Text follows instruction on line 74
+STRING    
+   ERROR -- Improper String Directive -- Missing " detected on line 74
+
+        75    FE: STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 75
+
+   WARNING -- Text follows instruction on line 75
+STRING    
+   ERROR -- Improper String Directive -- Missing " detected on line 75
+
+        76    FE: STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 76
+
+   WARNING -- Text follows instruction on line 76
+STRING    
+   ERROR -- Improper String Directive -- Missing " detected on line 76
+
+        77    FE: STRING    :012:012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 77
+
+   WARNING -- Text follows instruction on line 77
+LABEL     BOOL
+        78    FE: STRING    "False"
+        79   104: STRING    "True"
+

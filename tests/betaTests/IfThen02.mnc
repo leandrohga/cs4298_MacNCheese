@@ -4,7 +4,7 @@
 :/
 
 decs{
-	int n, m;
+	int: n, m;
 }	
 
 	shout "Enter two integers: ";

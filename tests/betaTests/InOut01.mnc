@@ -3,8 +3,8 @@
 // Input/output testing.
 
 decs{
-	int   x0, x1;
-	float  y0, y1; }
+	int:   x0, x1;
+	float:  y0, y1; }
 	
 	shout "\n\n", 1, " \"start\" ", 8.5, "*";
 	shout "\n\nEnter two integers: ";

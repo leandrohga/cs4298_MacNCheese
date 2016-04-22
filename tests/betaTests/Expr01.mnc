@@ -3,7 +3,7 @@
 // Integer expressions
 
 decs{
-	int a, b, c, d;
+	int: a, b, c, d;
 	}
 	
 begin

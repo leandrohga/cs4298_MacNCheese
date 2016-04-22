@@ -3,7 +3,7 @@
 //  Simple loops.
 
 decs{
-	int n, k;
+	int: n, k;
 }
 	shout "Enter a positive integer upper limit for counting: ";
 	listen n;

@@ -1,0 +1,93 @@
+
+   SAM 2016 Assembler Listing
+
+   April 22, 2016 at 8:16 A.M.
+   SOURCE FILE: betaTests/IfThen01.asm
+
+        LN    LC
+         0     0: LDA       R15,VARS
+         1     4: LDA       R14,STRS
+         2     8: LDA       R13,BOOL
+         3     C: WRST       +0(R14)
+         4    10: WRNL      
+         5    12: RDI       +0(R15)
+         6    16: RDI       +2(R15)
+         7    1A: LD        R0,+0(R15)
+         8    1E: IC        R0,+2(R15)
+         9    22: JGT       &8
+        10    26: LD        R0,#0
+        11    2A: JMP       &4
+        12    2E: LD        R0,#1
+        13    32: STO       R0,+4(R15)
+        14    36: LD        R0,+4(R15)
+        15    3A: IC        R0,#0
+        16    3E: JEQ       IFELSE0
+        17    42: WRI       +0(R15)
+        18    46: WRST       +22(R14)
+        19    4A: WRI       +2(R15)
+        20    4E: WRST       +40(R14)
+        21    52: WRNL      
+        22    54: LABEL     IFELSE0
+        23    54: JMP       IFEND0
+        24    58: LABEL     IFEND0
+        25    58: LD        R0,+2(R15)
+        26    5C: IC        R0,+0(R15)
+        27    60: JGT       &8
+        28    64: LD        R0,#0
+        29    68: JMP       &4
+        30    6C: LD        R0,#1
+        31    70: STO       R0,+6(R15)
+        32    74: LD        R0,+6(R15)
+        33    78: IC        R0,#0
+        34    7C: JEQ       IFELSE1
+        35    80: WRI       +2(R15)
+        36    84: WRST       +42(R14)
+        37    88: WRI       +0(R15)
+        38    8C: WRST       +60(R14)
+        39    90: WRNL      
+        40    92: LABEL     IFELSE1
+        41    92: JMP       IFEND1
+        42    96: LABEL     IFEND1
+        43    96: WRST       +62(R14)
+        44    9A: WRNL      
+        45    9C: HALT      
+        46    9E: LABEL     VARS
+        47    9E: INT       0
+        48    A0: INT       0
+        49    A2: INT       0
+        50    A4: INT       0
+        51    A6: LABEL     STRS
+        52    A6: STRING    Enter two integers:: 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 52
+
+   WARNING -- Text follows instruction on line 52
+STRING     is greater than 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 52
+
+   WARNING -- Text follows instruction on line 52
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 52
+
+   WARNING -- Text follows instruction on line 52
+STRING     is greater than 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 52
+
+   WARNING -- Text follows instruction on line 52
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 52
+
+   WARNING -- Text follows instruction on line 52
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 52
+
+   WARNING -- Text follows instruction on line 52
+LABEL     BOOL
+        53    A6: STRING    "False"
+        54    AC: STRING    "True"
+

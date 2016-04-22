@@ -3,8 +3,8 @@
 //  Tests variable initializations for simple variables (no arrays).
 
 decs{
-	int n, m, k;
-	float x, y, z, w;
+	int: n, m, k;
+	float: x, y, z, w;
 }	
 	n = 5; 
 	m = 3; 

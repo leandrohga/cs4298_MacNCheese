@@ -3,8 +3,8 @@
 // Variable initialization and assignments.
 
 decs {
-   int n, m, k, x;
-   float a, b, c, d;
+   int: n, m, k, x;
+   float: a, b, c, d;
 }
 
    n = 5; m = 7; k = 4;

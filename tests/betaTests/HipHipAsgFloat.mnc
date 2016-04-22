@@ -3,8 +3,8 @@
 //  Tests real array indexing in expressions and assignment statements.
 
 decs {
-	hiphip[6] float x;
-	float k;
+	hiphip[6] float: x;
+	float: k;
 }
 	x = {3.2, 72.5, 1.9e+3, 2.8e-2, 4.5E+4, 0}
 

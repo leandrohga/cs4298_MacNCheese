@@ -1,0 +1,23 @@
+LDA       R15,VARS
+LDA       R14,STRS
+LDA       R13,BOOL
+WRST       +0(R14)
+WRNL      
+RDI       +0(R15)
+RDI       +2(R15)
+RDI       +4(R15)
+RDI       +6(R15)
+LD        R0,+0(R15)
+IS        R0,#3
+STO       R0,+10(R15)
+LD        R0,+2(R15)
+IA        R0,+4(R15)
+STO       R0,+12(R15)
+LD        R0,+10(R15)
+IM        R0,+12(R15)
+STO       R0,+14(R15)
+LD        R0,+14(R15)
+ID        R0,+6(R15)
+STO       R0,+16(R15)
+LD        R0,+16(R15)
+STO       R0,+8(R15)

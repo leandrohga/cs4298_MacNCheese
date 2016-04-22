@@ -1,0 +1,67 @@
+LDA       R15,VARS
+LDA       R14,STRS
+LDA       R13,BOOL
+LD        R0,#5
+STO       R0,+0(R15)
+LD        R0,#7
+STO       R0,+2(R15)
+LD        R0,#4
+STO       R0,+4(R15)
+LD        R0,+24(R15)
+LD        R1,+26(R15)
+STO       R0,+8(R15)
+STO       R1,+10(R15)
+LD        R0,+28(R15)
+LD        R1,+30(R15)
+STO       R0,+12(R15)
+STO       R1,+14(R15)
+LD        R0,+32(R15)
+LD        R1,+34(R15)
+STO       R0,+16(R15)
+STO       R1,+18(R15)
+LD        R0,+0(R15)
+IA        R0,+2(R15)
+STO       R0,+36(R15)
+LD        R0,+4(R15)
+IM        R0,+36(R15)
+STO       R0,+38(R15)
+LD        R0,+38(R15)
+STO       R0,+6(R15)
+WRI       +6(R15)
+WRNL      
+LD        R0,+0(R15)
+IA        R0,+2(R15)
+STO       R0,+40(R15)
+LD        R0,#4
+IM        R0,+40(R15)
+STO       R0,+42(R15)
+LD        R0,+42(R15)
+STO       R0,+6(R15)
+WRI       +6(R15)
+WRNL      
+LD        R0,+0(R15)
+IA        R0,+2(R15)
+STO       R0,+44(R15)
+LD        R0,+44(R15)
+IM        R0,+4(R15)
+STO       R0,+46(R15)
+WRI       +46(R15)
+WRNL      
+LD        R0,+8(R15)
+LD        R1,+10(R15)
+FS        R0,+12(R15)
+STO       R0,+48(R15)
+STO       R1,+50(R15)
+LD        R0,+16(R15)
+LD        R1,+18(R15)
+FM        R0,+48(R15)
+STO       R0,+52(R15)
+STO       R1,+54(R15)
+LD        R0,+52(R15)
+LD        R1,+54(R15)
+STO       R0,+20(R15)
+STO       R1,+22(R15)
+WRF       +20(R15)
+WRNL      
+WRF       +56(R15)
+WRNL      

@@ -1,0 +1,116 @@
+
+   SAM 2016 Assembler Listing
+
+   April 22, 2016 at 8:16 A.M.
+   SOURCE FILE: betaTests/ForLoops.asm
+
+        LN    LC
+         0     0: LDA       R15,VARS
+         1     4: LDA       R14,STRS
+         2     8: LDA       R13,BOOL
+         3     C: WRST       +0(R14)
+         4    10: WRNL      
+         5    12: RDI       +0(R15)
+         6    16: WRST       +52(R14)
+         7    1A: WRNL      
+         8    1C: WRST       +54(R14)
+         9    20: WRNL      
+        10    22: LD        R0,#1
+        11    26: STO       R0,+2(R15)
+        12    2A: LABEL     FORTST0
+        13    2A: LD        R0,+2(R15)
+        14    2E: IC        R0,+0(R15)
+        15    32: JLE       &8
+        16    36: LD        R0,#0
+        17    3A: JMP       &4
+        18    3E: LD        R0,#1
+        19    42: STO       R0,+4(R15)
+        20    46: LD        R0,+4(R15)
+        21    4A: IC        R0,#0
+        22    4E: JNE       FORBDY0
+        23    52: JMP       FOREND0
+        24    56: LABEL     FORUPD0
+        25    56: LD        R0,+2(R15)
+        26    5A: IA        R0,#1
+        27    5E: STO       R0,+6(R15)
+        28    62: LD        R0,+6(R15)
+        29    66: STO       R0,+2(R15)
+        30    6A: JMP       FORTST0
+        31    6E: LABEL     FORBDY0
+        32    6E: WRI       +2(R15)
+        33    72: WRNL      
+        34    74: JMP       FORUPD0
+        35    78: LABEL     FOREND0
+        36    78: WRST       +64(R14)
+        37    7C: WRNL      
+        38    7E: WRST       +66(R14)
+        39    82: WRNL      
+        40    84: LD        R0,+0(R15)
+        41    88: STO       R0,+2(R15)
+        42    8C: LABEL     FORTST1
+        43    8C: LD        R0,+2(R15)
+        44    90: IC        R0,#1
+        45    94: JGE       &8
+        46    98: LD        R0,#0
+        47    9C: JMP       &4
+        48    A0: LD        R0,#1
+        49    A4: STO       R0,+8(R15)
+        50    A8: LD        R0,+8(R15)
+        51    AC: IC        R0,#0
+        52    B0: JNE       FORBDY1
+        53    B4: JMP       FOREND1
+        54    B8: LABEL     FORUPD1
+        55    B8: LD        R0,+2(R15)
+        56    BC: IS        R0,#1
+        57    C0: STO       R0,+10(R15)
+        58    C4: LD        R0,+10(R15)
+        59    C8: STO       R0,+2(R15)
+        60    CC: JMP       FORTST1
+        61    D0: LABEL     FORBDY1
+        62    D0: WRI       +2(R15)
+        63    D4: WRNL      
+        64    D6: JMP       FORUPD1
+        65    DA: LABEL     FOREND1
+        66    DA: WRST       +78(R14)
+        67    DE: WRNL      
+        68    E0: HALT      
+        69    E2: LABEL     VARS
+        70    E2: INT       0
+        71    E4: INT       0
+        72    E6: INT       0
+        73    E8: INT       0
+        74    EA: INT       0
+        75    EC: INT       0
+        76    EE: LABEL     STRS
+        77    EE: STRING    Enter a positive integer upper limit for counting:: 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 77
+
+   WARNING -- Text follows instruction on line 77
+STRING    
+   ERROR -- Improper String Directive -- Missing " detected on line 77
+
+        78    EE: STRING    Forward:: 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 78
+
+   WARNING -- Text follows instruction on line 78
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 78
+
+   WARNING -- Text follows instruction on line 78
+STRING    Backward:: 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 78
+
+   WARNING -- Text follows instruction on line 78
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 78
+
+   WARNING -- Text follows instruction on line 78
+LABEL     BOOL
+        79    EE: STRING    "False"
+        80    F4: STRING    "True"
+

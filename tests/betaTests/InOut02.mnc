@@ -3,7 +3,7 @@
 :/ 
 
 decs{
-	cheese  c0, c1;
+	cheese:  c0, c1;
 	}
 	
 	shout "\nEnter at least one character: ";

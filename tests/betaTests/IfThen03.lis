@@ -1,0 +1,108 @@
+
+   SAM 2016 Assembler Listing
+
+   April 22, 2016 at 8:16 A.M.
+   SOURCE FILE: betaTests/IfThen03.asm
+
+        LN    LC
+         0     0: LDA       R15,VARS
+         1     4: LDA       R14,STRS
+         2     8: LDA       R13,BOOL
+         3     C: WRST       +0(R14)
+         4    10: WRNL      
+         5    12: RDI       +0(R15)
+         6    16: RDI       +2(R15)
+         7    1A: LD        R0,+0(R15)
+         8    1E: IC        R0,+2(R15)
+         9    22: JGT       &8
+        10    26: LD        R0,#0
+        11    2A: JMP       &4
+        12    2E: LD        R0,#1
+        13    32: STO       R0,+4(R15)
+        14    36: LD        R0,+4(R15)
+        15    3A: IC        R0,#0
+        16    3E: JEQ       IFELSE0
+        17    42: WRI       +0(R15)
+        18    46: WRST       +22(R14)
+        19    4A: WRI       +2(R15)
+        20    4E: WRST       +40(R14)
+        21    52: WRNL      
+        22    54: JMP       IFEND0
+        23    58: LABEL     IFELSE0
+        24    58: LD        R0,+0(R15)
+        25    5C: IC        R0,+2(R15)
+        26    60: JLT       &8
+        27    64: LD        R0,#0
+        28    68: JMP       &4
+        29    6C: LD        R0,#1
+        30    70: STO       R0,+6(R15)
+        31    74: LD        R0,+6(R15)
+        32    78: IC        R0,#0
+        33    7C: JEQ       IFELSE1
+        34    80: WRI       +0(R15)
+        35    84: WRST       +42(R14)
+        36    88: WRI       +2(R15)
+        37    8C: WRST       +58(R14)
+        38    90: WRNL      
+        39    92: JMP       IFEND1
+        40    96: LABEL     IFELSE1
+        41    96: WRI       +0(R15)
+        42    9A: WRST       +60(R14)
+        43    9E: WRI       +2(R15)
+        44    A2: WRST       +74(R14)
+        45    A6: WRNL      
+        46    A8: LABEL     IFEND1
+        47    A8: LABEL     IFEND0
+        48    A8: WRST       +76(R14)
+        49    AC: WRNL      
+        50    AE: HALT      
+        51    B0: LABEL     VARS
+        52    B0: INT       0
+        53    B2: INT       0
+        54    B4: INT       0
+        55    B6: INT       0
+        56    B8: LABEL     STRS
+        57    B8: STRING    Enter two integers:: 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 57
+
+   WARNING -- Text follows instruction on line 57
+STRING     is greater than 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 57
+
+   WARNING -- Text follows instruction on line 57
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 57
+
+   WARNING -- Text follows instruction on line 57
+STRING     is less than 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 57
+
+   WARNING -- Text follows instruction on line 57
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 57
+
+   WARNING -- Text follows instruction on line 57
+STRING     is equal to 
+
+   ERROR -- Improper String Directive -- Missing " detected on line 57
+
+   WARNING -- Text follows instruction on line 57
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 57
+
+   WARNING -- Text follows instruction on line 57
+STRING    :012
+
+   ERROR -- Improper String Directive -- Missing " detected on line 57
+
+   WARNING -- Text follows instruction on line 57
+LABEL     BOOL
+        58    B8: STRING    "False"
+        59    BE: STRING    "True"
+

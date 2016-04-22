@@ -3,7 +3,7 @@
 //  Tests nested if statement with else clauses.
 
 decs{
-	int n, m;	
+	int: n, m;	
 }
 	shout "Enter two integers: ";
 	listen n, m;
