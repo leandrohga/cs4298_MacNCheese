@@ -67,13 +67,10 @@ void CodeGen::Enter(ExprRec& var) {
 		break;
 	case CHEESE:
 		variable.size = 1024; /* 1024 bytes - default string size */
-		variable.sval = "\""+var.sval+"\"";
-		//Added this into the mcode.h before now here :)
-		/* TODO please check: check what to do. Check for cheese? */
+		variable.sval = "\""+var.sval+"\""; /* FIXME */
 		break;
 	default:
-		SemanticError("This variable type doesn\'t exist");
-		/* making the default an error, I dont think antone would reach this point but... just because. */
+		SemanticError("this variable type does not exist.");
 		break;
 	}
 	/* Add the record to the symbol table */
@@ -86,7 +83,7 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 
 	switch (e.kind) {
 	case ID_EXPR:
-	case TEMP_EXPR:  // operand form: +k(R15)
+	case TEMP_EXPR:  /* operand form: +k(R15) */
 		s = e.name;
 		k = n = 0;
 		while (symbolTable[n].name != s) {
@@ -108,7 +105,7 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			s = "#" + t;
 			break;
 		case CHEESE:
-			s = e.sval;
+			s = e.sval; /* FIXME */
 			break;
 		case FLOAT:
 			/* Float operations don't allow immediate
@@ -126,8 +123,7 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			s = "+" + t + "(R15)";
 			break;
 		default:
-			SemanticError("This type of literal doesn\'t exist");
-			/* TODO: Please check this out too. check what to do. Check for cheese? */
+			SemanticError("this literal type does not exist.");
 			break;
 		}
 	}
@@ -181,7 +177,7 @@ void CodeGen::GetTemp(ExprRec& var) {
 	IntToAlpha(++maxTemp, s);
 	t += s;
 	var.name = t;
-	if (!LookUp(var.name)) { // variable not declared yet
+	if (!LookUp(var.name)) { /* variable not declared yet */
 		Enter(var);
 	} else {
 		SemanticError("temporary variable " + var.name + \
@@ -254,49 +250,6 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		// and cut it if is longer and register enough
 		// space for the shorter one.
 		// source is right side of assignment
-
-		// check for variables
-
-
-		// I will check on it as this needs to look kinda like the following
-		// WRST BSU
-		// WRNL
-		// CLR  R8
-		// LDA  R13,BSU2
-
-		// LDA  R4,BSU
-		// LD   R5,#7
-		// BKT  R4,BSU2
-		// STO  R8,+7(R13)
-
-		// WRST BSU2
-		// WRNL
-
-		// IA   R4,#8
-		// LD   R5,#5
-		// BKT  R4,BSU2
-		// STO  R8,+5(R13)
-
-		// WRST BSU2
-		// WRNL
-
-		// IA   R4,#6
-		// LD   R5,#10
-		// BKT  R4,BSU2
-		// STO  R8,+10(R13)
-
-		// WRST BSU2
-		// WRNL
-
-		// HALT
-
-		// % Data
-		// % ----
-		// LABEL BSU
-		// STRING "Bemidji State University"
-		// LABEL BSU2
-		// SKIP 30
-		// I am working here //
 		ExtractExpr(target, t, 0);
 		ExtractExpr(source, s, 0);
 		if(maxLength > s.length()){ //here we check for the size of the string, if the string is longer than the amount registered we go with the amount register, otherwise we go with the size of the string/cheese
@@ -307,46 +260,33 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		}
 		if(maxLength % 2 != 0){ //we check for the length if this is even we need to add to chars, an empty char and the end of string
 			maxLength +=1;
-			// x = "\"" + x + " $\"";
-		// } else { // if it is odd we just add 1, the end of line
-		// 	maxLength +=1;
-			// x = "\"" + x + "$\"";
 		}
 		for(int i = 0; i < x.length(); i++){
 			singleWordLength++;
 			theWord.push_back( x[i] );
 			if(x[i] == ' ' || i == (x.length()-1)){
-
-		// 		// WRST BSU2
-		// 		// WRNL
-
-				// Generate("LD        ", "R0", t);
 				theWord = "\"" + theWord + "\"";
 				Generate("LD        ", "R0", t);
-				// Generate("WRST       ", t, "");
-				// Generate("WRNL       ", "", "");
 				Generate("STO       ", "R0", theWord);
 				Generate("JMP        ", "&"+(to_string(singleWordLength)), "");
 
 				singleWordLength = 0;
 				theWord = "";
 			}
-		// 	Generate("STRING       ", "\"" + x + "\"");
-
-			// Generate("WRST       ", "\"" + x + "\"", "");
 			Generate("STO       ", "R0", "\"" + x + "\"");
 			Generate("JMP        ", "&"+(to_string(maxLength)), "");
-			/* TODO: check for cheeses? */
-			/* i am here */
+			/* FIXME */
 		}
 		break;
 
 	default:
-		SemanticError("This can't be assigned >> " + s);
+		SemanticError("this variable type does not exist." \
+				" It cannot be assigned.");
 		break;
 
 	}
 }
+
 vector<string> str_vect;
 int str_cnt = 0;
 
@@ -628,7 +568,9 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 			Generate("WRF       ", s, "");
 			break;
 		default:
-			SemanticError("There are no other options besides Bool, Cheese, Int or Float, please check  this out.");
+			SemanticError("the allowed expression types are:" \
+					" Bool, Cheese, Int and Float." \
+					" Could not print this.");
 			break;
 	}
 }
@@ -663,7 +605,7 @@ void CodeGen::DefineVar(ExprRec& var) {
 void CodeGen::SemanticError(string msg) {
 	cout << endl << " *** Semantic Error: " + msg << endl;
 	cout << " *** Error on line " << scan.lineNumber + 1 << endl;
-	exit(1); // abort on any semantic error
+	exit(1); /* abort on any semantic error */
 }
 
 void CodeGen::CheckNStoreCondition(const OpRec & op, const ExprRec & result) {
@@ -703,7 +645,7 @@ void CodeGen::CheckNStoreCondition(const OpRec & op, const ExprRec & result) {
 	ExtractExpr(result, opnd, 0); /* Extract output variable address */
 	Generate("LD        ", "R0", "#0"); /* Load 0-False into R0 */
 	Generate("JMP       ", "&4", ""); /* Skip the next instruction */
-	Generate("LD        ", "R0", "#1"); /* Loat 1-True into R0 */
+	Generate("LD        ", "R0", "#1"); /* Load 1-True into R0 */
 	Generate("STO       ", "R0", opnd); /* Store R0 into output variable */
 }
 
@@ -797,16 +739,16 @@ unsigned int CodeGen::NextControlStatementID() {
 }
 
 /*
-How the controlStatementLabels stack works for if-statements:
-	IfThen()
-		Puts an IFEND label on the stack, then puts an IFELSE label on the stack
-	IfElse()
-		Pops the IFELSE label off the stack
-	IfEnd()
-		Looks at the top of the stack
-		If the top item was an IFELSE label, pop it
-		Pop the IFEND label
-*/
+ * How the controlStatementLabels stack works for if statements:
+ * IfThen()
+ * 	- Pushes an IFEND and an IFELSE label on the stack
+ * IfElse()
+ * 	- Pops the IFELSE label off the stack
+ * IfEnd()
+ *	- Looks at the top of the stack
+ *	- If the top item was an IFELSE label, pop it
+ *	- Pop the IFEND label
+ */
 void CodeGen::IfThen(const ExprRec& bool_cond) {
 	unsigned int id = NextControlStatementID();
 	controlStatementLabels.push("IFEND" + to_string(id));
@@ -946,6 +888,8 @@ void CodeGen::ForTag() {
 }
 
 void CodeGen::ForAssign(const ExprRec & target, const ExprRec & source) {
+	/* TODO: check if this works in every case. */
+	/* FIXME: it will probably stop working when we fix Assign */
 	Assign(target, source);
 }
 
