@@ -312,25 +312,25 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		// 	maxLength +=1;
 			// x = "\"" + x + "$\"";
 		}
-		// for(int i = 0; i < x.length(); i++){
-		// 	singleWordLength++;
-		// 	theWord.push_back( x[i] );
-		// 	if(x[i] == ' ' || i == (x.length()-1)){
+		for(int i = 0; i < x.length(); i++){
+			singleWordLength++;
+			theWord.push_back( x[i] );
+			if(x[i] == ' ' || i == (x.length()-1)){
 
 		// 		// WRST BSU2
 		// 		// WRNL
 
-		// 		// Generate("LD        ", "R0", t);
-		// 		theWord = "\"" + theWord + "\"";
-		// 		Generate("LD        ", "R0", t);
-		// 		// Generate("WRST       ", t, "");
-		// 		// Generate("WRNL       ", "", "");
-		// 		Generate("STO       ", "R0", theWord);
-		// 		Generate("JMP        ", "&"+(to_string(singleWordLength)), "");
+				// Generate("LD        ", "R0", t);
+				theWord = "\"" + theWord + "\"";
+				Generate("LD        ", "R0", t);
+				// Generate("WRST       ", t, "");
+				// Generate("WRNL       ", "", "");
+				Generate("STO       ", "R0", theWord);
+				Generate("JMP        ", "&"+(to_string(singleWordLength)), "");
 
-		// 		singleWordLength = 0;
-		// 		theWord = "";
-		// 	}
+				singleWordLength = 0;
+				theWord = "";
+			}
 		// 	Generate("STRING       ", "\"" + x + "\"");
 
 			// Generate("WRST       ", "\"" + x + "\"", "");
@@ -338,7 +338,7 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 			Generate("JMP        ", "&"+(to_string(maxLength)), "");
 			/* TODO: check for cheeses? */
 			/* i am here */
-		// }
+		}
 		break;
 
 	default:
