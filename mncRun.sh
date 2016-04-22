@@ -17,55 +17,49 @@ function process {
     fi
     return $r
 }
-if [ "$1" -eq "help" ]
+function clobber {
+    rm -fv *.lis *.lst *.asm *.obj trace.txt macc sam micro
+    cd complex
+    rm -fv *.lis *.lst *.asm *.obj trace.txt macc sam micro
+    cd ../betaTests
+    rm -fv *.lis *.lst *.asm *.obj trace.txt macc sam micro
+    cd ..
+}
+function checkTerminate {
+    if [ $1 -ne 0 ]
+    then
+        echo ">>> Processing failure ($1), terminating script"
+        exit $1
+    fi
+}
+if [ "$1" = "help" ]
 then
-    echo "This script automatically builds all of the required executables, compiles the mnc files, assembles the asm files, and runs the obj files."
-    echo "Usage: ./mncRun.sh <inputFiles>              Compile and run the input files."
-    echo "       ./mncRun.sh <inputFiles> clobber      Compile and run the input files, then clean up."
-    echo "       ./mncRun.sh clobber                   Clean up generated files."
-    echo "       ./mncRun.sh help                      Show this help message."
-    echo "Example: ./mncRun.sh shoutAddition shoutFloatAssign clobber"
-    echo "The clobber option cleans up (removes) the compiled executables."
-    echo "Notes: "
-    echo "    Do not include the .mnc extension."
-    echo "    The input files are assumed to be in the tests folder."
+    echo "Usage: ./mncRun.sh <testsList> [clobber]"
+    echo "Example: ./mncRun.sh myProgram1 myProgram2 clobber"
 else
-    echo ">>> make build"
+    echo ">>> Making all required executables"
     make build
-    echo ">>> cd tests"
     cd tests
     for var in "$@"
     do
         if [ "$var" = "clobber" ]
         then
-            echo ">>> rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro"
-            rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
-            cd complex
-            rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
-            cd ../betaTests
-            rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
-            cd ..
+            echo ">>> Removing generated files"
+            clobber
         elif [ -d "$var" ]
         then
             for file in $var/*.mnc
             do
                 process "${file%.*}"
-                r=$?
-                if [ $r -ne 0 ]
-                then
-                    echo ">>> Processing failure ($r), terminating script"
-                    exit $r
-                fi
+                checkTerminate $?
             done
-        else
+        elif [ -f "$var" ]
+        then
             process "$var"
-            r=$?
-            if [ $r -ne 0 ]
-            then
-                echo ">>> Processing failure ($r), terminating script"
-                exit $r
-            fi
+            checkTerminate $?
+        else
+            echo ">>> Could not find file/directory '$var' in the tests directory"
         fi
     done
 fi
-echo ">>> done"
+echo ">>> Done"
