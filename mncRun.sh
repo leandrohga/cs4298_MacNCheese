@@ -33,7 +33,7 @@ else
     cd tests
     for var in "$@"
     do
-        if [ "$var" -eq "clobber" ]
+        if [ "$var" = "clobber" ]
         then
             echo ">>> rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro"
             rm -f *.lis *.lst *.asm *.obj trace.txt macc sam micro
