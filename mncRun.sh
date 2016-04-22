@@ -2,17 +2,20 @@
 function process {
     echo ">>> micro $1.mnc"
     ./micro $1.mnc
-    if [ $? -eq 0 ]
+    r=$?
+    if [ $r -eq 0 ]
     then
         echo ">>> sam $1.asm"
         ./sam $1.asm
-        if [ $? -eq 0 ]
+        r=$?
+        if [ $r -eq 0 ]
         then
             echo ">>> macc $1.obj"
             ./macc $1.obj
+            r=$?
         fi
     fi
-    return $?
+    return $r
 }
 if [ "$1" -eq "help" ]
 then
@@ -47,18 +50,20 @@ else
             for file in $var/*.mnc
             do
                 process "${file%.*}"
-                if [ $? -ne 0 ]
+                r=$?
+                if [ $r -ne 0 ]
                 then
-                    echo ">>> Processing failure ($?), terminating script"
-                    exit $?
+                    echo ">>> Processing failure ($r), terminating script"
+                    exit $r
                 fi
             done
         else
             process "$var"
-            if [ $? -ne 0 ]
+            r=$?
+            if [ $r -ne 0 ]
             then
-                echo ">>> Processing failure ($?), terminating script"
-                exit $?
+                echo ">>> Processing failure ($r), terminating script"
+                exit $r
             fi
         fi
     done
