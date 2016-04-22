@@ -222,6 +222,7 @@ bool CodeGen::LookUp(const string & s) {
 void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 	string s;
 	string t;
+	string x;
 	int maxLength = 1024;
 	switch (target.var_type) {
 	case BOOL:
@@ -255,15 +256,6 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		// check for variables
 
 
-		ExtractExpr(target, s, 0);
-		Generate("LD        ", "R0", s);
-		ExtractExpr(source, s, 0);
-		if(maxLength > s.length()){
-			maxLength = s.length();
-		}
-		for(int i=0; i < maxLength; i++){
-			t.push_back( s[i] );
-		}
 		// I will check on it as this needs to look kinda like the following
 		// WRST BSU
 		// WRNL
@@ -302,16 +294,46 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		// STRING "Bemidji State University"
 		// LABEL BSU2
 		// SKIP 30
-
-		if(maxLength % 2 != 1){
+		// I am working here //
+		ExtractExpr(target, t, 0);
+		ExtractExpr(source, s, 0);
+		if(maxLength > s.length()){ //here we check for the size of the string, if the string is longer than the amount registered we go with the amount register, otherwise we go with the size of the string/cheese
+			maxLength = s.length();
+		}
+		for(int i=0; i < maxLength; i++){ //we go through each char and we make the string be of the correct size (or intended size)
+			x.push_back( s[i] );
+		}
+		if(maxLength % 2 != 1){ //we check for the length if this is even we need to add to chars, an empty char and the end of string
 			maxLength +=2;
-			t = "\"" + t + " $\"";
-		}
-		else{
+			x = "\"" + x + " $\"";
+		} else { // if it is odd we just add 1, the end of line
 			maxLength +=1;
-			t = "\"" + t + "$\"";
+			x = "\"" + x + "$\"";
 		}
-		Generate("STO       ", "R0", t);
+		int singleWordLength = 0;
+		string theWord = "";
+		for(int i = 0; i < t.length(), i++){
+		// WRST BSU2
+		// WRNL
+			
+		// Generate("LD        ", "R0", t);
+		Generate("WRST       ", t, "");
+		Generate("WRNL       ", "", "");
+		Generate("IA         ", "R4", "");
+		// IA   R4,#8
+		// LD   R5,#5
+		// BKT  R4,BSU2
+		// STO  R8,+5(R13)
+
+		// WRST BSU2
+		// WRNL
+
+		// IA   R4,#6
+		// LD   R5,#10
+		// BKT  R4,BSU2
+		// STO  R8,+10(R13)
+		}
+		Generate("STO       ", "R0", x);
 		Generate("JMP        ", "&"+(to_string(maxLength)), "");
 		/* TODO: check for cheeses? */
 		/* i am here */
