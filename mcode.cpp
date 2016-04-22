@@ -525,51 +525,50 @@ void CodeGen::Start() {
 
 void CodeGen::Shout(const ExprRec & outExpr) {
 	switch (outExpr.var_type) {
-		case CHEESE:
-			WriteString(outExpr);
-			break;
-		default:
-			WriteExpr(outExpr);
-			break;
+	case CHEESE:
+		WriteString(outExpr);
+		break;
+	default:
+		WriteExpr(outExpr);
+		break;
 	}
 }
 
 void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	string s;
 	switch (outExpr.var_type) {
-		case BOOL: /* Prints "False" or "True" strings */
-			/* Load variable's address or literal's value */
-			ExtractExpr(outExpr, s, 0);
-			/* Compare variable to 0 */
-			Generate("LD        ", "R0", s);
-			Generate("IC         ", "R0", "#0");
-			/* Jumps consider 4 bytes per instruction */
-			/* skip 2 next instructions if variable is true */
-			Generate("JNE        ", "&8", "");
-			/* String "False" */
-			Generate("WRST       ", "+0(R13)", "");
-			/* skip next instruction */
-			Generate("JMP        ", "&4", "");
-			/* String "True" */
-			Generate("WRST       ", "+6(R13)", "");
-			break;
-		case INT:
-			ExtractExpr(outExpr, s, 0);
-			Generate("WRI       ", s, "");
-			break;
-		case FLOAT:
-			/* There is no immediate addressing for FLOATs
-			 * so the outExpr must be treated as a TEMP_EXPR
-			 * even for the case of literals */
-			/* Write the FLOAT value */
-			ExtractExpr(outExpr, s, 0);
-			Generate("WRF       ", s, "");
-			break;
-		default:
-			SemanticError("the allowed expression types are:" \
-					" Bool, Cheese, Int and Float." \
-					" Could not print this.");
-			break;
+	case BOOL: /* Prints "False" or "True" strings */
+		/* Load variable's address or literal's value */
+		ExtractExpr(outExpr, s, 0);
+		/* Compare variable to 0 */
+		Generate("LD        ", "R0", s);
+		Generate("IC         ", "R0", "#0");
+		/* Jumps consider 4 bytes per instruction */
+		/* skip 2 next instructions if variable is true */
+		Generate("JNE        ", "&8", "");
+		/* String "False" */
+		Generate("WRST       ", "+0(R13)", "");
+		/* skip next instruction */
+		Generate("JMP        ", "&4", "");
+		/* String "True" */
+		Generate("WRST       ", "+6(R13)", "");
+		break;
+	case INT:
+		ExtractExpr(outExpr, s, 0);
+		Generate("WRI       ", s, "");
+		break;
+	case FLOAT:
+		/* There is no immediate addressing for FLOATs
+		 * so the outExpr must be treated as a TEMP_EXPR
+		 * even for the case of literals */
+		/* Write the FLOAT value */
+		ExtractExpr(outExpr, s, 0);
+		Generate("WRF       ", s, "");
+		break;
+	default:
+		SemanticError("allowed expression types are: Bool, Cheese " \
+				"Int and Float. Could not print this.");
+		break;
 	}
 }
 
