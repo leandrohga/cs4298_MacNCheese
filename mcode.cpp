@@ -312,31 +312,26 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		}
 		int singleWordLength = 0;
 		string theWord = "";
-		for(int i = 0; i < t.length(), i++){
-		// WRST BSU2
-		// WRNL
-			
-		// Generate("LD        ", "R0", t);
-		Generate("WRST       ", t, "");
-		Generate("WRNL       ", "", "");
-		Generate("IA         ", "R4", "");
-		// IA   R4,#8
-		// LD   R5,#5
-		// BKT  R4,BSU2
-		// STO  R8,+5(R13)
+		for(int i = 0; i < x.length(), i++){
+			singleWordLength++;
+			theWord.push_back( x[i] );
+			if(x[i] == " " || x[i] == ' ' || i == (x.length()-1)){
 
-		// WRST BSU2
-		// WRNL
+				// WRST BSU2
+				// WRNL
 
-		// IA   R4,#6
-		// LD   R5,#10
-		// BKT  R4,BSU2
-		// STO  R8,+10(R13)
+				// Generate("LD        ", "R0", t);
+				Generate("WRST       ", t, "");
+				Generate("WRNL       ", "", "");
+				Generate("STO       ", "R0", theWord);
+				Generate("JMP        ", "&"+(to_string(singleWordLength)), "");
+
+				int singleWordLength = 0;
+				string theWord = "";
+			}
+			/* TODO: check for cheeses? */
+			/* i am here */
 		}
-		Generate("STO       ", "R0", x);
-		Generate("JMP        ", "&"+(to_string(maxLength)), "");
-		/* TODO: check for cheeses? */
-		/* i am here */
 		break;
 
 	default:
