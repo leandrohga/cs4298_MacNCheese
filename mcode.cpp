@@ -66,8 +66,19 @@ void CodeGen::Enter(ExprRec& var) {
 		}
 		break;
 	case CHEESE:
-		variable.size = 1024; /* 1024 bytes - default string size */
-		variable.sval = "\""+var.sval+"\""; /* FIXME */
+		if (var.kind == ID_EXPR) {
+			/* TODO: allow other sizes and check if it is even */
+			variable.size = CHEESE_SIZE_DEF; /* default size */
+		} else {
+			int var_size = scan.cheese_size;
+			/* Only even number of bytes are allowed */
+			if (var_size % 2) {
+				var_size++;
+			}
+			variable.size = var_size;
+			/* Set the initial value of the string */
+			variable.sval = var.sval;
+		}
 		break;
 	default:
 		SemanticError("this variable type does not exist.");
@@ -317,17 +328,17 @@ void CodeGen::Finish() {
 			Generate("REAL      ", s, "");
 			break;
 		case CHEESE:
-			s = symbolTable[i].sval;
-			Generate("STRING    ", s, "");
+			/* FIXME: is there a better way to check this? */
+			/* Check if it is a temporary/literal variable */
+			if (symbolTable[i].name.find("Temp&", 0) == 0) {
+				s = symbolTable[i].sval;
+				Generate("STRING    ", s, "");
+			} else { /* ID variable */
+				s = to_string(symbolTable[i].size);
+				Generate("SKIP      ", s, "");
+			}
 			break;
 		}
-	}
-	/* Strings */
-	Generate("LABEL     ", "STRS", "");
-	while (!str_vect.empty()) {
-		s = str_vect.front();
-		str_vect.erase(str_vect.begin());
-		Generate("STRING    ", s, "");
 	}
 	/* Boolean strings "False" and "True" */
 	Generate("LABEL     ", "BOOL", "");
@@ -465,6 +476,8 @@ void CodeGen::ProcessLit(ExprRec& e) {
 		break;
 	case CHEESE:
 		e.sval = scan.tokenBuffer;
+		/* Create a temporary variable */
+		GetTemp(e);
 		break;
 	}
 }
@@ -520,22 +533,10 @@ void CodeGen::Listen(const ExprRec & inVar) {
 
 void CodeGen::Start() {
 	Generate("LDA       ", "R15", "VARS");
-	Generate("LDA       ", "R14", "STRS");
 	Generate("LDA       ", "R13", "BOOL");
 }
 
 void CodeGen::Shout(const ExprRec & outExpr) {
-	switch (outExpr.var_type) {
-	case CHEESE:
-		WriteString(outExpr);
-		break;
-	default:
-		WriteExpr(outExpr);
-		break;
-	}
-}
-
-void CodeGen::WriteExpr(const ExprRec & outExpr) {
 	string s;
 	switch (outExpr.var_type) {
 	case BOOL: /* Prints "False" or "True" strings */
@@ -566,27 +567,15 @@ void CodeGen::WriteExpr(const ExprRec & outExpr) {
 		ExtractExpr(outExpr, s, 0);
 		Generate("WRF       ", s, "");
 		break;
-	default:
-		SemanticError("allowed expression types are: Bool, Cheese " \
-				"Int and Float. Could not print this.");
+	case CHEESE:
+		/* There is no immediate addressing for CHEESEs
+		 * so the outExpr must be treated as a TEMP_EXPR
+		 * even for the case of literals */
+		/* Write the CHEESE value */
+		ExtractExpr(outExpr, s, 0);
+		Generate("WRST      ", s, "");
 		break;
 	}
-}
-
-void CodeGen::WriteString(const ExprRec & outExpr) {
-	string s, t;
-	/* Save the string */
-	s = outExpr.sval;
-	str_vect.push_back(s);
-	/* Update counter and Generate ASM */
-	IntToAlpha(str_cnt, t);
-
-	str_cnt += scan.cheese_size;
-	if (str_cnt % 2) {
-		str_cnt++;
-	}
-	s = "+" + t + "(R14)";
-	Generate("WRST       ", s, "");
 }
 
 void CodeGen::DefineVar(ExprRec& var) {
@@ -596,6 +585,7 @@ void CodeGen::DefineVar(ExprRec& var) {
 				" was already declared before.");
 	} else { /* variable not declared yet */
 		var.name = varname;
+		var.kind = ID_EXPR;
 		Enter(var); /* declare it */
 	}
 }

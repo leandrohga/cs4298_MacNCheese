@@ -28,6 +28,9 @@ using namespace std;
 
 #include "mscan.h"
 
+/* FIXME find a better place for this */
+#define CHEESE_SIZE_DEF 50
+
 enum OpKind {
 	PLUS, MINUS, MULT, DIV, LT, LE, GT, GE, EQ, NE
 };
@@ -121,13 +124,7 @@ public:
 	// Initializes the compiler.
 
 	void Shout(const ExprRec & outExpr);
-	// Produces code for outExpr according to its type.
-
-	void WriteExpr(const ExprRec & OutExpr);
-	// Produces the assembly code for writing the value of OutExpr.
-
-	void WriteString(const ExprRec & OutExpr);
-	// Produces the assembly code for writing the String.
+	// Produces the assembly code for writing outExpr according to types.
 
 	void DefineVar(ExprRec& var);
 
