@@ -66,6 +66,7 @@ void CodeGen::Enter(ExprRec& var) {
 		}
 		break;
 	case CHEESE:
+		variable.label = NewStringLabel();
 		if (var.kind == ID_EXPR) {
 			/* TODO: allow other sizes and check if it is even */
 			variable.size = CHEESE_SIZE_DEF; /* default size */
@@ -220,6 +221,10 @@ bool CodeGen::LookUp(const string & s) {
 	return false;
 }
 
+string CodeGen::NewStringLabel() {
+	return ("STR" + to_string(StrLabelID++));
+}
+
 // ******************************
 // ** Public Member Functions  **
 // ******************************
@@ -328,6 +333,8 @@ void CodeGen::Finish() {
 			Generate("REAL      ", s, "");
 			break;
 		case CHEESE:
+			s = symbolTable[i].label;
+			Generate("LABEL     ", s, "");
 			/* FIXME: is there a better way to check this? */
 			/* Check if it is a temporary/literal variable */
 			if (symbolTable[i].name.find("Temp&", 0) == 0) {

@@ -78,7 +78,8 @@ struct SymbolEntry { //Entry used for the symbol table
 	int size; //Size of the variable
 	int ival; //Integer value
 	string s_fval; //String representing a float value
-	string sval; //String representing a float value
+	string sval; //String representing a cheese value
+	string label; //Label for the variable - used with cheeses
 	int relativeAddress; //TODO: Relative address of the variable
 	bool isArray; //TODO: is it an array?
 	int arrayLength; //TODO: size of the array
@@ -167,7 +168,7 @@ private:
 	vector<SymbolEntry> symbolTable;
 	stack<string> controlStatementLabels; //See Marty's control statement document (bottom of the last page)
 	unsigned int lastControlStatementID = 0;
-
+	unsigned int StrLabelID = 0;
 	int  maxTemp;     // max temporary allocated so far; initially 0
 
 	int RetrieveVar(const string & s);
@@ -210,6 +211,8 @@ private:
 	// See StructuredStatementCodeGeneratation.doc
 
 	void CheckNStoreCondition(const OpRec & op, const ExprRec & result);
+
+	string NewStringLabel();
 
 };
 
