@@ -231,11 +231,8 @@ string CodeGen::NewStringLabel() {
 
 void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 	string s;
-	string t;
-	string x;
-	int maxLength = 1024;
-	int singleWordLength = 0;
-	string theWord = "";
+	int maxLength, tgtLength, srcLength, varnum;
+
 	switch (target.var_type) {
 	case BOOL:
 	case INT:
@@ -256,48 +253,51 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		ExtractExpr(target, s, 2);
 		Generate("STO       ", "R1", s);
 		break;
-	case CHEESE: /* 1024 bits max in ascii if I am
-		not wrong 1 char = 1 bit
-		reference demo7 in sam folder */
-		// we have to check the size of the cheese (1024)
-		// and check the size of the string getting in
-		// and cut it if is longer and register enough
-		// space for the shorter one.
-		// source is right side of assignment
-		ExtractExpr(target, t, 0);
+	case CHEESE:
+		/* Retrieve sizes from the symbol table */
+		varnum = RetrieveVar(target.name);
+		tgtLength = symbolTable[varnum].size;
+		varnum = RetrieveVar(source.name);
+		srcLength = symbolTable[varnum].size;
+		/* Check which string is shorter and set its size as the max */
+		if (srcLength < tgtLength) {
+			maxLength = srcLength;
+		} else {
+			maxLength = tgtLength;
+		}
+
+		/* Load source address in R0 */
 		ExtractExpr(source, s, 0);
-		if(maxLength > s.length()){ //here we check for the size of the string, if the string is longer than the amount registered we go with the amount register, otherwise we go with the size of the string/cheese
-			maxLength = s.length();
-		}
-		for(int i=0; i < maxLength; i++){ //we go through each char and we make the string be of the correct size (or intended size)
-			x.push_back( s[i] );
-		}
-		if(maxLength % 2 != 0){ //we check for the length if this is even we need to add to chars, an empty char and the end of string
-			maxLength +=1;
-		}
-		for(int i = 0; i < x.length(); i++){
-			singleWordLength++;
-			theWord.push_back( x[i] );
-			if(x[i] == ' ' || i == (x.length()-1)){
-				theWord = "\"" + theWord + "\"";
-				Generate("LD        ", "R0", t);
-				Generate("STO       ", "R0", theWord);
-				Generate("JMP        ", "&"+(to_string(singleWordLength)), "");
+		Generate("LDA       ", "R0", s);
+		/* Load the size of the block to be copied in R1 */
+		IntToAlpha(maxLength, s);
+		s = "#" + s;
+		Generate("LD        ", "R1", s);
+		/* Copy the block from source (R0) to target (Label) */
+		varnum = RetrieveVar(target.name);
+		s = symbolTable[varnum].label;
+		Generate("BKT       ", "R0", s);
 
-				singleWordLength = 0;
-				theWord = "";
-			}
-			Generate("STO       ", "R0", "\"" + x + "\"");
-			Generate("JMP        ", "&"+(to_string(maxLength)), "");
-			/* FIXME */
-		}
+		/* Guarantee that the last byte is a \0 */
+		/* Load the last 16 bits in R0 */
+		ExtractExpr(target, s, (maxLength - 2));
+		Generate("LD        ", "R0", s);
+		/*
+		 * Shift R0 8 bits to the right and then to the left
+		 * filling with 0s. That makes the last byte equal 0
+		 * (\0 in ASCII), since MAC is big-endian
+		 */
+		IntToAlpha(8, s);
+		Generate("SRZ       ", "R0", s);
+		Generate("SLZ       ", "R0", s);
+		/* Store the value of R0 into the last 16 bits */
+		ExtractExpr(target, s, (maxLength - 2));
+		Generate("STO       ", "R0", s);
 		break;
-
 	default:
 		SemanticError("this variable type does not exist." \
 				" It cannot be assigned.");
 		break;
-
 	}
 }
 
