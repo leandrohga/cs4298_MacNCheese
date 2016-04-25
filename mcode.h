@@ -65,7 +65,7 @@ struct OperandRecord {
 struct ExprRec { //information about a constant, variable, or an intermediate (temporary) result
 	ExprKind kind; //operand type
 	string name; //used when kind is ID_EXPR or TEMP_EXPR
-	VarKind var_type; //used when kind is ID_EXPR
+	VarKind var_type; //used when kind is ID_EXPR or TEMP_EXPR
 	//used when using a LITERAL_EXPR:
 	int ival; //Integer value
 	string s_fval; //Float value
