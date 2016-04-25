@@ -200,14 +200,13 @@ Token Scanner::GetNextToken() {
 				if (c == 'e' || c == 'E') {
 					currentChar = NextChar();
 					c = sourceFile.peek();
-					if (c != '+' && c!= '-') {
-						LexicalError(currentChar, to_string(c) + " Float needs a '+'/'-' after 'E'");
+					if (c == '+' || c == '-') {
+						BufferChar(currentChar);
+						currentChar = NextChar();
+						c = sourceFile.peek();
 					}
-					BufferChar(currentChar);
-					currentChar = NextChar();
-					c = sourceFile.peek();
 					if (!isdigit(c)) {
-						LexicalError(currentChar, to_string(c) + " Float needs a digit after '+'/'-'");
+						LexicalError(currentChar, to_string(c) + " Float needs a digit after '+'/'-'/'E'/'e'");
                     }
 					BufferChar(currentChar);
 					while (isdigit(c)) {

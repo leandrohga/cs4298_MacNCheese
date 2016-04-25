@@ -1,0 +1,31 @@
+Beta Test Completion
+
+Assign01.mnc		No errors	25-apr-2016
+Assign02.mnc		No errors	25-apr-2016
+Assign03.mnc		No errors	25-apr-2016
+Assign04.mnc		No errors	25-apr-2016
+Expr01.mnc		
+Expr02.mnc		
+ForLoops.mnc		
+ForeverLoops.mnc	
+HipHipArrayofCheese.mnc	
+HipHipAsgBool.mnc	
+HipHipAsgFloat.mnc	
+HipHipAsgInt.mnc	
+IfThen01.mnc		
+IfThen02.mnc		
+IfThen03.mnc		
+InOut01.mnc		
+InOut02.mnc		
+Loop01.mnc		
+Loop02.mnc		
+NestedFors.mnc		
+NestedWhiles.mnc	
+StringCompare.mnc	
+StringInit.mnc		
+VarInit.mnc		
+While01.mnc		
+declarations.mnc	
+simple.mnc		
+variables.mnc		
+
