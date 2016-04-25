@@ -56,7 +56,6 @@ void Parser::Match(Token t) {
 		tokenAvailable = false;
 }
 
-
 void Parser::InitTail() {
 	switch (NextToken()) {
 	case COMMA:
@@ -263,7 +262,8 @@ void Parser::FactorTail(ExprRec& result) {
 	case NE_OP:
 		break;
 	default:
-		SyntaxError(NextToken(), "Unknown FactorTail Symbol.\n* This error is sometimes caused by a missing semicolon.");
+		SyntaxError(NextToken(), "Unknown FactorTail Symbol." \
+				" Is there a missing semicolon?");
 	}
 }
 
