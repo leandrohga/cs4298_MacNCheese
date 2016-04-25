@@ -540,7 +540,7 @@ void CodeGen::Listen(const ExprRec & inVar) {
 
 void CodeGen::Start() {
 	Generate("LDA       ", "R15", "VARS");
-	Generate("LDA       ", "R13", "BOOL");
+	Generate("LDA       ", "R14", "BOOL");
 }
 
 void CodeGen::Shout(const ExprRec & outExpr) {
@@ -556,11 +556,11 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 		/* skip 2 next instructions if variable is true */
 		Generate("JNE        ", "&8", "");
 		/* String "False" */
-		Generate("WRST       ", "+0(R13)", "");
+		Generate("WRST       ", "+0(R14)", "");
 		/* skip next instruction */
 		Generate("JMP        ", "&4", "");
 		/* String "True" */
-		Generate("WRST       ", "+6(R13)", "");
+		Generate("WRST       ", "+6(R14)", "");
 		break;
 	case INT:
 		ExtractExpr(outExpr, s, 0);
