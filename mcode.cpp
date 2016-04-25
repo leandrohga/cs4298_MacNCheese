@@ -60,9 +60,9 @@ void CodeGen::Enter(ExprRec& var) {
 	case FLOAT:
 		variable.size = 4; /* 4x8 = 32 bits */
 		if (var.s_fval.size() > 0) {
-			variable.s_fval = var.s_fval; /* init with float 0 value */
+			variable.s_fval = var.s_fval; /* use assigned value */
 		} else {
-			variable.s_fval = "0.0"; /* init with float 0 value */
+			variable.s_fval = "0.0"; /* init with 0.0 */
 		}
 		break;
 	case CHEESE:
@@ -392,6 +392,7 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 		}
 	} else { /* Variables */
 		string opnd;
+		/* TODO: set e.kind to TEMP_EXPR?? */
 		GetTemp(e);
 		if (e.var_type == INT) {
 			e.kind = TEMP_EXPR;
