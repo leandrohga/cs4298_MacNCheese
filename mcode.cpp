@@ -662,7 +662,21 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 
 	/* Literals */
 	if ((e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR)
-			&& (e.var_type != FLOAT)) {
+			&& (e.var_type == BOOL)) {
+		switch (op.op) {
+			case EQ: //EQUAL
+				e.ival = (e1.ival == e2.ival);
+				break;
+			case NE: //NOT EQUAL
+				e.ival = (e1.ival != e2.ival);
+				break;
+			default:
+				SemanticError("This operator doesn't work with Booleans : "+op.op)
+				break;
+		}
+	}
+	else if ((e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR)
+			&& (e.var_type == INT)) {
 		/* FLOAT literal expressions are calculated at runtime */
 		switch (op.op) {
 		case LT: //LESS THEN
@@ -713,6 +727,9 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 			/* Store the boolean result in the memory
 			 * according to the operation */
 			CheckNStoreCondition(op, e);
+		} else if(e1.var_type == BOOL || e1.var_type == STRING){
+			//create for loop with assembly for mac and cheese
+
 		} else { /* FLOAT */
 			/* Load the 32 bits into registers R0:R1 */
 			ExtractExpr(e1, opnd, 0);
