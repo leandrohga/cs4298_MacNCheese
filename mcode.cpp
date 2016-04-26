@@ -734,7 +734,8 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 			///store string 1 in temporal register ie r4
 			///store string 2 in temporal register ie r5
 			///store integer 0 in register6
-			//cmp string1length to string2length
+			// store wordLength of String 1
+			//cmp wordLength to string2length
 			// neq jmp false
 			// start_loop:  
 			// store String[0] r0
