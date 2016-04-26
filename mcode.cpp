@@ -733,17 +733,20 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 			// TODO SOON ////
 			///store string 1 in temporal register ie r4
 			///store string 2 in temporal register ie r5
-			///store integer 0 in register
+			///store integer 0 in register6
 			//cmp string1length to string2length
 			// neq jmp false
-			// start_loop:
+			// start_loop:  
 			// store String[0] r0
 			// store String[0] r1
-			//
-			// CMP 
+			// CMP S1 to S2
+			// IA R6, +1
+			// CMP R6 wordLength
+			// geq jmp continue
 			//eq jmp forStart
 			//false:
 			//return FALSE
+			//continue:
 
 
 
