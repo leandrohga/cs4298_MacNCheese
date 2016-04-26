@@ -729,6 +729,23 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 			CheckNStoreCondition(op, e);
 		} else if(e1.var_type == BOOL || e1.var_type == STRING){
 			//create for loop with assembly for mac and cheese
+			// TODO SOON ////
+			///store string 1 in temporal register ie r4
+			///store string 2 in temporal register ie r5
+			///store integer 0 in register
+			//cmp string1length to string2length
+			// neq jmp false
+			// start_loop:
+			// store String[0] r0
+			// store String[0] r1
+			//
+			// CMP 
+			//eq jmp forStart
+			//false:
+			//return FALSE
+
+
+
 
 		} else { /* FLOAT */
 			/* Load the 32 bits into registers R0:R1 */
