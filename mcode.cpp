@@ -328,7 +328,7 @@ void CodeGen::Finish() {
 
 	/* Generate the subroutines */
 	Generate("JMP       ", "VARS", "");
-	/* STRCMP subroutine */
+	/********** STRCMP **********/
 	Generate("LABEL     ", "STRCMP", "");
 	/* Load one byte of each string */
 	Generate("LD        ", "R0", "*R4");
@@ -351,6 +351,21 @@ void CodeGen::Finish() {
 	/* Compare Characters when one is null - end of one string */
 	Generate("LABEL     ", "ENDCMP", "");
 	Generate("IC        ", "R0", "R1");
+	Generate("JMP       ", "*R7", "");
+	/********** IDXCHAR **********/
+	Generate("LABEL     ", "IDXCHAR", "");
+	Generate("IM        ", "R10", "#1");
+	Generate("IA        ", "R10", "R15");
+	Generate("JMP       ", "*R7", "");
+	/********** IDXINT **********/
+	Generate("LABEL     ", "IDXINT", "");
+	Generate("IM        ", "R10", "#2");
+	Generate("IA        ", "R10", "R15");
+	Generate("JMP       ", "*R7", "");
+	/********** IDXREAL **********/
+	Generate("LABEL     ", "IDXREAL", "");
+	Generate("IM        ", "R10", "#4");
+	Generate("IA        ", "R10", "R15");
 	Generate("JMP       ", "*R7", "");
 
 	/* Integers, floats and bools */
