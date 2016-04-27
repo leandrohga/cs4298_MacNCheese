@@ -371,7 +371,6 @@ void CodeGen::Finish() {
 	/* Integers, floats and bools */
 	Generate("LABEL     ", "VARS", "");
 	for (i = 0; i < symbolTable.size(); i++) {
-	    /* FIXME fix the indentation - trying to minimize conflits */
 		for (j = 0; j < symbolTable[i].arrayLength; j++) {
 			switch (symbolTable[i].type) {
 			case BOOL:
@@ -381,6 +380,8 @@ void CodeGen::Finish() {
 				break;
 			case FLOAT:
 				s = symbolTable[i].s_fval;
+				/* Deal with exponential notation */
+				s = to_string(atof(s.c_str()));
 				Generate("REAL      ", s, "");
 				break;
 			case CHEESE:
