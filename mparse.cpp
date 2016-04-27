@@ -51,7 +51,7 @@ Token Parser::NextToken() {
 
 void Parser::Match(Token t) {
 	if (t != NextToken())
-		SyntaxError(t, "");
+		SyntaxError(t, "Token doen't match the expected.");
 	else
 		tokenAvailable = false;
 }
@@ -66,7 +66,7 @@ void Parser::InitTail() {
 	case RMUSTACHE:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "InitTail");
 	}
 }
 
@@ -81,7 +81,7 @@ void Parser::VarDecTail(ExprRec& var) {
 	case SEMICOLON:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "VarDecTail");
 	}
 }
 
@@ -104,7 +104,7 @@ void Parser::DecTail() {
 	case RMUSTACHE:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "DecTail");
 	}
 }
 
@@ -134,7 +134,7 @@ void Parser::Declaration() {
 		Match(SEMICOLON);
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "Declaration");
 	}
 }
 
@@ -152,7 +152,7 @@ void Parser::BoolLit() {
 		Match(TRUE_SYM);
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "BoolLit");
 	}
 }
 
@@ -167,7 +167,7 @@ void Parser::CheeseTypeTail() {
 	case ID:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "CheeseTypeTail");
 	}
 }
 
@@ -195,7 +195,7 @@ void Parser::Type(ExprRec& var) {
 		var.var_type = CHEESE;
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "Type");
 	}
 }
 
@@ -215,7 +215,7 @@ void Parser::Literal() {
 		Match(CHEESE_LIT);
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "Literal");
 	}
 }
 
@@ -228,7 +228,7 @@ void Parser::MultOp() {
 		Match(DIV_OP);
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "MultOp");
 	}
 }
 
@@ -318,7 +318,7 @@ void Parser::AddOp() {
 		Match(MINUS_OP);
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "AddOp");
 	}
 }
 
@@ -387,7 +387,7 @@ void Parser::RelOp() {
 		Match(NE_OP);
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "RelOp");
 	}
 }
 
@@ -408,7 +408,7 @@ void Parser::CondTail(OpRec& op, ExprRec& e) {
 	case SEMICOLON:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "CondTail");
 	}
 }
 
@@ -423,7 +423,7 @@ void Parser::IntListTail() {
 	case COLON:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "InitListTail");
 	}
 }
 
@@ -442,7 +442,7 @@ void Parser::CaseListTail() {
 	case OTHERWISE_SYM:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "CaseListTail");
 	}
 }
 
@@ -483,7 +483,7 @@ void Parser::ElseClause() {
 	case END_SYM:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "ElseClause");
 	}
 }
 
@@ -593,7 +593,7 @@ void Parser::ItemListTail(ExprRec& expr) {
 	case SEMICOLON:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "ItemListTail");
 	}
 }
 
@@ -630,7 +630,7 @@ void Parser::VariableTail() {
 	case NE_OP:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "VariableTail");
 	}
 }
 
@@ -647,7 +647,7 @@ void Parser::VarListTail(ExprRec& var) {
 	case SEMICOLON:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "VarListTail");
 	}
 }
 
@@ -689,7 +689,7 @@ void Parser::AssignTail(ExprRec& result) {
 		Match(RMUSTACHE);
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "AssignTail");
 	}
 }
 
@@ -774,7 +774,7 @@ void Parser::SimpleStmt() {
 		BreakStmt();
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "SimpleStmt");
 	}
 }
 
@@ -801,7 +801,7 @@ void Parser::StmtTail() {
 	case UNTIL_SYM:
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "StmtTail");
 	}
 }
 
@@ -822,7 +822,7 @@ void Parser::Statement() {
 		StructStmt();
 		break;
 	default:
-		SyntaxError(NextToken(), "");
+		SyntaxError(NextToken(), "Statement");
 	}
 }
 
