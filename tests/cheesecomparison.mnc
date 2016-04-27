@@ -1,0 +1,61 @@
+//BOOL comparison
+
+decs {
+	cheese: cheese1, cheese2;
+}
+	shout "\nComparing Cheeses";
+	cheese1 = "Cheese1";
+	shout "The value of cheese1 is \"Cheese1\"";
+	shout "Please type the value for cheese2:";
+	listen cheese2;
+	//CHEESE variable comparison
+	shout "\nVariables";
+	// <
+	shout cheese1, "<", cheese2;
+	if (cheese1 < cheese2)
+		shout " TRUE";
+	else
+		shout " FALSE";
+	end
+	// <=
+	shout cheese1, "<=", cheese2;
+	if (cheese1 <= cheese2)
+		shout " TRUE";
+	else
+		shout " FALSE";
+	end
+	// >
+	shout cheese1, ">", cheese2;
+	if (cheese1 > cheese2)
+		shout " TRUE";
+	else
+		shout " FALSE";
+	end
+	// >=
+	shout cheese1, ">=", cheese2;
+	if (cheese1 >= cheese2)
+		shout " TRUE";
+	else
+		shout " FALSE";
+	end
+	// ==
+	shout cheese1, "==", cheese2;
+	if (cheese1 == cheese2)
+		shout " TRUE";
+	else
+		shout " FALSE";
+	end
+	// !!
+	shout cheese1, "!!", cheese2;
+	if (cheese1 !! cheese2)
+		shout " TRUE";
+	else
+		shout " FALSE";
+	end
+	// !=
+	shout cheese1, "!=", cheese2;
+	if (cheese1 != cheese2)
+		shout " TRUE";
+	else
+		shout " FALSE";
+	end

@@ -319,6 +319,34 @@ void CodeGen::Finish() {
 	listFile.width(6);
 	listFile << ++scan.lineNumber << "  " << scan.lineBuffer << endl;
 	Generate("HALT      ", "", "");
+
+	/* Generate the subroutines */
+	Generate("JMP       ", "VARS", "");
+	/* STRCMP subroutine */
+	Generate("LABEL     ", "STRCMP", "");
+	/* Load one byte of each string */
+	Generate("LD        ", "R0", "*R4");
+	Generate("SRZ       ", "R0", "8");
+	Generate("LD        ", "R1", "*R5");
+	Generate("SRZ       ", "R1", "8");
+	/* Check of null character - end of string */
+	Generate("IC        ", "R0", "#0");
+	Generate("JEQ       ", "ENDCMP", "");
+	Generate("IC        ", "R1", "#0");
+	Generate("JEQ       ", "ENDCMP", "");
+	/* Compare the characters of each */
+	Generate("IC        ", "R0", "R1");
+	Generate("IA        ", "R4", "#1");
+	Generate("IA        ", "R5", "#1");
+	/* If they are equal, repeat the process - go to the beginning */
+	Generate("JEQ       ", "STRCMP", "");
+	/* If they are different, return */
+	Generate("JMP       ", "*R7", "");
+	/* Compare Characters when one is null - end of one string */
+	Generate("LABEL     ", "ENDCMP", "");
+	Generate("IC        ", "R0", "R1");
+	Generate("JMP       ", "*R7", "");
+
 	/* Integers, floats and bools */
 	Generate("LABEL     ", "VARS", "");
 	for (i = 0; i < symbolTable.size(); i++) {
@@ -653,10 +681,6 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 	} else if ((e1.var_type == BOOL) && (op.op != EQ) && (op.op != NE)) {
 		SemanticError("the only relational operations allowed for "
 				"BOOLs are \"==\" and \"!=\"/\"!!\".");
-	} else if (e1.var_type == CHEESE) {
-		/* FIXME TODO Add support to cheese */
-		SemanticError("relational operations are not allowed for"
-				" CHEESEs.");
 	}
 	/* Result type = BOOL */
 	e.var_type = BOOL;
@@ -666,8 +690,8 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 
 	/* Literals */
 	if ((e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR)
-			&& (e.var_type != FLOAT)) {//BOOL and INT literals
-		/* FLOAT literal expressions are calculated at runtime */
+			&& ((e.var_type == BOOL) || (e.var_type == BOOL))) {
+		/* BOOL and INT only. Others are calculated at runtime */
 		switch (op.op) {
 		case LT: //LESS THEN
 			e.ival = (e1.ival < e2.ival);
@@ -718,26 +742,18 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 			/* Store the boolean result in the memory
 			 * according to the operation */
 			CheckNStoreCondition(op, e);
-		} else if (e1.var_type == CHEESE) {
-			//create for loop with assembly for mac and cheese
-			// TODO SOON ////
-			///store string 1 in temporal register ie r4
-			///store string 2 in temporal register ie r5
-			///store integer 0 in register6
-			// store wordLength of String 1
-			//cmp wordLength to string2length
-			// neq jmp false
-			// start_loop:  
-			// store String[0] r0
-			// store String[0] r1
-			// CMP S1 to S2
-			// IA R6, +1
-			// CMP R6 wordLength
-			// geq jmp continue
-			//eq jmp forStart
-			//false:
-			//return FALSE
-			//continue:
+		} else if (e1.var_type == CHEESE) { /* CHEESE */
+			/* Load the address of the left operand in R4 */
+			ExtractExpr(e1, opnd, 0);
+			Generate("LDA       ", "R4", opnd);
+			/* Load the address of the right operand in R5 */
+			ExtractExpr(e2, opnd, 0);
+			Generate("LDA       ", "R5", opnd);
+			/* Call the STRCMP subroutine */
+			Generate("JSR       ", "R7", "STRCMP");
+			/* Store the boolean result in the memory
+			 * according to the operation */
+			CheckNStoreCondition(op, e);
 		} else { /* FLOAT */
 			/* Load the 32 bits into registers R0:R1 */
 			ExtractExpr(e1, opnd, 0);
