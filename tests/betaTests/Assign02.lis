@@ -1,0 +1,104 @@
+
+   SAM 2016 Assembler Listing
+
+   April 25, 2016 at 8:29 A.M.
+   SOURCE FILE: betaTests/Assign02.asm
+
+        LN    LC
+         0     0: LDA       R15,VARS
+         1     4: LDA       R14,BOOL
+         2     8: LD        R0,#32
+         3     C: STO       R0,+0(R15)
+         4    10: WRST      +12(R15)
+         5    14: WRI       +0(R15)
+         6    18: WRNL      
+         7    1A: LD        R0,+18(R15)
+         8    1E: LD        R1,+20(R15)
+         9    22: FA        R0,+22(R15)
+        10    26: STO       R0,+26(R15)
+        11    2A: STO       R1,+28(R15)
+        12    2E: LD        R0,+26(R15)
+        13    32: LD        R1,+28(R15)
+        14    36: FM        R0,+30(R15)
+        15    3A: STO       R0,+34(R15)
+        16    3E: STO       R1,+36(R15)
+        17    42: LD        R0,+34(R15)
+        18    46: LD        R1,+36(R15)
+        19    4A: STO       R0,+2(R15)
+        20    4E: STO       R1,+4(R15)
+        21    52: WRST      +38(R15)
+        22    56: WRF       +2(R15)
+        23    5A: WRNL      
+        24    5C: LD        R0,+48(R15)
+        25    60: LD        R1,+50(R15)
+        26    64: FS        R0,+52(R15)
+        27    68: STO       R0,+56(R15)
+        28    6C: STO       R1,+58(R15)
+        29    70: LD        R0,+44(R15)
+        30    74: LD        R1,+46(R15)
+        31    78: FM        R0,+56(R15)
+        32    7C: STO       R0,+60(R15)
+        33    80: STO       R1,+62(R15)
+        34    84: LD        R0,+60(R15)
+        35    88: LD        R1,+62(R15)
+        36    8C: STO       R0,+6(R15)
+        37    90: STO       R1,+8(R15)
+        38    94: WRST      +64(R15)
+        39    98: WRF       +6(R15)
+        40    9C: WRNL      
+        41    9E: LD        R0,#6
+        42    A2: STO       R0,+10(R15)
+        43    A6: WRST      +70(R15)
+        44    AA: WRI       +10(R15)
+        45    AE: WRNL      
+        46    B0: HALT      
+        47    B2: LABEL     VARS
+        48    B2: INT       0
+        49    B4: REAL      0.0
+        50    B8: REAL      0.0
+        51    BC: INT       0
+        52    BE: LABEL     STR0
+        53    BE: STRING    ":012x ::="
+        54    C4: REAL      2.3
+        55    C8: REAL      7.1
+        56    CC: REAL      2.3
+        57    D0: REAL      5.0
+        58    D4: REAL      2.3
+        59    D8: LABEL     STR1
+        60    D8: STRING    ":012y ::="
+        61    DE: REAL      5.0
+        62    E2: REAL      3.6
+        63    E6: REAL      2.9
+        64    EA: REAL      3.6
+        65    EE: REAL      5.0
+        66    F2: LABEL     STR2
+        67    F2: STRING    ":012z ::="
+        68    F8: LABEL     STR3
+        69    F8: STRING    ":012n ::="
+        70    FE: LABEL     BOOL
+        71    FE: STRING    "False"
+        72   104: STRING    "True"
+
+
+MACC Memory Hexadecimal Dump
+
+ ADDR |   0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+------+----------------------------------------------------------------
+    0 |  9F  90  00  B2  9F  10  00  FE  88  30  00  20  90  2F  00  00
+   10 |  D4  AF  00  0C  D0  2F  00  00  D5  80  88  2F  00  12  88  AF
+   20 |  00  14  30  2F  00  16  90  2F  00  1A  90  AF  00  1C  88  2F
+   30 |  00  1A  88  AF  00  1C  40  2F  00  1E  90  2F  00  22  90  AF
+   40 |  00  24  88  2F  00  22  88  AF  00  24  90  2F  00  02  90  AF
+   50 |  00  04  D4  AF  00  26  D0  AF  00  02  D5  80  88  2F  00  30
+   60 |  88  AF  00  32  38  2F  00  34  90  2F  00  38  90  AF  00  3A
+   70 |  88  2F  00  2C  88  AF  00  2E  40  2F  00  38  90  2F  00  3C
+   80 |  90  AF  00  3E  88  2F  00  3C  88  AF  00  3E  90  2F  00  06
+   90 |  90  AF  00  08  D4  AF  00  40  D0  AF  00  06  D5  80  88  30
+   A0 |  00  06  90  2F  00  0A  D4  AF  00  46  D0  2F  00  0A  D5  80
+   B0 |  F8  00  00  00  00  00  00  00  00  00  00  00  00  00  0C  78
+   C0 |  20  3A  3D  00  40  13  33  33  40  E3  33  33  40  13  33  33
+   D0 |  40  A0  00  00  40  13  33  33  0C  79  20  3A  3D  00  40  A0
+   E0 |  00  00  40  66  66  66  40  39  99  9A  40  66  66  66  40  A0
+   F0 |  00  00  0C  7A  20  3A  3D  00  0C  6E  20  3A  3D  00  46  61
+  100 |  6C  73  65  00  54  72  75  65  00  65
+

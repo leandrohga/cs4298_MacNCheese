@@ -1,0 +1,146 @@
+
+   SAM 2016 Assembler Listing
+
+   April 25, 2016 at 8:29 A.M.
+   SOURCE FILE: betaTests/Assign01.asm
+
+        LN    LC
+         0     0: LDA       R15,VARS
+         1     4: LDA       R14,BOOL
+         2     8: WRST      +112(R15)
+         3     C: WRNL      
+         4     E: RDI       +0(R15)
+         5    12: WRI       +0(R15)
+         6    16: WRST      +132(R15)
+         7    1A: WRNL      
+         8    1C: LD        R0,+0(R15)
+         9    20: STO       R0,+2(R15)
+        10    24: WRI       +2(R15)
+        11    28: WRST      +134(R15)
+        12    2C: WRNL      
+        13    2E: LD        R0,#17
+        14    32: STO       R0,+0(R15)
+        15    36: WRI       +0(R15)
+        16    3A: WRST      +136(R15)
+        17    3E: WRNL      
+        18    40: WRST      +140(R15)
+        19    44: WRNL      
+        20    46: RDF       +4(R15)
+        21    4A: WRF       +4(R15)
+        22    4E: WRST      +162(R15)
+        23    52: WRNL      
+        24    54: LD        R0,+4(R15)
+        25    58: LD        R1,+6(R15)
+        26    5C: STO       R0,+8(R15)
+        27    60: STO       R1,+10(R15)
+        28    64: WRF       +8(R15)
+        29    68: WRST      +164(R15)
+        30    6C: WRNL      
+        31    6E: LD        R0,+166(R15)
+        32    72: LD        R1,+168(R15)
+        33    76: STO       R0,+4(R15)
+        34    7A: STO       R1,+6(R15)
+        35    7E: WRF       +4(R15)
+        36    82: WRST      +170(R15)
+        37    86: WRNL      
+        38    88: WRST      +174(R15)
+        39    8C: WRNL      
+        40    8E: RDST      +12(R15)
+        41    92: WRST      +12(R15)
+        42    96: WRST      +194(R15)
+        43    9A: WRNL      
+        44    9C: LDA       R0,+12(R15)
+        45    A0: LD        R1,#50
+        46    A4: BKT       R0,STR1
+        47    A8: LD        R0,+110(R15)
+        48    AC: SRZ       R0,8
+        49    AE: SLZ       R0,8
+        50    B0: STO       R0,+110(R15)
+        51    B4: WRST      +62(R15)
+        52    B8: WRST      +196(R15)
+        53    BC: WRNL      
+        54    BE: LDA       R0,+198(R15)
+        55    C2: LD        R1,#2
+        56    C6: BKT       R0,STR0
+        57    CA: LD        R0,+12(R15)
+        58    CE: SRZ       R0,8
+        59    D0: SLZ       R0,8
+        60    D2: STO       R0,+12(R15)
+        61    D6: WRST      +12(R15)
+        62    DA: WRST      +200(R15)
+        63    DE: WRNL      
+        64    E0: HALT      
+        65    E2: LABEL     VARS
+        66    E2: INT       0
+        67    E4: INT       0
+        68    E6: REAL      0.0
+        69    EA: REAL      0.0
+        70    EE: LABEL     STR0
+        71    EE: SKIP      50
+        72   120: LABEL     STR1
+        73   120: SKIP      50
+        74   152: LABEL     STR2
+        75   152: STRING    "Enter an integer:: "
+        76   166: LABEL     STR3
+        77   166: STRING    ":012"
+        78   168: LABEL     STR4
+        79   168: STRING    ":012"
+        80   16A: LABEL     STR5
+        81   16A: STRING    ":012:012"
+        82   16E: LABEL     STR6
+        83   16E: STRING    "Enter a real number:: "
+        84   184: LABEL     STR7
+        85   184: STRING    ":012"
+        86   186: LABEL     STR8
+        87   186: STRING    ":012"
+        88   188: REAL      26.03
+        89   18C: LABEL     STR9
+        90   18C: STRING    ":012:012"
+        91   190: LABEL     STR10
+        92   190: STRING    "Enter a character:: "
+        93   1A4: LABEL     STR11
+        94   1A4: STRING    ":012"
+        95   1A6: LABEL     STR12
+        96   1A6: STRING    ":012"
+        97   1A8: LABEL     STR13
+        98   1A8: STRING    "$"
+        99   1AA: LABEL     STR14
+       100   1AA: STRING    ":012:012"
+       101   1AE: LABEL     BOOL
+       102   1AE: STRING    "False"
+       103   1B4: STRING    "True"
+
+
+MACC Memory Hexadecimal Dump
+
+ ADDR |   0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+------+----------------------------------------------------------------
+    0 |  9F  90  00  E2  9F  10  01  AE  D4  AF  00  70  D5  80  C8  2F
+   10 |  00  00  D0  2F  00  00  D4  AF  00  84  D5  80  88  2F  00  00
+   20 |  90  2F  00  02  D0  2F  00  02  D4  AF  00  86  D5  80  88  30
+   30 |  00  11  90  2F  00  00  D0  2F  00  00  D4  AF  00  88  D5  80
+   40 |  D4  AF  00  8C  D5  80  C8  AF  00  04  D0  AF  00  04  D4  AF
+   50 |  00  A2  D5  80  88  2F  00  04  88  AF  00  06  90  2F  00  08
+   60 |  90  AF  00  0A  D0  AF  00  08  D4  AF  00  A4  D5  80  88  2F
+   70 |  00  A6  88  AF  00  A8  90  2F  00  04  90  AF  00  06  D0  AF
+   80 |  00  04  D4  AF  00  AA  D5  80  D4  AF  00  AE  D5  80  CC  AF
+   90 |  00  0C  D4  AF  00  0C  D4  AF  00  C2  D5  80  98  2F  00  0C
+   A0 |  88  B0  00  32  80  10  01  20  88  2F  00  6E  B8  08  C0  08
+   B0 |  90  2F  00  6E  D4  AF  00  3E  D4  AF  00  C4  D5  80  98  2F
+   C0 |  00  C6  88  B0  00  02  80  10  00  EE  88  2F  00  0C  B8  08
+   D0 |  C0  08  90  2F  00  0C  D4  AF  00  0C  D4  AF  00  C8  D5  80
+   E0 |  F8  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+   F0 |  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  100 |  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  110 |  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  120 |  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  130 |  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  140 |  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  150 |  00  00  45  6E  74  65  72  20  61  6E  20  69  6E  74  65  67
+  160 |  65  72  3A  20  00  20  0C  00  0C  00  0C  0C  00  0C  45  6E
+  170 |  74  65  72  20  61  20  72  65  61  6C  20  6E  75  6D  62  65
+  180 |  72  3A  20  00  0C  00  0C  00  41  D0  3D  71  0C  0C  00  0C
+  190 |  45  6E  74  65  72  20  61  20  63  68  61  72  61  63  74  65
+  1A0 |  72  3A  20  00  0C  00  0C  00  24  00  0C  0C  00  0C  46  61
+  1B0 |  6C  73  65  00  54  72  75  65  00  65
+
