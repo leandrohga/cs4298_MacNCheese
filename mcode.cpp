@@ -65,12 +65,17 @@ void CodeGen::Enter(ExprRec& var) {
 			variable.s_fval = "0.0"; /* init with 0.0 */
 		}
 		break;
+
 	case CHEESE:
 		variable.label = NewStringLabel();
 		if (var.kind == ID_EXPR) {
 			/* TODO: allow other sizes and check if it is even */
 			/* Default size per CHEESE*/
-			variable.size = CHEESE_SIZE_DEF * var.hiphip_size;
+			if(var.stringLength != 1024 && var.stringLength!=0){
+				variable.size = var.stringLength;
+			} else {
+				variable.size = 1024;
+			}
 		} else {
 			int var_size = scan.cheese_size;
 			/* Only even number of bytes are allowed */

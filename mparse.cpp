@@ -157,10 +157,12 @@ void Parser::BoolLit() {
 }
 
 void Parser::CheeseTypeTail() {
+	ExprRec var;
 	switch (NextToken()) {
 	case LSTAPLE:
 		Match(LSTAPLE);
 		Match(INT_LIT);
+		var.stringLength = atoi(scan.tokenBuffer.data());
 		Match(RSTAPLE);
 		break;
 	case COLON:
