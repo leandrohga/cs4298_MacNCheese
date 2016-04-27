@@ -1,0 +1,47 @@
+//BOOL comparison
+
+decs {
+	bool: bval1, bval2;
+}
+	shout "\nComparing True and True";
+	bval1 = True;
+	bval2 = True;
+	//BOOL variable comparison
+	shout "\nVariables";
+	if (bVal1 != bVal2)
+		shout "\n they are different. What!?";
+	else
+		shout "\n they are equal.";
+	end
+
+	if (bVal1 == bVal2)
+		shout "\n they are equal.";
+	else
+		shout "\n they are different. What!?";
+	end
+	//BOOL variable vs literal comparison
+	shout "\nVariables vs literals";
+	if (bVal1 == True)
+		shout "\n bVal1 is equal True.";
+	else
+		shout "\n bVal1 is equal False. No!";
+	end
+
+	if (bVal1 != True)
+		shout "\n bVal1 is not equal True. How!?";
+	else
+		shout "\n bVal1 is equal True.";
+	end
+	//BOOL literal comparison
+	shout "\nLiterals";
+	if (True == True)
+		shout "\nTrue = True";
+	else
+		shout "\nTrue = False. WTF!?";
+	end
+
+	if (True !! True)
+		shout "\nTrue !! True. And BTW !! means equal.";
+	else
+		shout "\nTrue = False. WTF!?";
+	end

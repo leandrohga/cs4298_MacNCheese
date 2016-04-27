@@ -650,10 +650,13 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 	if (e1.var_type != e2.var_type) {
 		SemanticError("mixed-mode relational operations"
 				" are not allowed.");
-	} else if ((e1.var_type != INT) && (e1.var_type != FLOAT)) {
-		/* FIXME TODO Add support to cheese and bools */
-		SemanticError("relational opertions are allowed only for"
-				" INTs and FLOATs.");
+	} else if ((e1.var_type == BOOL) && (op.op != EQ) && (op.op != NE)) {
+		SemanticError("the only relational operations allowed for "
+				"BOOLs are \"==\" and \"!=\"/\"!!\".");
+	} else if (e1.var_type == CHEESE) {
+		/* FIXME TODO Add support to cheese */
+		SemanticError("relational operations are not allowed for"
+				" CHEESEs.");
 	}
 	/* Result type = BOOL */
 	e.var_type = BOOL;
@@ -663,21 +666,7 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 
 	/* Literals */
 	if ((e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR)
-			&& (e.var_type == BOOL)) {
-		switch (op.op) {
-			case EQ: //EQUAL
-				e.ival = (e1.ival == e2.ival);
-				break;
-			case NE: //NOT EQUAL
-				e.ival = (e1.ival != e2.ival);
-				break;
-			default:
-				SemanticError("This operator doesn't work with Booleans : "+op.op)
-				break;
-		}
-	}
-	else if ((e1.kind == LITERAL_EXPR && e2.kind == LITERAL_EXPR)
-			&& (e.var_type == INT)) {
+			&& (e.var_type != FLOAT)) {//BOOL and INT literals
 		/* FLOAT literal expressions are calculated at runtime */
 		switch (op.op) {
 		case LT: //LESS THEN
@@ -718,7 +707,8 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 		/* Store R0 into output variable */
 		Generate("STO       ", "R0", opnd);
 	} else { /* Variables */
-		if (e1.var_type == INT) {/* INT */
+		/* INT and BOOL*/
+		if ((e1.var_type == INT || e1.var_type == BOOL)) {
 			/* Load the 16 bits into register R0 */
 			ExtractExpr(e1, opnd, 0);
 			Generate("LD        ", "R0", opnd);
@@ -728,7 +718,7 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 			/* Store the boolean result in the memory
 			 * according to the operation */
 			CheckNStoreCondition(op, e);
-		} else if(e1.var_type == BOOL || e1.var_type == STRING){
+		} else if (e1.var_type == CHEESE) {
 			//create for loop with assembly for mac and cheese
 			// TODO SOON ////
 			///store string 1 in temporal register ie r4
@@ -748,10 +738,6 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 			//false:
 			//return FALSE
 			//continue:
-
-
-
-
 		} else { /* FLOAT */
 			/* Load the 32 bits into registers R0:R1 */
 			ExtractExpr(e1, opnd, 0);
