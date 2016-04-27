@@ -10,4 +10,4 @@ decs{
 	listen c0
 	shout "\nEnter at least one character: ";
 	listen c1;
-	writeln c1, " ", c0;
+	shout c1, " ", c0;

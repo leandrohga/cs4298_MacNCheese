@@ -12,10 +12,10 @@ decs{
 	shout "Forward: ";
 	do
 		shout k;
-		k = k + 1;
+		k= k + 1;
 	until (k > n);
 	shout ""; shout "";
-
+	
 	k = n;
 	shout "Backward: ";
 	do

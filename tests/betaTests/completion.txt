@@ -1,0 +1,30 @@
+Beta Test Completion
+
+Assign01.mnc		Cheese listen not working		27-apr-2016
+Assign02.mnc		Working					27-apr-2016
+Assign03.mnc		Not working				27-apr-2016
+Assign04.mnc		Working					27-apr-2016
+Expr01.mnc		Working					27-apr-2016
+Expr02.mnc		Working					27-apr-2016
+ForLoops.mnc		Working					27-apr-2016
+ForeverLoops.mnc	Fails on line 11			27-apr-2016
+HipHipArrayofCheese.mnc	
+HipHipAsgBool.mnc	
+HipHipAsgFloat.mnc	
+HipHipAsgInt.mnc	
+IfThen01.mnc		
+IfThen02.mnc		
+IfThen03.mnc		
+InOut01.mnc		
+InOut02.mnc		
+Loop01.mnc		
+Loop02.mnc		
+NestedFors.mnc		
+NestedWhiles.mnc	
+StringCompare.mnc	
+StringInit.mnc		
+VarInit.mnc		
+While01.mnc		
+declarations.mnc	
+simple.mnc		
+variables.mnc		

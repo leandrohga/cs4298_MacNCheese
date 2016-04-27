@@ -6,25 +6,23 @@ decs{
 	int: a, b, c, d;
 	}
 	
-begin
-	a = 5; b = 7; c = 8; d = 12;
-	shout a, b, c, d;
-	
-	shout a - b + c * d;
-	shout (a - b + c) * d;
-	shout (a - (b + c)) * d;
-	shout ((a - b) + c) * d;
-	
-	shout d / b - c * d;
-	shout d / (b - c) * d;
-	shout d / (b - c * d);
-	shout (d / b - c) * d;
-	
-	shout b * 5 + d / 2 * a - c;
-	shout b * ((5 + d / 2 * a) - c);
-	shout b * (5 + d )/ (2 * a - c);
-	shout (b * 5 + d) / ((2 * a) - c);
-	
-	shout 20 * 6 - 45 + 50 / 2;
-	shout ((20 * 6) - (45 + 50)) / 2;
-end
+a = 5; b = 7; c = 8; d = 12;
+shout a, b, c, d;
+
+shout a - b + c * d;
+shout (a - b + c) * d;
+shout (a - (b + c)) * d;
+shout ((a - b) + c) * d;
+
+shout d / b - c * d;
+shout d / (b - c) * d;
+shout d / (b - c * d);
+shout (d / b - c) * d;
+
+shout b * 5 + d / 2 * a - c;
+shout b * ((5 + d / 2 * a) - c);
+shout b * (5 + d )/ (2 * a - c);
+shout (b * 5 + d) / ((2 * a) - c);
+
+shout 20 * 6 - 45 + 50 / 2;
+shout ((20 * 6) - (45 + 50)) / 2;

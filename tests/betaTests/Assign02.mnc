@@ -10,10 +10,10 @@ decs{
 	}
 
 	x = (3 + 5) * 4;
-	shout "\nx :=", x;
+	shout "\nx =", x;
 	y = (2.3 + 7.1) * 5.0;
-	shout "\ny :=", y;
+	shout "\ny =", y;
 	z = 5.0 * (3.6 - 2.9);
-	shout "\nz :=", z;
+	shout "\nz =", z;
 	n = ((2 + 6 * 9) - 8) / 7;
-	shout "\nn :=", n; 
+	shout "\nn =", n; 

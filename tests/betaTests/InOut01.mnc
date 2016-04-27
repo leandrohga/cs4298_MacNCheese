@@ -8,8 +8,8 @@ decs{
 	
 	shout "\n\n", 1, " \"start\" ", 8.5, "*";
 	shout "\n\nEnter two integers: ";
-	read x0, x1;
+	listen x0, x1;
 	shout x1, x0;
 	shout "\nEnter two real numbers: ";
-	read y0, y1;
+	listen y0, y1;
 	shout y1, " ", y0;
