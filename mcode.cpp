@@ -50,15 +50,15 @@ void CodeGen::Enter(ExprRec& var) {
 	/* Check variable size */
 	switch (var.var_type) {
 	case BOOL:
-		variable.size = 2; /* all operations are 16 bits */
+		variable.size = 2 * var.hiphip_size; /* 16 bits per BOOL */
 		variable.ival = 0; /* init with boolean "False" value */
 		break;
 	case INT:
-		variable.size = 2; /* 2x8 = 16 bits */
+		variable.size = 2 * var.hiphip_size; /* 16 bits per INT */
 		variable.ival = 0; /* init with integer 0 value */
 		break;
 	case FLOAT:
-		variable.size = 4; /* 4x8 = 32 bits */
+		variable.size = 4 * var.hiphip_size; /* 32 bits per FLOAT */
 		if (var.s_fval.size() > 0) {
 			variable.s_fval = var.s_fval; /* use assigned value */
 		} else {
@@ -69,14 +69,16 @@ void CodeGen::Enter(ExprRec& var) {
 		variable.label = NewStringLabel();
 		if (var.kind == ID_EXPR) {
 			/* TODO: allow other sizes and check if it is even */
-			variable.size = CHEESE_SIZE_DEF; /* default size */
+			/* Default size per CHEESE*/
+			variable.size = CHEESE_SIZE_DEF * var.hiphip_size;
 		} else {
 			int var_size = scan.cheese_size;
 			/* Only even number of bytes are allowed */
 			if (var_size % 2) {
 				var_size++;
 			}
-			variable.size = var_size;
+			/* var_size per CHEESE */
+			variable.size = var_size * var.hiphip_size;
 			/* Set the initial value of the string */
 			variable.sval = var.sval;
 		}
@@ -85,6 +87,9 @@ void CodeGen::Enter(ExprRec& var) {
 		SemanticError("this variable type does not exist.");
 		break;
 	}
+	/* Update hiphip data */
+	variable.arrayLength = var.hiphip_size;
+	variable.isArray = (var.hiphip_size > 1);
 	/* Add the record to the symbol table */
 	symbolTable.push_back(variable);
 }
@@ -188,6 +193,7 @@ void CodeGen::GetTemp(ExprRec& var) {
 	t += s;
 	var.name = t;
 	if (!LookUp(var.name)) { /* variable not declared yet */
+		var.hiphip_size = 1;
 		Enter(var);
 	} else {
 		SemanticError("temporary variable " + var.name + \
@@ -314,7 +320,7 @@ int CodeGen::CalcTableSize() {
 
 void CodeGen::Finish() {
 	string s;
-	unsigned int i;
+	unsigned int i, j;
 
 	listFile.width(6);
 	listFile << ++scan.lineNumber << "  " << scan.lineBuffer << endl;
@@ -350,29 +356,32 @@ void CodeGen::Finish() {
 	/* Integers, floats and bools */
 	Generate("LABEL     ", "VARS", "");
 	for (i = 0; i < symbolTable.size(); i++) {
-		switch (symbolTable[i].type) {
-		case BOOL:
-		case INT:
-			IntToAlpha(symbolTable[i].ival, s);
-			Generate("INT       ", s, "");
-			break;
-		case FLOAT:
-			s = symbolTable[i].s_fval;
-			Generate("REAL      ", s, "");
-			break;
-		case CHEESE:
-			s = symbolTable[i].label;
-			Generate("LABEL     ", s, "");
-			/* FIXME: is there a better way to check this? */
-			/* Check if it is a temporary/literal variable */
-			if (symbolTable[i].name.find("Temp&", 0) == 0) {
+	    /* FIXME fix the indentation - trying to minimize conflits */
+		for (j = 0; j < symbolTable[i].arrayLength; j++) {
+			switch (symbolTable[i].type) {
+			case BOOL:
+			case INT:
+				IntToAlpha(symbolTable[i].ival, s);
+				Generate("INT       ", s, "");
+				break;
+			case FLOAT:
+				s = symbolTable[i].s_fval;
+				Generate("REAL      ", s, "");
+				break;
+			case CHEESE:
+				s = symbolTable[i].label;
+				Generate("LABEL     ", s, "");
+				/* FIXME is there a better way to check this? */
+				/* Check if it is a temporary variable */
+				if (symbolTable[i].name.find("Temp&", 0) == 0) {
 				s = symbolTable[i].sval;
 				Generate("STRING    ", s, "");
-			} else { /* ID variable */
-				s = to_string(symbolTable[i].size);
-				Generate("SKIP      ", s, "");
+				} else { /* ID variable */
+					s = to_string(symbolTable[i].size);
+					Generate("SKIP      ", s, "");
+				}
+				break;
 			}
-			break;
 		}
 	}
 	/* Boolean strings "False" and "True" */
@@ -621,6 +630,7 @@ void CodeGen::DefineVar(ExprRec& var) {
 	} else { /* variable not declared yet */
 		var.name = varname;
 		var.kind = ID_EXPR;
+		/* hiphip_size comes from parser */
 		Enter(var); /* declare it */
 	}
 }

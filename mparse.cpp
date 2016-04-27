@@ -115,6 +115,7 @@ void Parser::Declaration() {
 	case CHEESE_SYM:
 	case FLOAT_SYM:
 	case INT_SYM:
+		var.hiphip_size = 1; /* Not a hiphip */
 		Type(var);
 		Match(COLON);
 		VarDecList(var);
@@ -124,9 +125,12 @@ void Parser::Declaration() {
 		Match(HIPHIP_SYM);
 		Match(LSTAPLE);
 		Match(INT_LIT);
+		var.hiphip_size = atoi(scan.tokenBuffer.data());
 		Match(RSTAPLE);
-//		Type();
-//		VarDecList();
+		Type(var);
+		/* TODO: there was a missing colon here - notify Marty */
+		Match(COLON);
+		VarDecList(var);
 		Match(SEMICOLON);
 		break;
 	default:

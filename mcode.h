@@ -66,6 +66,7 @@ struct ExprRec { //information about a constant, variable, or an intermediate (t
 	ExprKind kind; //operand type
 	string name; //used when kind is ID_EXPR or TEMP_EXPR
 	VarKind var_type; //used when kind is ID_EXPR or TEMP_EXPR
+	int hiphip_size; //size of the array, used only for HIPHIPs
 	//used when using a LITERAL_EXPR:
 	int ival; //Integer value
 	string s_fval; //Float value
@@ -81,8 +82,8 @@ struct SymbolEntry { //Entry used for the symbol table
 	string sval; //String representing a cheese value
 	string label; //Label for the variable - used with cheeses
 	int relativeAddress; //TODO: Relative address of the variable
-	bool isArray; //TODO: is it an array?
-	int arrayLength; //TODO: size of the array
+	bool isArray; //Is it an array?
+	unsigned int arrayLength; //Size of the array
 };
 
 class CodeGen {
