@@ -358,8 +358,7 @@ void CodeGen::Finish() {
 			break;
 		case FLOAT:
 			s = symbolTable[i].s_fval;
-			/* this looks a bit messy, but basically it converts scientific notation reals into regular reals */
-			Generate("REAL      ", to_string(atof(s.c_str())), "");
+			Generate("REAL      ", s, "");
 			break;
 		case CHEESE:
 			s = symbolTable[i].label;
