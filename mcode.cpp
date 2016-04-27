@@ -924,8 +924,10 @@ void CodeGen::ForTag() {
 }
 
 void CodeGen::ForAssign(const ExprRec & target, const ExprRec & source) {
-	/* TODO: check if this works in every case. */
-	/* FIXME: it will probably stop working when we fix Assign */
+	if ((target.var_type != INT) || (source.var_type != INT)) {
+		SemanticError("only INT assignments are allowed in the"
+				" for statement. Please check the index");
+	}
 	Assign(target, source);
 }
 
