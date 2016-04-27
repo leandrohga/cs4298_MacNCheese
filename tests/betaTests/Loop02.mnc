@@ -14,9 +14,9 @@ decs{
 		shout k;
 		if (k == n) break;
 		k= k + 1;
-	until (false);
+	until (false)
 	shout ""; shout "";
-	
+
 	k = n;
 	shout "Backward: ";
 	do

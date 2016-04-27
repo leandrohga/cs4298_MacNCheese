@@ -1,5 +1,5 @@
 /:  NestedFors.mnc
-  
+
     For loops nested four levels deep.
 :/
 decs{
@@ -16,4 +16,3 @@ decs{
 			shout "";
 		end
 	end
-end

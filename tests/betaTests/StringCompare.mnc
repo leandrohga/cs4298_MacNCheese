@@ -12,9 +12,9 @@ decs{
 	shout word1;
 	shout word2;
 	if (word1 < word2)
-		shout "\"", word1 , "\" < \"", word2, "\""
+		shout "\"", word1 , "\" < \"", word2, "\"";
 	else
-		shout "\"", word1 , "\" >= \"", word2, "\""
+		shout "\"", word1 , "\" >= \"", word2, "\"";
 	end
 	shout "\nEnter two strings to be compared\n";
 	shout "First string: ";
@@ -22,7 +22,7 @@ decs{
 	shout "Second string: ";
 	listen str2;
 	if (str1 < str2)
-		shout "\"" str1 , "\" < \"", str2, "\""
+		shout "\"", str1 , "\" < \"", str2, "\"";
 	else
-		shout "\"" str1 , "\" >= \"", str2, "\""
+		shout "\"", str1 , "\" >= \"", str2, "\"";
 	end

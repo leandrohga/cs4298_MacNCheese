@@ -1,5 +1,5 @@
 /:  NestedWhiles.mnc
-  
+
     While loops nested four levels deep.
 :/
 decs{
@@ -24,4 +24,3 @@ decs{
 		end
 		i = i + 1;
 	end
-end

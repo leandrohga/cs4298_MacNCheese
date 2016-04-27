@@ -1,30 +1,30 @@
 Beta Test Completion
 
-Assign01.mnc		Cheese listen not working		27-apr-2016
-Assign02.mnc		Working					27-apr-2016
-Assign03.mnc		Not working				27-apr-2016
-Assign04.mnc		Working					27-apr-2016
-Expr01.mnc		Working					27-apr-2016
-Expr02.mnc		Working					27-apr-2016
-ForLoops.mnc		Working					27-apr-2016
-ForeverLoops.mnc	Fails on line 11			27-apr-2016
-HipHipArrayofCheese.mnc	
-HipHipAsgBool.mnc	
-HipHipAsgFloat.mnc	
-HipHipAsgInt.mnc	
-IfThen01.mnc		
-IfThen02.mnc		
-IfThen03.mnc		
-InOut01.mnc		
-InOut02.mnc		
-Loop01.mnc		
-Loop02.mnc		
-NestedFors.mnc		
-NestedWhiles.mnc	
-StringCompare.mnc	
-StringInit.mnc		
-VarInit.mnc		
-While01.mnc		
-declarations.mnc	
-simple.mnc		
-variables.mnc		
+Assign01.mnc            Cheese listen not working
+Assign02.mnc            Working
+Assign03.mnc            Not working
+Assign04.mnc            Working
+Expr01.mnc              Working
+Expr02.mnc              Working
+ForLoops.mnc            Working
+ForeverLoops.mnc        Compiler fails on line 11
+HipHipArrayofCheese.mnc
+HipHipAsgBool.mnc
+HipHipAsgFloat.mnc
+HipHipAsgInt.mnc
+IfThen01.mnc            Working
+IfThen02.mnc            Working
+IfThen03.mnc            Working
+InOut01.mnc             Working
+InOut02.mnc             Compiler fails on line 11
+Loop01.mnc              Assembler warnings
+Loop02.mnc              Compiler fails on line 17
+NestedFors.mnc          Compiler fails on line 9
+NestedWhiles.mnc        Compiler fails on line 11
+StringCompare.mnc       Working
+StringInit.mnc          Working
+VarInit.mnc             Compiler fails on line 15
+While01.mnc             Working
+declarations.mnc        Compiler fails on line 20
+simple.mnc              Working
+variables.mnc           Compiler fails on line 13
