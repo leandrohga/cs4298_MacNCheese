@@ -267,7 +267,7 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		srcLength = symbolTable[varnum].size;
 		/* Check which string is shorter and set its size as the max */
 		if (srcLength < tgtLength) {
-			maxLength = srcLength;
+			maxLength = srcLength; // dont we need to have the 1024 limit evaluation for lenght?
 		} else {
 			maxLength = tgtLength;
 		}
