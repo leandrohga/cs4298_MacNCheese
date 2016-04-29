@@ -484,8 +484,8 @@ void CodeGen::Finish() {
 	}
 	/* Boolean strings "False" and "True" */
 	Generate("LABEL     ", "BOOL", "");
-	Generate("STRING    ", "\"False\"", "");
-	Generate("STRING    ", "\"True\"", "");
+	Generate("STRING    ", "\"False \"", "");
+	Generate("STRING    ", "\"True \"", "");
 	outFile.close();
 	listFile << endl << endl;
 	listFile << " _____________________________________________\n";
@@ -714,7 +714,7 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 			/* skip next instruction */
 			Generate("JMP        ", "&4", "");
 			/* String "True" */
-			Generate("WRST       ", "+6(R14)", "");
+			Generate("WRST       ", "+8(R14)", "");
 			break;
 		case INT:
 			ExtractExpr(outExpr, s, offset);
