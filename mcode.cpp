@@ -692,47 +692,57 @@ void CodeGen::Start() {
 
 void CodeGen::Shout(const ExprRec & outExpr) {
 	string s;
-	switch (outExpr.var_type) {
-	case BOOL: /* Prints "False" or "True" strings */
-		/* Load variable's address or literal's value */
-		ExtractExpr(outExpr, s, 0);
-		/* Compare variable to 0 */
-		Generate("LD        ", "R0", s);
-		Generate("IC         ", "R0", "#0");
-		/* Jumps consider 4 bytes per instruction */
-		/* skip 2 next instructions if variable is true */
-		Generate("JNE        ", "&8", "");
-		/* String "False" */
-		Generate("WRST       ", "+0(R14)", "");
-		/* skip next instruction */
-		Generate("JMP        ", "&4", "");
-		/* String "True" */
-		Generate("WRST       ", "+6(R14)", "");
-		break;
-	case INT:
-		ExtractExpr(outExpr, s, 0);
-		Generate("WRI       ", s, "");
-		break;
-	case FLOAT:
-		/* There is no immediate addressing for FLOATs
-		 * so the outExpr must be treated as a TEMP_EXPR
-		 * even for the case of literals */
-		/* Write the FLOAT value */
-		ExtractExpr(outExpr, s, 0);
-		Generate("WRF       ", s, "");
-		break;
-	case CHEESE:
-		/* There is no immediate addressing for CHEESEs
-		 * so the outExpr must be treated as a TEMP_EXPR
-		 * even for the case of literals */
-		/* Write the CHEESE value */
-		ExtractExpr(outExpr, s, 0);
-		Generate("WRST      ", s, "");
-		break;
-	default:
-		/* Compiler internal error */
-		CompilerError("fatal error in function shout.");
-		break;
+	int i, array_size, offset = 0;
+	SymbolEntry variable;
+
+	variable = symbolTable[RetrieveVar(outExpr.name)];
+	array_size = variable.arrayLength;
+
+	for (i = 0; i < array_size; i++) {
+		switch (outExpr.var_type) {
+		case BOOL: /* Prints "False" or "True" strings */
+			/* Load variable's address or literal's value */
+			ExtractExpr(outExpr, s, offset);
+			/* Compare variable to 0 */
+			Generate("LD        ", "R0", s);
+			Generate("IC         ", "R0", "#0");
+			/* Jumps consider 4 bytes per instruction */
+			/* skip 2 next instructions if variable is true */
+			Generate("JNE        ", "&8", "");
+			/* String "False" */
+			Generate("WRST       ", "+0(R14)", "");
+			/* skip next instruction */
+			Generate("JMP        ", "&4", "");
+			/* String "True" */
+			Generate("WRST       ", "+6(R14)", "");
+			break;
+		case INT:
+			ExtractExpr(outExpr, s, offset);
+			Generate("WRI       ", s, "");
+			break;
+		case FLOAT:
+			/* There is no immediate addressing for FLOATs
+			 * so the outExpr must be treated as a TEMP_EXPR
+			 * even for the case of literals */
+			/* Write the FLOAT value */
+			ExtractExpr(outExpr, s, offset);
+			Generate("WRF       ", s, "");
+			break;
+		case CHEESE:
+			/* There is no immediate addressing for CHEESEs
+			 * so the outExpr must be treated as a TEMP_EXPR
+			 * even for the case of literals */
+			/* Write the CHEESE value */
+			ExtractExpr(outExpr, s, offset);
+			Generate("WRST      ", s, "");
+			break;
+		default:
+			/* Compiler internal error */
+			CompilerError("fatal error in function shout.");
+			break;
+		}
+		/* Update the address */
+		offset += variable.size / variable.arrayLength;
 	}
 }
 
