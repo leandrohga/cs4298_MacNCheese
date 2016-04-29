@@ -147,8 +147,9 @@ void CodeGen::ExtractExpr(const ExprRec& e, string& s, \
 					"ExtractExpr(hiphip).");
 			break;
 		}
-		/* Return R10 as the address */
-		s = "+0(R10)";
+		/* Add the offset and return the address +offset(R10) */
+		IntToAlpha(offset, t);
+		s = "+" + t + "(R10)";
 	}
 }
 
