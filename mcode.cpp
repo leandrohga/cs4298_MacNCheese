@@ -482,10 +482,11 @@ void CodeGen::Finish() {
 			}
 		}
 	}
-	/* Boolean strings "False" and "True" */
-	Generate("LABEL     ", "BOOL", "");
-	Generate("STRING    ", "\"False \"", "");
-	Generate("STRING    ", "\"True \"", "");
+	/* Static text used by the compiler */
+	Generate("LABEL     ", "TEXT", "");
+	Generate("STRING    ", "\"False \"", ""); /* Strings "False" */
+	Generate("STRING    ", "\"True \"", ""); /* String "True" */
+	Generate("STRING    ", "\" \"", ""); /* Space " " */
 	outFile.close();
 	listFile << endl << endl;
 	listFile << " _____________________________________________\n";
@@ -687,7 +688,7 @@ void CodeGen::Listen(const ExprRec & inVar, const ExprRec & index) {
 
 void CodeGen::Start() {
 	Generate("LDA       ", "R15", "VARS");
-	Generate("LDA       ", "R14", "BOOL");
+	Generate("LDA       ", "R14", "TEXT");
 }
 
 void CodeGen::Shout(const ExprRec & outExpr) {
@@ -727,6 +728,8 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 			/* Write the FLOAT value */
 			ExtractExpr(outExpr, s, offset);
 			Generate("WRF       ", s, "");
+			/* Separator String " " */
+			Generate("WRST       ", "+14(R14)", "");
 			break;
 		case CHEESE:
 			/* There is no immediate addressing for CHEESEs
