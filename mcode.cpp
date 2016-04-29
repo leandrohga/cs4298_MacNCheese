@@ -89,7 +89,8 @@ void CodeGen::Enter(ExprRec& var) {
 		}
 		break;
 	default:
-		SemanticError("this variable type does not exist.");
+		/* Compiler internal error */
+		CompilerError("fatal error in function Enter.");
 		break;
 	}
 	/* Update hiphip data */
@@ -112,6 +113,7 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			k += symbolTable[n].size;
 			n++;
 		}
+		/* TODO add a fatal error here if n is out of bounds */
 		k = k + offset; /* add offset bytes to k */
 		IntToAlpha(k, t);
 		s = "+" + t + "(R15)";
@@ -138,14 +140,23 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 				k += symbolTable[n].size;
 				n++;
 			}
+			/* TODO add a fatal error here if n is out of bounds */
 			k = k + offset; /* add offset bytes to k */
 			IntToAlpha(k, t);
 			s = "+" + t + "(R15)";
 			break;
 		default:
-			SemanticError("this literal type does not exist.");
+			/* Compiler internal error */
+			CompilerError("fatal error in function "
+					"ExtractExpr(old) - 1.");
 			break;
 		}
+		break;
+	default:
+		cerr << "\n e.kind = " << e.kind;
+		/* Compiler internal error */
+		CompilerError("fatal error in function ExtractExpr(old) - 2.");
+		break;
 	}
 }
 
@@ -156,8 +167,12 @@ string CodeGen::ExtractOp(const OpRec & o) {
 		return "IS        ";
 	} else if (o.op == MULT) {
 		return "IM        ";
-	} else {
+	} else if (o.op == DIV) {
 		return "ID        ";
+	} else {
+		/* Compiler internal error */
+		CompilerError("fatal error in function ExtractOp.");
+		return ""; /* This is never reached */
 	}
 }
 
@@ -168,8 +183,12 @@ string CodeGen::ExtractOpFloat(const OpRec & o) {
 		return "FS        ";
 	} else if (o.op == MULT) {
 		return "FM        ";
-	} else {
+	} else if (o.op == DIV) {
 		return "FD        ";
+	} else {
+		/* Compiler internal error */
+		CompilerError("fatal error in function ExtractOpFloat.");
+		return ""; /* This is never reached */
 	}
 }
 
@@ -306,8 +325,8 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		Generate("STO       ", "R0", s);
 		break;
 	default:
-		SemanticError("this variable type does not exist." \
-				" It cannot be assigned.");
+		/* Compiler internal error */
+		CompilerError("fatal error in function Assign.");
 		break;
 	}
 }
@@ -402,6 +421,11 @@ void CodeGen::Finish() {
 					Generate("SKIP      ", s, "");
 				}
 				break;
+			default:
+				/* Compiler internal error */
+				CompilerError("fatal error in function"
+						"Finish.");
+				break;
 			}
 		}
 	}
@@ -463,7 +487,8 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 			e.ival = e1.ival / e2.ival;
 			break;
 		default:
-			SemanticError("This operator is not supported");
+			/* Compiler internal error */
+			CompilerError("fatal error in function GenInfix.");
 			break;
 		}
 	} else { /* Variables */
@@ -544,6 +569,10 @@ void CodeGen::ProcessLit(ExprRec& e) {
 		/* Create a temporary variable */
 		GetTemp(e);
 		break;
+	default:
+		/* Compiler internal error */
+		CompilerError("fatal error in function ProcessLit.");
+		break;
 	}
 }
 
@@ -593,6 +622,10 @@ void CodeGen::Listen(const ExprRec & inVar) {
 	case CHEESE: /* TODO: check how to read strings */
 		Generate("RDST      ", s, "");
 		break;
+	default:
+		/* Compiler internal error */
+		CompilerError("fatal error in function Listen.");
+		break;
 	}
 }
 
@@ -640,6 +673,10 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 		ExtractExpr(outExpr, s, 0);
 		Generate("WRST      ", s, "");
 		break;
+	default:
+		/* Compiler internal error */
+		CompilerError("fatal error in function shout.");
+		break;
 	}
 }
 
@@ -660,6 +697,12 @@ void CodeGen::SemanticError(string msg) {
 	cout << endl << " *** Semantic Error: " + msg << endl;
 	cout << " *** Error on line " << scan.lineNumber + 1 << endl;
 	exit(1); /* abort on any semantic error */
+}
+
+void CodeGen::CompilerError(string msg) {
+	cout << endl << " *** Compiler Internal Error: " + msg << endl;
+	cout << " *** Error triggered by line " << scan.lineNumber + 1 << endl;
+	exit(1); /* abort on internal compiler errors */
 }
 
 void CodeGen::CheckNStoreCondition(const OpRec & op, const ExprRec & result) {
@@ -690,8 +733,8 @@ void CodeGen::CheckNStoreCondition(const OpRec & op, const ExprRec & result) {
 		Generate("JNE       ", "&8", "");
 		break;
 	default:
-		/* Nothing to do */
-		/* Maybe an error? */
+		/* Compiler internal error */
+		CompilerError("fatal error in function CheckNStoreCondition.");
 		break;
 	}
 	/* Store the results */
@@ -742,10 +785,8 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 			e.ival = (e1.ival != e2.ival);
 			break;
 		default:
-			/*
-			 * There is nothing to be done here.
-			 * Maybe an error?
-			 */
+			/* Compiler internal error */
+			CompilerError("fatal error in function SetCondition.");
 			break;
 		}
 		/* Evaluate result and store it */

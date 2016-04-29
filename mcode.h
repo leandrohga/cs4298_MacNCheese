@@ -209,6 +209,9 @@ private:
 	void SemanticError(string msg);
 	// Trow a semantic error and stop execution.
 
+	void CompilerError(string msg);
+	// Trow a internal compiler error and stop execution.
+
 	unsigned int NextControlStatementID();
 	// Return the next integer that has not been used as a control statement ID
 	// See StructuredStatementCodeGeneratation.doc
