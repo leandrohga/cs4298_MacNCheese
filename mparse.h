@@ -65,9 +65,9 @@ private:
 
 	void BoolLit();
 
-	void CheeseTypeTail();
+	void CheeseTypeTail(ExprRec& var);
 
-	void CheeseType();
+	void CheeseType(ExprRec& var);
 
 	void Type(ExprRec& var);
 

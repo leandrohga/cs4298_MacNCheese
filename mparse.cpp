@@ -156,8 +156,7 @@ void Parser::BoolLit() {
 	}
 }
 
-void Parser::CheeseTypeTail() {
-	ExprRec var;
+void Parser::CheeseTypeTail(ExprRec& var) {
 	switch (NextToken()) {
 	case LSTAPLE:
 		Match(LSTAPLE);
@@ -167,15 +166,16 @@ void Parser::CheeseTypeTail() {
 		break;
 	case COLON:
 	case ID:
+		var.stringLength = 0;
 		break;
 	default:
 		SyntaxError(NextToken(), "CheeseTypeTail");
 	}
 }
 
-void Parser::CheeseType() {
+void Parser::CheeseType(ExprRec& var) {
 	Match(CHEESE_SYM);
-	CheeseTypeTail();
+	CheeseTypeTail(var);
 }
 
 void Parser::Type(ExprRec& var) {
@@ -193,7 +193,7 @@ void Parser::Type(ExprRec& var) {
 		var.var_type = FLOAT;
 		break;
 	case CHEESE_SYM:
-		CheeseType();
+		CheeseType(var);
 		var.var_type = CHEESE;
 		break;
 	default:

@@ -28,7 +28,8 @@ using namespace std;
 
 #include "mscan.h"
 
-/* FIXME find a better place for this */
+/* FIXME TODO change these values to 1024 */
+#define CHEESE_SIZE_MAX 50
 #define CHEESE_SIZE_DEF 50
 
 enum OpKind {
@@ -71,7 +72,7 @@ struct ExprRec { //information about a constant, variable, or an intermediate (t
 	int ival; //Integer value
 	string s_fval; //Float value
 	string sval; //String
-	int stringLength; //TODO: string size
+	int stringLength; //String size
 };
 
 struct SymbolEntry { //Entry used for the symbol table
@@ -85,7 +86,6 @@ struct SymbolEntry { //Entry used for the symbol table
 	int relativeAddress; //TODO: Relative address of the variable
 	bool isArray; //Is it an array?
 	unsigned int arrayLength; //Size of the array
-	int stringLength; //TODO: string size
 };
 
 class CodeGen {

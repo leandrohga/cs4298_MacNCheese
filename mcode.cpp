@@ -43,6 +43,7 @@ CodeGen::CodeGen() {
 // *******************************
 
 void CodeGen::Enter(ExprRec& var) {
+	int var_size;
 	/* Create the key and fill it */
 	SymbolEntry variable;
 	variable.name = var.name;
@@ -65,28 +66,31 @@ void CodeGen::Enter(ExprRec& var) {
 			variable.s_fval = "0.0"; /* init with 0.0 */
 		}
 		break;
-
 	case CHEESE:
 		variable.label = NewStringLabel();
-		if (var.kind == ID_EXPR) {
-			/* TODO: allow other sizes and check if it is even */
-			/* Default size per CHEESE*/
-			if(var.stringLength != 1024 && var.stringLength!=0){
-				variable.size = var.stringLength;
-			} else {
-				variable.size = 1024;
+		if (var.kind == ID_EXPR) { /* Variable */
+			/* Check for maximum size*/
+			if (var.stringLength > CHEESE_SIZE_MAX) {
+				SemanticError("this CHEESE size is "
+					"bigger than the max allowed.");
+			} else if (var.stringLength > 0) {
+				/* value assigned by programmer */
+				var_size = var.stringLength;
+			} else { /* Default value */
+				var_size = CHEESE_SIZE_DEF;
 			}
-		} else {
-			int var_size = scan.cheese_size;
-			/* Only even number of bytes are allowed */
-			if (var_size % 2) {
-				var_size++;
-			}
-			/* var_size per CHEESE */
-			variable.size = var_size * var.hiphip_size;
+		} else { /* Literal */
+			/* Use the literal's size */
+			var_size = scan.cheese_size;
 			/* Set the initial value of the string */
 			variable.sval = var.sval;
 		}
+		/* Only even number of bytes are allowed */
+		if (var_size % 2) {
+			var_size++;
+		}
+		/* var_size per CHEESE */
+		variable.size = var_size * var.hiphip_size;
 		break;
 	default:
 		/* Compiler internal error */
@@ -271,6 +275,7 @@ void CodeGen::GetTemp(ExprRec& var) {
 	var.name = t;
 	if (!LookUp(var.name)) { /* variable not declared yet */
 		var.hiphip_size = 1;
+		var.stringLength = 0; /* Get size from literal size */
 		Enter(var);
 	} else {
 		SemanticError("temporary variable " + var.name + \
@@ -344,8 +349,9 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & index, \
 		varnum = RetrieveVar(source.name);
 		srcLength = symbolTable[varnum].size;
 		/* Check which string is shorter and set its size as the max */
+		/* The max size is checked when creating the variables */
 		if (srcLength < tgtLength) {
-			maxLength = srcLength; // dont we need to have the 1024 limit evaluation for lenght?
+			maxLength = srcLength;
 		} else {
 			maxLength = tgtLength;
 		}
