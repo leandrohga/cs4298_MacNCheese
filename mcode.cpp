@@ -484,8 +484,8 @@ void CodeGen::Finish() {
 	}
 	/* Static text used by the compiler */
 	Generate("LABEL     ", "TEXT", "");
-	Generate("STRING    ", "\"False \"", ""); /* Strings "False" */
-	Generate("STRING    ", "\"True \"", ""); /* String "True" */
+	Generate("STRING    ", "\"False\"", ""); /* Strings "False" */
+	Generate("STRING    ", "\"True\"", ""); /* String "True" */
 	Generate("STRING    ", "\" \"", ""); /* Space " " */
 	outFile.close();
 	listFile << endl << endl;
@@ -715,7 +715,7 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 			/* skip next instruction */
 			Generate("JMP        ", "&4", "");
 			/* String "True" */
-			Generate("WRST       ", "+8(R14)", "");
+			Generate("WRST       ", "+6(R14)", "");
 			break;
 		case INT:
 			ExtractExpr(outExpr, s, offset);
@@ -728,8 +728,6 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 			/* Write the FLOAT value */
 			ExtractExpr(outExpr, s, offset);
 			Generate("WRF       ", s, "");
-			/* Separator String " " */
-			Generate("WRST       ", "+14(R14)", "");
 			break;
 		case CHEESE:
 			/* There is no immediate addressing for CHEESEs
@@ -746,6 +744,8 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 		}
 		/* Update the address */
 		offset += variable.size / variable.arrayLength;
+		/* Print the separator String " " */
+		Generate("WRST       ", "+12(R14)", "");
 	}
 }
 
