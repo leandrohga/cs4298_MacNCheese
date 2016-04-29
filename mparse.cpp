@@ -274,6 +274,8 @@ void Parser::FactorTail(ExprRec& result) {
 }
 
 void Parser::Primary(ExprRec& result) {
+	ExprRec index;
+
 	switch (NextToken()) {
 	case FALSE_SYM:
 	case TRUE_SYM:
@@ -297,9 +299,9 @@ void Parser::Primary(ExprRec& result) {
 		code.ProcessLit(result); /*** CODE ***/
 		break;
 	case ID:
-		Variable(result);
+		Variable(result, index);
 		/* var_type is retrieved from symbol table */
-		code.ProcessVar(result); /*** CODE ***/
+		code.ProcessVar(result, index); /*** CODE ***/
 		break;
 	case LBANANA:
 		Match(LBANANA);
@@ -464,15 +466,15 @@ void Parser::CaseList() {
 void Parser::ForAssign()
 {
 	/* Variable to be assigned a value */
-	ExprRec var;
-	Variable(var);
-	code.ProcessVar(var);
+	ExprRec var, index;
+	Variable(var, index);
+	code.ProcessVar(var, index);
 	/* Equal sign '=' */
 	Match(ASSIGN_OP);
 	/* Value/Expression to assign to the variable */
 	ExprRec result;
 	Expression(result);
-	code.ForAssign(var, result);
+	code.ForAssign(var, index, result);
 }
 
 void Parser::ElseClause() {
@@ -606,11 +608,11 @@ void Parser::ItemList() {
 	ItemListTail(expr);
 }
 
-void Parser::VariableTail() {
+void Parser::VariableTail(ExprRec& index) {
 	switch (NextToken()) {
 	case LSTAPLE:
 		Match(LSTAPLE);
-//		Expression();
+		Expression(index);
 		Match(RSTAPLE);
 		break;
 	case RSTAPLE:
@@ -636,15 +638,15 @@ void Parser::VariableTail() {
 	}
 }
 
-void Parser::VarListTail(ExprRec& var) {
+void Parser::VarListTail(ExprRec& var, ExprRec& index) {
 	switch (NextToken()) {
 	case COMMA:
 		Match(COMMA);
-		Variable(var);
-		code.ProcessVar(var); /*** CODE ***/
-		code.Listen(var); /*** CODE ***/
+		Variable(var, index);
+		code.ProcessVar(var, index); /*** CODE ***/
+		code.Listen(var, index); /*** CODE ***/
 		/* Recursion for other variables */
-		VarListTail(var);
+		VarListTail(var, index);
 		break;
 	case SEMICOLON:
 		break;
@@ -655,13 +657,13 @@ void Parser::VarListTail(ExprRec& var) {
 
 void Parser::VarList()
 {
-	ExprRec var;
+	ExprRec var, index;
 	/* Listen to the first variable */
-	Variable(var);
-	code.ProcessVar(var); /*** CODE ***/
-	code.Listen(var); /*** CODE ***/
+	Variable(var, index);
+	code.ProcessVar(var, index); /*** CODE ***/
+	code.Listen(var, index); /*** CODE ***/
 	/* Listen for the next variables */
-	VarListTail(var);
+	VarListTail(var, index);
 }
 
 void Parser::InitList() {
@@ -695,11 +697,11 @@ void Parser::AssignTail(ExprRec& result) {
 	}
 }
 
-void Parser::Variable(ExprRec& var)
+void Parser::Variable(ExprRec& var, ExprRec& index)
 {
 	Match(ID);
 	var.name = scan.tokenBuffer;
-	VariableTail();
+	VariableTail(index);
 }
 
 void Parser::BreakStmt() {
@@ -724,15 +726,15 @@ void Parser::ListenStmt() {
 void Parser::AssignStmt()
 {
 	/* Variable to be assigned a value */
-	ExprRec var;
-	Variable(var);
-	code.ProcessVar(var);
+	ExprRec var, index;
+	Variable(var, index);
+	code.ProcessVar(var, index);
 	/* Equal sign '=' */
 	Match(ASSIGN_OP);
 	/* Value/Expression to assign to the variable */
 	ExprRec result;
 	AssignTail(result);
-	code.Assign(var, result);
+	code.Assign(var, index, result);
 	Match(SEMICOLON);
 }
 

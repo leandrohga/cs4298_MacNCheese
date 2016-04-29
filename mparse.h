@@ -121,9 +121,9 @@ private:
 
 	void ItemList();
 
-	void VariableTail();
+	void VariableTail(ExprRec& index);
 
-	void VarListTail(ExprRec& var);
+	void VarListTail(ExprRec& var, ExprRec& index);
 
 	void VarList();
 
@@ -133,7 +133,7 @@ private:
 
 	void AssignTail(ExprRec& result);
 
-	void Variable(ExprRec& var);
+	void Variable(ExprRec& var, ExprRec& index);
 
 	void BreakStmt();
 

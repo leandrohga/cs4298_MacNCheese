@@ -97,7 +97,7 @@ public:
 /* _____________________________________________________________________________
 */
 
-	void Assign(const ExprRec & target, const ExprRec & source);
+	void Assign(const ExprRec & target, const ExprRec & index, const ExprRec & source);
 	// Produces the assembly code for an assignment from Source to Target.
 
 	void Finish();
@@ -109,7 +109,7 @@ public:
 	void NewLine();
 	// Produces the assembly code for starting a new output line.
 
-	void ProcessVar(ExprRec& e);
+	void ProcessVar(ExprRec& e, const ExprRec & index);
 	// Declares the identifier in the token buffer and builds a
 	// corresponding semantic record e.
 
@@ -121,7 +121,7 @@ public:
 	// Produces an operator descriptor O for the operator in the token
 	// buffer.
 
-	void Listen(const ExprRec & InVar);
+	void Listen(const ExprRec & InVar, const ExprRec & index);
 	// Produces the assembly code for reading a value for InVar.
 
 	void Start();
@@ -155,7 +155,8 @@ public:
 
 	void ForTag();
 
-	void ForAssign(const ExprRec & target, const ExprRec & source);
+	void ForAssign(const ExprRec & target, const ExprRec & index, \
+			const ExprRec & source);
 
 	void ForBegin(const ExprRec& bool_cond);
 
@@ -183,6 +184,8 @@ private:
 	void Enter(ExprRec& var);
 	// Enters s unconditionally into the symbol table.
 
+	void ExtractExpr(const ExprRec& e, string& s, \
+			const ExprRec& index, int offset);
 	void ExtractExpr(const ExprRec & e, string& s, int offset);
 	// Returns an operand representation s for the expression e.
 

@@ -100,6 +100,58 @@ void CodeGen::Enter(ExprRec& var) {
 	symbolTable.push_back(variable);
 }
 
+void CodeGen::ExtractExpr(const ExprRec& e, string& s, \
+		const ExprRec& index, int offset) {
+	string t;
+	int k, n;
+
+	/* FIXME FIX THIS FUNCTION. IT IS WORKING FOR THE WRONG REASON */
+	if (index.var_type != INT) {
+		/* FIXME: throw an error instead and find a way to check 
+		 * if the ExprRec index was initialized by mparser. In other
+		 * words, if an index was assigned in mnc.
+		 */
+		ExtractExpr(e, s, offset);
+	} else {
+		/* Only variables are allowed to have hiphip_size > 1 */
+		s = e.name;
+		k = n = 0;
+		while (symbolTable[n].name != s) {
+			k += symbolTable[n].size;
+			n++;
+		}
+		/* TODO add a fatal error here if n is out of bounds */
+		IntToAlpha(k, t);
+		s = "#" + t;
+		/* Load variable base address on R11 */
+		Generate("LD        ", "R11", "R15");
+		Generate("IA        ", "R11", s);
+		/* Load index on R10 */
+		ExtractExpr(index, s, 0);
+		Generate("LD        ", "R10", s);
+		/* Call subroutine to calculate address */
+		switch (e.var_type) {
+		case BOOL:
+		case INT:
+		case CHEESE:
+			/* Call the IDXINT subroutine */
+			Generate("JSR       ", "R7", "IDXINT");
+			break;
+		case FLOAT:
+			/* Call the IDXREAL subroutine */
+			Generate("JSR       ", "R7", "IDXREAL");
+			break;
+		default:
+			/* Compiler internal error */
+			CompilerError("fatal error in function "
+					"ExtractExpr(hiphip).");
+			break;
+		}
+		/* Return R10 as the address */
+		s = "+0(R10)";
+	}
+}
+
 void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 	string t;
 	int k, n;
@@ -259,7 +311,8 @@ string CodeGen::NewStringLabel() {
 // ** Public Member Functions  **
 // ******************************
 
-void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
+void CodeGen::Assign(const ExprRec & target, const ExprRec & index, \
+		const ExprRec & source) {
 	string s;
 	int maxLength, tgtLength, srcLength, varnum;
 
@@ -268,7 +321,7 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 	case INT:
 		ExtractExpr(source, s, 0);
 		Generate("LD        ", "R0", s);
-		ExtractExpr(target, s, 0);
+		ExtractExpr(target, s, index, 0);
 		Generate("STO       ", "R0", s);
 		break;
 	case FLOAT:
@@ -278,9 +331,9 @@ void CodeGen::Assign(const ExprRec & target, const ExprRec & source) {
 		ExtractExpr(source, s, 2);
 		Generate("LD        ", "R1", s);
 		/* Store registers R0:R1 in the memory */
-		ExtractExpr(target, s, 0);
+		ExtractExpr(target, s, index, 0);
 		Generate("STO       ", "R0", s);
-		ExtractExpr(target, s, 2);
+		ExtractExpr(target, s, index, 2);
 		Generate("STO       ", "R1", s);
 		break;
 	case CHEESE:
@@ -379,17 +432,17 @@ void CodeGen::Finish() {
 	/********** IDXCHAR **********/
 	Generate("LABEL     ", "IDXCHAR", "");
 	Generate("IM        ", "R10", "#1");
-	Generate("IA        ", "R10", "R15");
+	Generate("IA        ", "R10", "R11");
 	Generate("JMP       ", "*R7", "");
 	/********** IDXINT **********/
 	Generate("LABEL     ", "IDXINT", "");
 	Generate("IM        ", "R10", "#2");
-	Generate("IA        ", "R10", "R15");
+	Generate("IA        ", "R10", "R11");
 	Generate("JMP       ", "*R7", "");
 	/********** IDXREAL **********/
 	Generate("LABEL     ", "IDXREAL", "");
 	Generate("IM        ", "R10", "#4");
-	Generate("IA        ", "R10", "R15");
+	Generate("IA        ", "R10", "R11");
 	Generate("JMP       ", "*R7", "");
 
 	/* Integers, floats and bools */
@@ -536,7 +589,7 @@ int CodeGen::RetrieveVar(const string & s)
 	return -1;
 }
 
-void CodeGen::ProcessVar(ExprRec& e)
+void CodeGen::ProcessVar(ExprRec& e, const ExprRec& index)
 {
 	if (!LookUp(e.name)) { /* variable not declared yet */
 		SemanticError("variable " + e.name + \
@@ -600,13 +653,16 @@ void CodeGen::ProcessOp(OpRec& o) {
 		o.op = EQ;
 	} else if (c == "!=") {
 		o.op = NE;
+	} else {
+		/* Compiler internal error */
+		CompilerError("fatal error in function ProcessOp.");
 	}
 }
 
-void CodeGen::Listen(const ExprRec & inVar) {
+void CodeGen::Listen(const ExprRec & inVar, const ExprRec & index) {
 	/* Addressing for variable - doesn't depend on type */
 	string s;
-	ExtractExpr(inVar, s, 0);
+	ExtractExpr(inVar, s, index, 0);
 	/* Check variable type */
 	switch (inVar.var_type) {
 	case BOOL:
@@ -994,12 +1050,13 @@ void CodeGen::ForTag() {
 	Generate("LABEL     ", fortestLabel, "");
 }
 
-void CodeGen::ForAssign(const ExprRec & target, const ExprRec & source) {
+void CodeGen::ForAssign(const ExprRec & target, const ExprRec & index, \
+		const ExprRec & source) {
 	if ((target.var_type != INT) || (source.var_type != INT)) {
 		SemanticError("only INT assignments are allowed in the"
 				" for statement. Please check the index");
 	}
-	Assign(target, source);
+	Assign(target, index, source);
 }
 
 void CodeGen::ForBegin(const ExprRec& bool_cond) {
