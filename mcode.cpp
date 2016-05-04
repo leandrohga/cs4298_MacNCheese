@@ -717,8 +717,22 @@ void CodeGen::Shout(const ExprRec & outExpr) {
 	int i, array_size, offset = 0;
 	SymbolEntry variable;
 
-	variable = symbolTable[RetrieveVar(outExpr.name)];
-	array_size = variable.arrayLength;
+	if ((outExpr.kind == LITERAL_EXPR) && (outExpr.var_type != FLOAT) \
+				&& (outExpr.var_type != CHEESE)) {
+		/* array size must be 1 */
+		array_size = 1;
+		/* initializing variable - just in case */
+		variable.arrayLength = 1;
+		variable.size = 1;
+	} else {
+		i = RetrieveVar(outExpr.name);
+		if (i < 0) {
+			CompilerError("fatal error in fuction Shout. Variable "
+					+ outExpr.name + "was not found.");
+		}
+		variable = symbolTable[i];
+		array_size = variable.arrayLength;
+	}
 
 	for (i = 0; i < array_size; i++) {
 		switch (outExpr.var_type) {
