@@ -700,7 +700,13 @@ void Parser::AssignTail(ExprRec& result) {
 void Parser::Variable(ExprRec& var, ExprRec& index)
 {
 	Match(ID);
+	/* Retrieve variable name */
 	var.name = scan.tokenBuffer;
+	/* Initialize hiphip index */
+	index.kind = LITERAL_EXPR;
+	index.var_type = INT;
+	index.ival = 0;
+	/* Read index from mnc code if availanle */
 	VariableTail(index);
 }
 

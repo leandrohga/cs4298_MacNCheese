@@ -109,12 +109,11 @@ void CodeGen::ExtractExpr(const ExprRec& e, string& s, \
 	string t;
 	unsigned int k, n;
 
-	/* FIXME FIX THIS FUNCTION. IT IS WORKING FOR THE WRONG REASON */
 	if (index.var_type != INT) {
-		/* FIXME: throw an error instead and find a way to check 
-		 * if the ExprRec index was initialized by mparser. In other
-		 * words, if an index was assigned in mnc.
-		 */
+		SemanticError("a hiphip index must be an integer");
+	}
+	/* Index is literal 0 or not assigned by programmer */
+	if (index.kind == LITERAL_EXPR && index.ival == 0) {
 		ExtractExpr(e, s, offset);
 	} else {
 		/* Only variables are allowed to have hiphip_size > 1 */
