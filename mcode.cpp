@@ -1010,7 +1010,7 @@ void CodeGen::LoopBegin() {
 	/* Generate the do until label */
 	Generate("LABEL     ", doutLabel, "");
 	/* Push do until end label (for the break statement to work) */
-	controlStatementLabels.push("DOUTLEND" + to_string(id));
+	controlStatementLabels.push("DOEND" + to_string(id));
 }
 
 void CodeGen::LoopEnd(const ExprRec& bool_cond) {
