@@ -51,7 +51,7 @@ private:
 	// Returns successfully if the next token matches t; otherwise a syntax
 	// error occurs and compilation is aborted.
 
-	void InitTail();
+	void InitTail(ExprRec& result);
 
 	void VarDecTail(ExprRec& var);
 
@@ -127,7 +127,7 @@ private:
 
 	void VarList();
 
-	void InitList();
+	void InitList(ExprRec& result);
 
 	void Expression(ExprRec& result);
 

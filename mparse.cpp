@@ -56,12 +56,12 @@ void Parser::Match(Token t) {
 		tokenAvailable = false;
 }
 
-void Parser::InitTail() {
+void Parser::InitTail(ExprRec& result) {
 	switch (NextToken()) {
 	case COMMA:
 		Match(COMMA);
-//		Expression();
-		InitTail();
+		Expression(result);
+		InitTail(result);
 		break;
 	case RMUSTACHE:
 		break;
@@ -683,9 +683,9 @@ void Parser::VarList()
 	VarListTail(var, index);
 }
 
-void Parser::InitList() {
-//	Expression();
-	InitTail();
+void Parser::InitList(ExprRec& result) {
+	Expression(result);
+	InitTail(result);
 }
 
 void Parser::Expression(ExprRec& result) {
@@ -706,7 +706,7 @@ void Parser::AssignTail(ExprRec& result) {
 		break;
 	case LMUSTACHE:
 		Match(LMUSTACHE);
-		InitList();
+		InitList(result);
 		Match(RMUSTACHE);
 		break;
 	default:
