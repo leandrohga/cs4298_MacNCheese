@@ -11,7 +11,9 @@ decs{
 	while (true)
 		shout "i = ";
 		listen i;
-		if( i == 0 ) break;
+		if (i == 0)
+			break;
+		end
 		shout i;
 	end
 	
@@ -19,6 +21,8 @@ decs{
 	do
 		shout "i = ";
 		listen i;
-		if (i == 0) break;
+		if (i == 0)
+			break;
+		end
 		shout i;
-	until (false)
+	until (false);
