@@ -9,7 +9,7 @@ decs{
 
 	shout "k = ";
 	listen k;
-	x[0] = 2*k-1; shout "x[0] = ", x[0], "\n";
+	x[0] = 2 * k - 1; shout "x[0] = ", x[0], "\n";
 	x[1] = x[0] + 10; shout "x[1] = ", x[1], "\n";
 	x[2] = x[1] + x[0]; shout "x[2] = ", x[2], "\n";
 	x[3] = x[2] + x[1]; shout "x[3] = ", x[3], "\n";
