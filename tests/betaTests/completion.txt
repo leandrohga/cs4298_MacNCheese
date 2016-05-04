@@ -29,4 +29,4 @@ VarInit.mnc		Compiler fails on line 15 - TODO conversion from
 While01.mnc		Working
 declarations.mnc	Working
 simple.mnc		Working
-variables.mnc		Working - single quotes are not allowed.
+variables.mnc		Working

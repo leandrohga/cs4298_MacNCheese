@@ -16,4 +16,11 @@ tests/*.lis
 tests/*.obj
 tests/trace.txt
 
+tests/betaTests/macc
+tests/betaTests/sam
+tests/betaTests/*.asm
+tests/betaTests/*.lis
+tests/betaTests/*.obj
+tests/betaTests/trace.txt
+
 testtofile.cpp
