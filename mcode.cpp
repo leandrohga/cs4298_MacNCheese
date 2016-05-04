@@ -484,12 +484,13 @@ void CodeGen::Finish() {
 				break;
 			case CHEESE:
 				s = symbolTable[i].label;
-				Generate("LABEL     ", s, "");
-				/* FIXME is there a better way to check this? */
+				if (j == 0) {
+					Generate("LABEL     ", s, "");
+				}
 				/* Check if it is a temporary variable */
 				if (symbolTable[i].name.find("Temp&", 0) == 0) {
-				s = symbolTable[i].sval;
-				Generate("STRING    ", s, "");
+					s = symbolTable[i].sval;
+					Generate("STRING    ", s, "");
 				} else { /* ID variable */
 					s = to_string(symbolTable[i].size);
 					Generate("SKIP      ", s, "");
