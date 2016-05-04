@@ -18,5 +18,5 @@ decs {
    d = c * (a - b);
    shout d;
    shout 400.0e-2 ;
-   d = 0.4e1 * (a - b);
+   d = 0.4e+1 * (a - b);
    shout d;
