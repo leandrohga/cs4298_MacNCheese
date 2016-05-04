@@ -107,7 +107,7 @@ void CodeGen::Enter(ExprRec& var) {
 void CodeGen::ExtractExpr(const ExprRec& e, string& s, \
 		const ExprRec& index, int offset) {
 	string t;
-	int k, n;
+	unsigned int k, n;
 
 	/* FIXME FIX THIS FUNCTION. IT IS WORKING FOR THE WRONG REASON */
 	if (index.var_type != INT) {
@@ -124,7 +124,12 @@ void CodeGen::ExtractExpr(const ExprRec& e, string& s, \
 			k += symbolTable[n].size;
 			n++;
 		}
-		/* TODO add a fatal error here if n is out of bounds */
+		/* Fatal error if n is out of bounds */
+		if (n >= symbolTable.size()) {
+			CompilerError("fatal error in function "
+				"ExtractExpr(hiphip). Variable is not"
+				" in the symbolTable.");
+		}
 		IntToAlpha(k, t);
 		s = "#" + t;
 		/* Load variable base address on R11 */
@@ -159,7 +164,7 @@ void CodeGen::ExtractExpr(const ExprRec& e, string& s, \
 
 void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 	string t;
-	int k, n;
+	unsigned int k, n;
 
 	switch (e.kind) {
 	case ID_EXPR:
@@ -170,7 +175,12 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 			k += symbolTable[n].size;
 			n++;
 		}
-		/* TODO add a fatal error here if n is out of bounds */
+		/* Fatal error if n is out of bounds */
+		if (n >= symbolTable.size()) {
+			CompilerError("fatal error in function "
+				"ExtractExpr(old). Variable is not"
+				" in the symbolTable.");
+		}
 		k = k + offset; /* add offset bytes to k */
 		IntToAlpha(k, t);
 		s = "+" + t + "(R15)";
@@ -197,7 +207,12 @@ void CodeGen::ExtractExpr(const ExprRec & e, string& s, int offset) {
 				k += symbolTable[n].size;
 				n++;
 			}
-			/* TODO add a fatal error here if n is out of bounds */
+			/* Fatal error if n is out of bounds */
+			if (n >= symbolTable.size()) {
+				CompilerError("fatal error in function "
+					"ExtractExpr(old). Variable is not"
+					" in the symbolTable.");
+			}
 			k = k + offset; /* add offset bytes to k */
 			IntToAlpha(k, t);
 			s = "+" + t + "(R15)";
