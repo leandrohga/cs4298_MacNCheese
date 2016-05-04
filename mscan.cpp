@@ -57,11 +57,7 @@ void Scanner::BufferChar(char c) {
 }
 
 Token Scanner::CheckReserved() {
-	/*
-	 * FIXME this converts variables to lowercase too.
-	 * It was not supposed to do so. The Macc n Cheese reference
-	 * (page 2) says variables are case-sensitive.
-	 */
+	string original = tokenBuffer;
 	/* Convert the string to lower case */
 	transform(tokenBuffer.begin(), tokenBuffer.end(), tokenBuffer.begin(), ::tolower);
 	/* Check the converted words */
@@ -87,6 +83,9 @@ Token Scanner::CheckReserved() {
 	if ((tokenBuffer) == "then") return THEN_SYM;
 	if ((tokenBuffer) == "true") return TRUE_SYM;
 	if ((tokenBuffer) == "while") return WHILE_SYM;
+
+	/* Variables are case sensitive, restore the original string */
+	tokenBuffer = original;
 	return ID;
 }
 
