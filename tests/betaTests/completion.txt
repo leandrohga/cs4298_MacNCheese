@@ -1,37 +1,32 @@
 Beta Test Completion
 
-Assign01.mnc            Cheese listen not working - ignoring listen after
+Assign01.mnc		Cheese listen not working - ignoring listen after
 					 shout for some weird reason.
-Assign02.mnc            Working
-Assign03.mnc            Working
-Assign04.mnc            Working
-Expr01.mnc              Working
-Expr02.mnc              Working
-ForLoops.mnc            Working
-ForeverLoops.mnc        Working - missing end in if clause and ';'
+Assign02.mnc		Working
+Assign03.mnc		Working
+Assign04.mnc		Working
+Expr01.mnc		Working
+Expr02.mnc		Working
+ForLoops.mnc		Working
+ForeverLoops.mnc	Working
 HipHipArrayofCheese.mnc	Failed  - TODO InitTail
 HipHipAsgBool.mnc	Failed  - TODO InitTail
 HipHipAsgFloat.mnc	Failed  - TODO InitTail
 HipHipAsgInt.mnc	Failed  - TODO InitTail
-IfThen01.mnc            Working
-IfThen02.mnc            Working
-IfThen03.mnc            Working
-InOut01.mnc             Working
-InOut02.mnc             Working - there was a missing ';'
-Loop01.mnc              Working
-Loop02.mnc              Working - missing end in if clause and ';'
-NestedFors.mnc          Working - Check scanning '-' signal after number
-NestedWhiles.mnc        Working - Check scanning '-' signal after number
-StringCompare.mnc       Working
-StringInit.mnc          Working
-VarInit.mnc             Compiler fails on line 15 - TODO conversion from
+IfThen01.mnc		Working
+IfThen02.mnc		Working
+IfThen03.mnc		Working
+InOut01.mnc		Working
+InOut02.mnc		Working
+Loop01.mnc		Working
+Loop02.mnc		Working
+NestedFors.mnc		Working
+NestedWhiles.mnc	Working
+StringCompare.mnc	Working
+StringInit.mnc		Working
+VarInit.mnc		Compiler fails on line 15 - TODO conversion from
 							FLOAT to INT.
-While01.mnc             Working
-declarations.mnc        Compiler fails on line 24 - +/- signal after E/e
-					is mandatory and '.' and digit
-					before the E/e are also mandatory
-					for FLOATs. TODO don't convert
-					capital to regular letters in
-					variable names (scanner).
-simple.mnc              Working
-variables.mnc           Working - single quotes are not allowed.
+While01.mnc		Working
+declarations.mnc	Working
+simple.mnc		Working
+variables.mnc		Working - single quotes are not allowed.
