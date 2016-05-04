@@ -128,7 +128,7 @@ void Parser::Declaration() {
 		var.hiphip_size = atoi(scan.tokenBuffer.data());
 		Match(RSTAPLE);
 		Type(var);
-		/* TODO: there was a missing colon here - notify Marty */
+		/* there was a missing colon here */
 		Match(COLON);
 		VarDecList(var);
 		Match(SEMICOLON);
