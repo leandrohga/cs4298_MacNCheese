@@ -522,6 +522,9 @@ void Parser::VarDecs() {
 }
 
 void Parser::SelectStmt() {
+	/* Remove from the scope of this project */
+	SyntaxError(NextToken(), "The Select statement was removed from"
+			"the scope of this project.");
 	Match(SELECT_SYM);
 	Match(LBANANA);
 //	Expression();
