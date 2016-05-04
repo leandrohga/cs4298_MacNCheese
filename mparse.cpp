@@ -496,6 +496,20 @@ void Parser::Condition(ExprRec& result) {
 	OpRec op;
 
 	Expression(leftOperand);
+	/* Initialize condition tail */
+	rightOperand.kind = LITERAL_EXPR;
+	if (leftOperand.var_type == BOOL) {
+		/* Equals True operation - for BOOLs */
+		op.op = EQ;
+		rightOperand.ival = 1;
+		rightOperand.var_type = BOOL;
+	} else {
+		/* Not equal 0 operation - only for INTs*/
+		op.op = NE;
+		rightOperand.ival = 0;
+		rightOperand.var_type = INT;
+	}
+	/* Read condition tail from mnc code, if available */
 	CondTail(op, rightOperand);
 	code.SetCondition(leftOperand, op, rightOperand, result);
 }

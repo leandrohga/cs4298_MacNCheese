@@ -854,7 +854,8 @@ void CodeGen::SetCondition(const ExprRec & e1, const OpRec & op,
 		const ExprRec & e2, ExprRec & e) {
 	if (e1.var_type != e2.var_type) {
 		SemanticError("mixed-mode relational operations"
-				" are not allowed.");
+				" are not allowed. If using a single "
+				" value/expression it must be BOOL or INT");
 	} else if ((e1.var_type == BOOL) && (op.op != EQ) && (op.op != NE)) {
 		SemanticError("the only relational operations allowed for "
 				"BOOLs are \"==\" and \"!=\"/\"!!\".");
