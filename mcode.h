@@ -28,9 +28,8 @@ using namespace std;
 
 #include "mscan.h"
 
-/* FIXME TODO change these values to 1024 */
-#define CHEESE_SIZE_MAX 50
-#define CHEESE_SIZE_DEF 50
+#define CHEESE_SIZE_MAX 1024
+#define CHEESE_SIZE_DEF 1024
 
 enum OpKind {
 	PLUS, MINUS, MULT, DIV, LT, LE, GT, GE, EQ, NE
@@ -83,7 +82,6 @@ struct SymbolEntry { //Entry used for the symbol table
 	string s_fval; //String representing a float value
 	string sval; //String representing a cheese value
 	string label; //Label for the variable - used with cheeses
-	int relativeAddress; //TODO: Relative address of the variable
 	bool isArray; //Is it an array?
 	unsigned int arrayLength; //Size of the array
 };

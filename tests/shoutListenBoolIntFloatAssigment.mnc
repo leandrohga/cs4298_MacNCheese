@@ -8,7 +8,7 @@ decs {
 	float: fVal1, fVal2;
 }
 	shout "\nReading and Writing ", "Variables and Constants";
-	// BOOL VALUES - FIXME replace 0/1 with True/False
+	// BOOL VALUES
 	shout "\nEnter two boolean values: ";
 	listen bVal1, bVal2;
 	shout "\nListened ==> ", bVal1, ",", bVal2;
@@ -30,7 +30,7 @@ decs {
 	shout "\nEnter two real numbers: ";
 	listen fVal1, fVal2;
 	shout "\nListened ==> ", fVal1, ",", fVal2;
-//	fVal1 = 100.0 + 123.2 * 2.1 - 500.0 * 1.0 + 223.0;
-//	fVal2 = (200.0 - 100.1) * 3.5 / 2.2;
-//	shout "\nAssigned ==> ", fVal1, ",", fVal2;
-//	shout "\nfloat constants: ", 3.8405, "  ", 3.8405e+2, "  ", 3.8405E-3;
+	fVal1 = 100.0 + 123.2 * 2.1 - 500.0 * 1.0 + 223.0;
+	fVal2 = (200.0 - 100.1) * 3.5 / 2.2;
+	shout "\nAssigned ==> ", fVal1, ",", fVal2;
+	shout "\nfloat constants: ", 3.8405, "  ", 3.8405e+2, "  ", 3.8405E-3;

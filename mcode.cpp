@@ -569,7 +569,6 @@ void CodeGen::GenInfix(const ExprRec & e1, const OpRec & op, const ExprRec & e2,
 		}
 	} else { /* Variables */
 		string opnd;
-		/* TODO: set e.kind to TEMP_EXPR?? */
 		GetTemp(e);
 		if (e.var_type == INT) {
 			e.kind = TEMP_EXPR;
@@ -698,7 +697,7 @@ void CodeGen::Listen(const ExprRec & inVar, const ExprRec & index) {
 	case FLOAT:
 		Generate("RDF       ", s, "");
 		break;
-	case CHEESE: /* TODO: check how to read strings */
+	case CHEESE:
 		Generate("RDST      ", s, "");
 		break;
 	default:

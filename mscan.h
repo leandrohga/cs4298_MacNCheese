@@ -40,7 +40,7 @@ public:
 	string tokenBuffer; // current token
 	string lineBuffer; // current line
 	int lineNumber; // line counter
-	int cheese_size; /* FIXME is it OK to put this here? */
+	int cheese_size;
 
     /**
      * Initializes the scanner object.
