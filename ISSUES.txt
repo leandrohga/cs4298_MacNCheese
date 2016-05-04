@@ -1,0 +1,19 @@
+1- HIPHIPs on the right side are not indexed. Whenever a hiphip is found on the right side of an expression the first position is used.
+2- HIPHIP (whole set) assignments. In order to assign values to a hiphip the user must use a loop and assign a value to each position individually.
+3- Checking the index of HIPHIPs (semantic rule 2. throwing errors case out of defined range). Couldn't figure out how to use the TRNG statement, the SAM manual is unclear on this point. It doesn't explain how to check the result of the operation. The code we tried to use looks like this.
+	/* Check if index is in the hiphip range */
+	ExtractExpr(index, s, 0);
+	Generate("LD        ", "R0", s); /* load index */
+	Generate("LD        ", "R1", "#0"); /* load lower bound */
+	IntToAlpha((symbolTable[n].arrayLength - 1), t);
+	s = "#" + t;
+	Generate("LD        ", "R2", ); /* load upper bound */
+	Generate("TRNG      ", "R0", "R1"); /* test range */
+	/* jump to error case not in range */
+	Generate("JEQ       ", "ERROR", "");
+
+4- Initialization lists (and semantic rule 1, related to it) are not working. Positions of a HIPHIP must be assigned individually.
+
+5- Converting FLOATs to INTs. Mixed-mode operations are not allowed by the compiler. However we should allow converting FLOATs to INTs and INTs to FLOATs using the assign statement.
+
+6- Converting INTs to CHEESEs. We did not implement that conversion.

@@ -1,7 +1,9 @@
 Beta Test Completion
 
 Assign01.mnc		Cheese listen not working - ignoring listen after
-					 shout for some weird reason.
+				 shout for some weird reason. We believe
+				there is an extra character from the input
+				that is not being read, probably a <LF>
 Assign02.mnc		Working
 Assign03.mnc		Working
 Assign04.mnc		Working
@@ -9,10 +11,14 @@ Expr01.mnc		Working
 Expr02.mnc		Working
 ForLoops.mnc		Working
 ForeverLoops.mnc	Working
-HipHipArrayofCheese.mnc	Failed  - TODO InitTail
-HipHipAsgBool.mnc	Failed  - TODO InitTail
-HipHipAsgFloat.mnc	Failed  - TODO InitTail
-HipHipAsgInt.mnc	Failed  - TODO InitTail
+HipHipArrayofCheese.mnc	Failed  - TODO Initialization list, see issue #4
+				on ISSUES.txt
+HipHipAsgBool.mnc	Failed  - TODO Initialization list, see issue #4
+				on ISSUES.txt
+HipHipAsgFloat.mnc	Failed  - TODO Initialization list, see issue #4
+				on ISSUES.txt
+HipHipAsgInt.mnc	Failed  - TODO Initialization list, see issue #4
+				on ISSUES.txt
 IfThen01.mnc		Working
 IfThen02.mnc		Working
 IfThen03.mnc		Working
@@ -25,7 +31,8 @@ NestedWhiles.mnc	Working
 StringCompare.mnc	Working
 StringInit.mnc		Working
 VarInit.mnc		Compiler fails on line 15 - TODO conversion from
-							FLOAT to INT.
+					INT to FLOAT, see issue #5 on
+					ISSUES.txt.
 While01.mnc		Working
 declarations.mnc	Working
 simple.mnc		Working
