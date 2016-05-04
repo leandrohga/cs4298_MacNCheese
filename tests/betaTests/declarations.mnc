@@ -17,10 +17,10 @@ DEcs{
 	shout a, b, c;
 	shout "\n\n";
 	shout 99, 2345, 10;
-	shout 3.2, 1e3, 222.55;
+	shout 3.2, 1.0e+3, 222.55;
 	shout "a", "b", "c";
 	shout b1, "  ", b2;
 DEcs{
-	int MM, N, katz;
-	float unreal,  fake;
+	int: MM, N, katz;
+	float: unreal,  fake;
 }

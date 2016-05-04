@@ -7,7 +7,7 @@ decs{
 	}
 	
 	shout "\nEnter at least one character: ";
-	listen c0
+	listen c0;
 	shout "\nEnter at least one character: ";
 	listen c1;
 	shout c1, " ", c0;

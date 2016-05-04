@@ -12,16 +12,20 @@ decs{
 	shout "Forward: ";
 	do
 		shout k;
-		if (k == n) break;
+		if (k == n)
+			break;
+		end
 		k= k + 1;
-	until (false)
+	until (false);
 	shout ""; shout "";
 
 	k = n;
 	shout "Backward: ";
 	do
 		shout k;
-		if (k == 1) break;
+		if (k == 1)
+			break;
+		end
 		k = k - 1;
 	until (false);
 
